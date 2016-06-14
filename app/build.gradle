@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "23.0.2"
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
+    }
+
+    defaultConfig {
+        applicationId "com.example.zivbru.myfamilycalanderfinal"
+        minSdkVersion 17
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+
+    compile files('libs/cloudinary-core-1.2.2.jar')
+    compile files('libs/cloudinary-android-1.2.2.jar')
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.firebase:firebase-client-android:2.5.2'
+    compile 'com.android.support:support-v4:19.1.0'
+}

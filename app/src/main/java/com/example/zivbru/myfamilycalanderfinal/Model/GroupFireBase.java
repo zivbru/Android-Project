@@ -1,0 +1,143 @@
+package com.example.zivbru.myfamilycalanderfinal.Model;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+
+/**
+ * Created by zivbru on 5/23/2016.
+ */
+public class GroupFireBase {
+
+    Firebase myFirebaseRef;
+    Firebase groupRef;
+    Group group;
+    String name;
+
+    public GroupFireBase(Firebase myFirebaseRef) {
+        this.myFirebaseRef=myFirebaseRef;
+    }
+
+    public void getGroup(String Id, final Model.GroupListener listener) {
+        Firebase stRef = myFirebaseRef.child("groups").child(Id);
+        stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            Group group = new Group();
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                group = dataSnapshot.getValue(Group.class);
+                listener.done(group);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.done(null);
+            }
+        });
+    }
+
+    public void getGroups(final Model.GetUsersListener listener) {
+        Firebase stRef = myFirebaseRef.child("groups");
+        stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> groupslist = new ArrayList<String>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Group group = snapshot.getValue(Group.class);
+                    groupslist.add(group.getTitle());
+                }
+                listener.done(groupslist);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.done(null);
+            }
+        });
+    }
+
+    public void getAllGroup(String userId, final Model.GetGroupslistner getGroupslistner) {
+
+        Model.instance().getUser(userId, new Model.UserListener() {
+            @Override
+            public void done(User user) {
+                for (final String id : user.getGroupsById()) {
+                    Firebase stRef = myFirebaseRef.child("groups");
+                    stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<Group> groupslist = new ArrayList<Group>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Group group = snapshot.getValue(Group.class);
+                                if(group.getId().equals(id))
+                                    groupslist.add(group);
+                            }
+                            getGroupslistner.done(groupslist);
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            getGroupslistner.done(null);
+                        }
+                    });
+                }
+
+            }
+        });
+
+
+
+
+    }
+
+    public void getNameForGroup(final String id,  final Model.getUserNameListener listener){
+
+        Firebase stRef = myFirebaseRef.child("groups");
+
+        stRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    group = snapshot.getValue(Group.class);
+                    if (group.getId().equals(id)) {
+                        name = group.getTitle();
+                        listener.success(name);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                name = "Unknowen";
+                listener.fail("failed");
+            }
+        });
+
+    }
+
+    public void AddGroup(final Group group,final Model.addGroupListener listener){
+        Firebase stRef = myFirebaseRef.child("groups");
+        UserFireBase userFireBase= new UserFireBase(myFirebaseRef);
+        groupRef = stRef.push();
+        String groupId = groupRef.getKey();
+        for (final String id :group.getUsersList()) {
+            userFireBase.getUser(id, new Model.UserListener() {
+                @Override
+                public void done(User user) {
+                    String groupId = groupRef.getKey();
+                    Firebase stRef1 = myFirebaseRef.child("users").child(id);
+                    user.insertGroupById(groupId);
+                    stRef1.setValue(user);
+                }
+            });
+        }
+        group.setId(groupId);
+        stRef.child(groupId).setValue(group);
+        listener.success(group);
+
+    }
+
+}
