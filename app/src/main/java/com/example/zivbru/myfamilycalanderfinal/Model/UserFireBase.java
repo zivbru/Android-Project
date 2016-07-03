@@ -76,6 +76,7 @@ public class UserFireBase {
         Firebase stRef = myFirebaseRef.child("users");
         stRef.addValueEventListener(new ValueEventListener() {
             User user = new User();
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -86,6 +87,7 @@ public class UserFireBase {
                     }
                 }
             }
+
             @Override
             public void onCancelled(FirebaseError error) {
                 name = "Unknowen";
@@ -99,12 +101,13 @@ public class UserFireBase {
         Firebase stRef = myFirebaseRef.child("users");
         stRef.addListenerForSingleValueEvent(new ValueEventListener() {
             User user = new User();
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     user = snapshot.getValue(User.class);
-                    if(user.getUserId().equals(id))
-                      listener.done(user);
+                    if (user.getUserId().equals(id))
+                        listener.done(user);
                 }
             }
 
@@ -158,6 +161,7 @@ public class UserFireBase {
         }
         return null;
     }
+
 
 
 }

@@ -119,6 +119,22 @@ public class ModelFireBase {
     }
 
     public void getUser(String id , Model.UserListener userListener){
-       userFireBase.getUser(id,userListener);
+       userFireBase.getUser(id, userListener);
+    }
+
+    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
+        eventFireBase.deleteEvent(userId, eventId, listener);
+    }
+
+    public void deleteTask(String userId, String taskId, Model.SignupListener listener) {
+        taskFireBase.deleteTask(userId, taskId, listener);
+    }
+
+    public void deleteGroupEvent(String userId, String eventId, Model.SignupListener listener) {
+        groupsEventFireBase.deleteEvent(userId, eventId, listener);
+    }
+
+    public void deleteGroupTask(String userId, String taskId, Model.SignupListener listener) {
+        groupsTaskFireBase.deleteGroupTask(userId, taskId, listener);
     }
 }

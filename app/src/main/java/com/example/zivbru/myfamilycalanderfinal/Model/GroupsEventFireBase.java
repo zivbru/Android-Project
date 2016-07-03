@@ -79,10 +79,20 @@ public class GroupsEventFireBase {
                 Event event = dataSnapshot.getValue(Event.class);
                 listener.done(event);
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 listener.done(null);
             }
         });
+    }
+
+    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
+        Firebase stRef = myFirebaseRef.child("groupsEvents").child(userId).child(eventId);
+        stRef.removeValue();
+        stRef = myFirebaseRef.child("users").child(userId).child("eventsById").child(eventId);
+        stRef.removeValue();
+
+        listener.success();
     }
 }

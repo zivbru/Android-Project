@@ -1,6 +1,8 @@
 package com.example.zivbru.myfamilycalanderfinal;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.zivbru.myfamilycalanderfinal.Model.Event;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 
@@ -27,7 +31,6 @@ public class EventListFragment extends Fragment {
     ListView list;
     ArrayList<Event> events;
     EventAdapter adapter;
-    ImageButton addEvent;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,16 +60,6 @@ public class EventListFragment extends Fragment {
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("EventDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setEventId(events.get(position).getId());
-
-            }
-        });
-        addEvent = (ImageButton) view.findViewById(R.id.event_list_add_event);
-        addEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Delegate activity = (Delegate) getActivity();
-                activity.switchFragment("NewEventFragment");
-                adapter.notifyDataSetChanged();
 
             }
         });

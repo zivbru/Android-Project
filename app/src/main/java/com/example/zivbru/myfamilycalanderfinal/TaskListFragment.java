@@ -27,7 +27,7 @@ public class TaskListFragment extends Fragment {
     ListView list;
     ArrayList<Task> tasks;
     TaskAdapter adapter;
-    ImageButton addTask;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +53,6 @@ public class TaskListFragment extends Fragment {
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("TaskDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setTaskId(tasks.get(position).getId());
-            }
-        });
-        addTask = (ImageButton) view.findViewById(R.id.task_list_add_task);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Delegate activity = (Delegate) getActivity();
-                activity.switchFragment("NewTaskFragment");
-                adapter.notifyDataSetChanged();
             }
         });
         return view;
@@ -143,9 +134,7 @@ public class TaskListFragment extends Fragment {
         this.userId = userId;
     }
 
-    public ImageButton getAddTask() {
-        return addTask;
-    }
+
 }
 
 

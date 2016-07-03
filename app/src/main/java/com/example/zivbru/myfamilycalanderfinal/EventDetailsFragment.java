@@ -2,6 +2,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 
 
 public class EventDetailsFragment extends Fragment {
-
+    String userId,eventId;
     Event event;
     public EventDetailsFragment() {
     }
@@ -25,8 +26,8 @@ public class EventDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_event_details, container, false);
-        String userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
-        String eventId=   ((ComingEventsTasksActivity) getActivity()).getEventId();
+        userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
+        eventId=   ((ComingEventsTasksActivity) getActivity()).getEventId();
         final TextView eventName = (TextView) view.findViewById(R.id.details_event_name);
         final TextView eventStartDate = (TextView) view.findViewById(R.id.details_event_start_date);
         final TextView eventEbdDate = (TextView) view.findViewById(R.id.details_event_end_date);
@@ -52,7 +53,10 @@ public class EventDetailsFragment extends Fragment {
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(getActivity(),EditEventActivity.class);
+                intent.putExtra("UserId", userId);
+                intent.putExtra("EventId", eventId);
+                startActivity(intent);
             }
         });
 

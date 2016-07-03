@@ -27,18 +27,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="  Choose User  to add:"
+        android:hint="  Choose Users  to add:"
         />
-    <Spinner
-        android:id="@+id/users"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/pick_users"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        android:choiceMode="multipleChoice"
-
-
-        />
+        android:padding="12dp"
+        android:text="Choose users:"/>
 
 
 

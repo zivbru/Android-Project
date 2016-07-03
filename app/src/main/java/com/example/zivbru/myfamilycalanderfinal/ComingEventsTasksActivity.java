@@ -1,6 +1,8 @@
 package com.example.zivbru.myfamilycalanderfinal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,6 +13,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 import com.example.zivbru.myfamilycalanderfinal.Model.User;
 
@@ -50,7 +52,10 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     NewGroupTaskFragment newGroupTaskFragment;
     GroupTaskDetailsFragment groupTaskDetailsFragment;
     ArrayList<Fragment> fragmentArrayList;
-
+    ActionBar.Tab upcomingEventsTab;
+    ActionBar.Tab upcomingTasksTab;
+    ActionBar.Tab upcomingGroupsEventsTab;
+    ActionBar.Tab upcomingGroupsTasksTab;
     private static String TAG = ComingEventsTasksActivity.class.getSimpleName();
 
     ListView mDrawerList;
@@ -86,18 +91,25 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         transaction.hide(taskListFragment);
         transaction.hide(groupTaskListFragment);
         transaction.hide(groupEventListFragment);
+        fragmentArrayList.add(eventListFragment);
+        fragmentArrayList.add(taskListFragment);
+        fragmentArrayList.add(groupTaskListFragment);
+        fragmentArrayList.add(groupEventListFragment);
         transaction.commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ActionBar actionBar = getSupportActionBar();
+        upcomingEventsTab = actionBar.newTab().setText("Upcoming events");
+        upcomingTasksTab = actionBar.newTab().setText("Upcoming tasks");
+        upcomingGroupsEventsTab = actionBar.newTab().setText("Upcoming groups events");
+        upcomingGroupsTasksTab = actionBar.newTab().setText("Upcoming groups tasks");
         actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.addTab(actionBar.newTab().setText("Upcoming events").setTabListener(new ActionBar.TabListener() {
+        actionBar.addTab(upcomingEventsTab.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                hideFragments();
                 fragmentTransaction.show(eventListFragment);
-                for (Fragment fragment : fragmentArrayList) {
-                    fragmentTransaction.hide(fragment);
-                }
+
             }
 
             @Override
@@ -107,19 +119,14 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
             @Override
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+                fragmentTransaction.show(eventListFragment);
             }
         }));
-        actionBar.addTab(actionBar.newTab().setText("Upcoming tasks").setTabListener(new ActionBar.TabListener() {
+        actionBar.addTab(upcomingTasksTab.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                hideFragments();
                 fragmentTransaction.show(taskListFragment);
-
-
-
-                for (Fragment fragment : fragmentArrayList) {
-                    fragmentTransaction.hide(fragment);
-                }
             }
 
             @Override
@@ -129,16 +136,15 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
             @Override
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+                fragmentTransaction.show(taskListFragment);
             }
         }));
-        actionBar.addTab(actionBar.newTab().setText("Upcoming groups events").setTabListener(new ActionBar.TabListener() {
+        actionBar.addTab(upcomingGroupsEventsTab.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                hideFragments();
                 fragmentTransaction.show(groupEventListFragment);
-                for (Fragment fragment : fragmentArrayList) {
-                    fragmentTransaction.hide(fragment);
-                }
+
             }
 
             @Override
@@ -148,19 +154,15 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
             @Override
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+                fragmentTransaction.show(groupEventListFragment);
             }
 
         }));
-        actionBar.addTab(actionBar.newTab().setText("Upcoming groups tasks").setTabListener(new ActionBar.TabListener() {
+        actionBar.addTab(upcomingGroupsTasksTab.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                hideFragments();
                 fragmentTransaction.show(groupTaskListFragment);
-
-                for (Fragment fragment : fragmentArrayList) {
-                    fragmentTransaction.hide(fragment);
-                }
-
             }
 
             @Override
@@ -170,7 +172,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
             @Override
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+                fragmentTransaction.show(groupTaskListFragment);
             }
 
         }));
@@ -187,7 +189,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             @Override
             public void done(User retUser) {
                 user = retUser;
-                userNameInSidebar.setText(user.getFirstName()+ " "+user.getLastName());
+                userNameInSidebar.setText(user.getFirstName() + " " + user.getLastName());
                 //add progress bar
                 Model.instance().loadImage(user.getPictureName(), new Model.LoadImageListener() {
                     @Override
@@ -202,8 +204,19 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         });
 
 
+
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        RelativeLayout profileBox = (RelativeLayout) findViewById(R.id.profileBox);
+        profileBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(ComingEventsTasksActivity.this,UserDetailsActivity.class);
+                intent.putExtra("UserId",userId);
+                startActivity(intent);
+            }
+        });
+
 
         // Populate the Navigtion Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
@@ -230,10 +243,14 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                     mDrawerLayout.closeDrawer(mDrawerPane);
                     GroupListFragment groupListFragment= new GroupListFragment();
                     transaction.hide(eventListFragment);
+                    transaction.hide(taskListFragment);
+                    transaction.hide(groupTaskListFragment);
+                    transaction.hide(groupEventListFragment);
                     transaction.add(R.id.mainContent, groupListFragment);
                     transaction.addToBackStack("");
                     transaction.commit();
                     fragmentArrayList.add(groupListFragment);
+                    getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
                 }
                 else if(position==2){//setting
@@ -281,6 +298,13 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle
         // If it returns true, then it has handled
@@ -288,8 +312,35 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        if(item.getItemId()== R.id.action_favorite){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Title");
+            builder.setItems(new CharSequence[]
+                            {"Add private event", "Add private task", "Add group event", "Add group task"},
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
 
-        // Handle your other action bar items...
+                            switch (which) {
+                                case 0:
+                                    switchFragment("NewEventFragment");
+                                    break;
+                                case 1:
+                                    switchFragment("NewTaskFragment");
+                                    break;
+                                case 2:
+                                    switchFragment("NewGroupEventFragment");
+                                    break;
+                                case 3:
+                                    switchFragment("NewGroupTaskFragment");
+                                    break;
+                            }
+                        }
+                    });
+            builder.create().show();
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -310,12 +361,15 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     @Override
     public void onBackPressed() {
 
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         if(mDrawerLayout.isDrawerOpen(mDrawerPane)){
             mDrawerLayout.closeDrawer(mDrawerPane);
-        }
-        else {
-            if (getFragmentManager().getBackStackEntryCount() > 0) {
-                getFragmentManager().popBackStack();
+        } else {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+                getSupportActionBar().selectTab(upcomingEventsTab);
+//                hideFragments();
+                getSupportFragmentManager().beginTransaction().commit();
 
             } else {
                 super.onBackPressed();
@@ -324,72 +378,88 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     }
 
 
-
-
     @Override
     public void switchFragment(final String fragmentName) {
 
         if (fragmentName.equals("EventDetailsFragment")){
-            eventDetailsFragment= new EventDetailsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(eventListFragment);
+            if(!fragmentArrayList.contains(eventDetailsFragment)) {
+                eventDetailsFragment = new EventDetailsFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, eventDetailsFragment);
+            transaction.show(eventDetailsFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(eventDetailsFragment);
         }
         else if(fragmentName.equals("EventListFragment")){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(newEventFragment);
-            transaction.hide(eventDetailsFragment);
+            hideFragments();
             transaction.show(eventListFragment);
             transaction.addToBackStack("");
             transaction.commit();
-            fragmentArrayList.add(eventListFragment);
+
 
         }
         else if(fragmentName.equals("NewEventFragment")){
-            newEventFragment= new NewEventFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(eventListFragment);
+            if(!fragmentArrayList.contains(newEventFragment)) {
+                newEventFragment = new NewEventFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, newEventFragment);
+            transaction.show(newEventFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(newEventFragment);
         }
         else if(fragmentName.equals("TaskDetailsFragment")){
-            taskDetailsFragment= new TaskDetailsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(taskListFragment);
+            if(!fragmentArrayList.contains(taskDetailsFragment)) {
+                taskDetailsFragment = new TaskDetailsFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, taskDetailsFragment);
+            transaction.show(taskDetailsFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(taskDetailsFragment);
         }
         else if(fragmentName.equals("TaskListFragment")){
-            taskListFragment= new TaskListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(taskDetailsFragment);
-            transaction.hide(newTaskFragment);
+            if(!fragmentArrayList.contains(taskListFragment)) {
+                taskListFragment = new TaskListFragment();
+            }
+            hideFragments();
             transaction.show(taskListFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(taskListFragment);
         }
         else if(fragmentName.equals("NewTaskFragment")){
-            newTaskFragment = new NewTaskFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(taskListFragment);
+            if(!fragmentArrayList.contains(newTaskFragment)) {
+                newTaskFragment = new NewTaskFragment();
+
+            }
+
+            hideFragments();
             transaction.add(R.id.mainContent, newTaskFragment);
+            transaction.show(newTaskFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(newTaskFragment);
         }
         else if(fragmentName.equals("GroupEventListFragment")){
-            groupEventListFragment= new GroupEventListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(newGroupEventFragment);
-            transaction.hide(groupEventDetailsFragment);
+            if(!fragmentArrayList.contains(groupEventListFragment)) {
+                groupEventListFragment = new GroupEventListFragment();
+            }
+            hideFragments();
             transaction.show(groupEventListFragment);
             transaction.addToBackStack("");
             transaction.commit();
@@ -397,54 +467,71 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
         }
         else if(fragmentName.equals("NewGroupEventFragment")){
-            newGroupEventFragment= new NewGroupEventFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(groupEventListFragment);
+            if(!fragmentArrayList.contains(newGroupEventFragment)) {
+                newGroupEventFragment = new NewGroupEventFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, newGroupEventFragment);
+            transaction.show(newGroupEventFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(newGroupEventFragment);
         }
         else if(fragmentName.equals("GroupsEventDetailsFragment")){
-            groupEventDetailsFragment= new GroupEventDetailsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(groupEventListFragment);
+            if(!fragmentArrayList.contains(groupEventDetailsFragment)) {
+                groupEventDetailsFragment = new GroupEventDetailsFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, groupEventDetailsFragment);
+            transaction.show(groupEventDetailsFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(groupEventDetailsFragment);
         }
         else if(fragmentName.equals("GroupTaskListFragment")){
-            groupTaskListFragment= new GroupTaskListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(newGroupTaskFragment);
-            transaction.hide(groupTaskDetailsFragment);
+            if(!fragmentArrayList.contains(groupTaskListFragment)) {
+                groupTaskListFragment = new GroupTaskListFragment();
+            }
+            hideFragments();
             transaction.show(groupTaskListFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(groupTaskListFragment);
         }
         else if(fragmentName.equals("NewGroupTaskFragment")){
-            newGroupTaskFragment= new NewGroupTaskFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(groupTaskListFragment);
+
+            if(!fragmentArrayList.contains(newGroupTaskFragment)) {
+                newGroupTaskFragment = new NewGroupTaskFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, newGroupTaskFragment);
+            transaction.show(newGroupTaskFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(newGroupTaskFragment);
         }
         else if(fragmentName.equals("GroupTaskDetailsFragment")){
-            groupTaskDetailsFragment= new GroupTaskDetailsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.hide(groupTaskListFragment);
+
+            if(!fragmentArrayList.contains(groupTaskDetailsFragment)) {
+                groupTaskDetailsFragment = new GroupTaskDetailsFragment();
+
+            }
+            hideFragments();
             transaction.add(R.id.mainContent, groupTaskDetailsFragment);
+            transaction.show(groupTaskDetailsFragment);
             transaction.addToBackStack("");
             transaction.commit();
             fragmentArrayList.add(groupTaskDetailsFragment);
         }
     }
-
-
 
 
     public String getUserId() {
@@ -531,6 +618,16 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             return view;
         }
     }
+
+
+    private void hideFragments(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        for (Fragment fragment :fragmentArrayList) {
+            transaction.hide(fragment);
+        }
+        transaction.commit();
+    }
+
 
 
 }

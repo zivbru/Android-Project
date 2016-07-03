@@ -88,4 +88,11 @@ public class GroupsTaskFireBase {
             }
         });
     }
+
+    public void deleteGroupTask(String userId, String taskId, Model.SignupListener listener) {
+        Firebase stRef = myFirebaseRef.child("groupsTasks").child(userId).child(taskId);
+        stRef.removeValue();
+        listener.success();
+
+    }
 }

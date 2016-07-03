@@ -80,7 +80,6 @@ public class SignupActivity extends ActionBarActivity {
                         startActivity(intent);
                         finish();
                         Model.instance().saveImage(imageBitmap, imageFileName);
-
                         Intent resultIntent = new Intent();
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();

@@ -1,7 +1,9 @@
 package com.example.zivbru.myfamilycalanderfinal;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.zivbru.myfamilycalanderfinal.Model.Event;
-import com.example.zivbru.myfamilycalanderfinal.Model.Group;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 import com.example.zivbru.myfamilycalanderfinal.Model.Task;
-
 import java.util.ArrayList;
 
 
@@ -25,10 +28,11 @@ public class NewGroupTaskFragment extends Fragment {
     String selectedUser = "";
     String selectedGroup="";
     Task task;
-    ArrayList<String> users;
-    ArrayList<Event>events;
     ArrayList<String> groupsName;
+
     View view;
+    EditText showSelectedGroup;
+    SingleDialog singleDialog ;
     public NewGroupTaskFragment() {
     }
 
@@ -38,35 +42,48 @@ public class NewGroupTaskFragment extends Fragment {
         view=  inflater.inflate(R.layout.fragment_new_group_task, container, false);
         getActivity().setTitle("Add new task");
         groupsName= new ArrayList<String>();
+        singleDialog = new SingleDialog();
         userId=  ((ComingEventsTasksActivity) getActivity()).getUserId();
         taskName = (EditText) view.findViewById(R.id.task_name);
         targetDate = (EditText) view.findViewById(R.id.target_date);
         description = (EditText) view.findViewById(R.id.task_description);
-        Model.instance().getUsers(new Model.GetUsersListener() {
+        showSelectedGroup= (EditText) view.findViewById(R.id.selected_group);
+        TextView chooseGroup= (TextView) view.findViewById(R.id.choose_group);
+        chooseGroup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(ArrayList<String> usersList) {
-
-                users = usersList;
-                Spinner dropdown = (Spinner) view.findViewById(R.id.users);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, users);
-                dropdown.setAdapter(adapter);
-                dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onClick(View v) {
+                Model.instance().getGroups(new Model.GetUsersListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view,
-                                               int position, long id) {
-                        selectedUser = (String) parent.getItemAtPosition(position);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                    public void done(ArrayList<String> groupsList) {
+                        if(groupsList.size()>0) {
+                            groupsName = groupsList;
+                            singleDialog.setData(groupsList);
+                            singleDialog.show(getFragmentManager(), "TAG");
+                            selectedGroup = singleDialog.getSelected();
+                            showSelectedGroup.setText(groupsName.get(Integer.parseInt(selectedGroup)));
+                        }
+                        else{
+                            Toast toast = Toast.makeText(getActivity(), "Yoe have no groups", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
-
-                ///model.getGroups
-
             }
         });
 
+        if(selectedGroup!=""&&groupsName.size()>0) {
+
+            Button pickUsers = (Button) view.findViewById(R.id.pick_users);
+            View b = view.findViewById(R.id.pick_users);
+            b.setVisibility(View.VISIBLE);
+            pickUsers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MulitpleDialog mulitpleDialog = new MulitpleDialog();
+                    mulitpleDialog.show(getFragmentManager(), "TAG");
+                }
+            });
+        }
         Button addGroupTask= (Button) view.findViewById(R.id.add_group_task_button);
         addGroupTask.setOnClickListener(new View.OnClickListener() {
             @Override

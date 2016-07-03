@@ -23,10 +23,10 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         MyApplication m = new MyApplication(this);
         Model.instance().createTables();
-        String logeduserId=Model.instance().getLoggedinUser();
-        if(!logeduserId.equals("null")){
+        String loggedUserId=Model.instance().getLoggedinUser();
+        if(!loggedUserId.equals("null")){
             Intent intent= new Intent(this,ComingEventsTasksActivity.class);
-            intent.putExtra("UserId", logeduserId);
+            intent.putExtra("UserId", loggedUserId);
             startActivity(intent);
             finish();
         }
@@ -44,12 +44,12 @@ public class LoginActivity extends ActionBarActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 Model.instance().login(String.valueOf(email.getText()), String.valueOf(password.getText()), new Model.LoginListener() {
                     public void success(AuthData authData) {
-                        Model.instance().updateLogin(authData.getUid(),"true");
+                        Model.instance().updateLogin(authData.getUid(), "true");
                         Intent intent = new Intent(LoginActivity.this, ComingEventsTasksActivity.class);
                         intent.putExtra("UserId", authData.getUid());
                         startActivity(intent);
                         finish();
-                        progressBar.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -62,6 +62,7 @@ public class LoginActivity extends ActionBarActivity {
                         toast.show();
                     }
                 });
+                progressBar.setVisibility(View.GONE);
             }
         });
         TextView signup = (TextView) findViewById(R.id.link_signup);

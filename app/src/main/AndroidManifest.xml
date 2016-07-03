@@ -30,6 +30,11 @@
         <activity
             android:name=".NewGroupActivity"
             android:label="@string/title_activity_new_group" />
+        <activity android:name=".EditEventActivity" />
+        <activity android:name=".EditTaskActivity" />
+        <activity android:name=".EditGroupTaskActivity" />
+        <activity android:name=".EditGroupEventActivity" />
+        <activity android:name=".UserDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -10,15 +10,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/group_task_list_view" />
 
-    <ImageButton
-        android:id="@+id/group_task_list_add_task"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="20dp"
-        android:src="@drawable/add"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY" />
+
 
 </RelativeLayout>

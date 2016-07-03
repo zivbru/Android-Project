@@ -27,7 +27,7 @@ public class GroupEventListFragment extends Fragment {
     ListView list;
     ArrayList<Event> groupsEvents;
     GroupsEventAdapter adapter;
-    ImageButton addGroupEvent;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,16 +57,7 @@ public class GroupEventListFragment extends Fragment {
                 ((ComingEventsTasksActivity) getActivity()).setEventId(groupsEvents.get(position).getId());
             }
         });
-        addGroupEvent = (ImageButton) view.findViewById(R.id.list_add_group_event);
-        addGroupEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Delegate activity = (Delegate) getActivity();
-                activity.switchFragment("NewGroupEventFragment");
-                adapter.notifyDataSetChanged();
 
-            }
-        });
         return view;
     }
 

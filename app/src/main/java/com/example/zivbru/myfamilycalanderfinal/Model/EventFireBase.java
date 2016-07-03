@@ -1,5 +1,7 @@
 package com.example.zivbru.myfamilycalanderfinal.Model;
 
+import android.util.Log;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -101,8 +103,10 @@ public class EventFireBase {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Event event = dataSnapshot.getValue(Event.class);
+
                 listener.done(event);
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 listener.done(null);
@@ -110,5 +114,13 @@ public class EventFireBase {
         });
     }
 
+    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
+        Firebase stRef = myFirebaseRef.child("events").child(userId).child(eventId);
+        stRef.removeValue();
+        stRef = myFirebaseRef.child("users").child(userId).child("eventsById").child(eventId);
+        stRef.removeValue();
 
+        listener.success();
+
+    }
 }

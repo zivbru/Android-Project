@@ -104,5 +104,14 @@ public class TaskFireBase {
             }
         });
     }
+
+    public void deleteTask(String userId, String taskId, Model.SignupListener listener) {
+        Firebase stRef = myFirebaseRef.child("tasks").child(userId).child(taskId);
+        stRef.removeValue();
+        stRef = myFirebaseRef.child("users").child(userId).child("eventsById").child(taskId);
+        stRef.removeValue();
+
+        listener.success();
+    }
 }
 

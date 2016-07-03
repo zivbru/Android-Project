@@ -1,6 +1,7 @@
 package com.example.zivbru.myfamilycalanderfinal;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,21 +15,19 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Task;
 
 
 public class TaskDetailsFragment extends Fragment {
-
+    String userId,taskId;
     Task task;
     public TaskDetailsFragment(){
 
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_task_details, container, false);
-        String userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
-        String taskId=   ((ComingEventsTasksActivity) getActivity()).getTasksId();
+        userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
+        taskId=   ((ComingEventsTasksActivity) getActivity()).getTasksId();
         final TextView taskName = (TextView) view.findViewById(R.id.details_Task_name);
         final TextView targetDate = (TextView) view.findViewById(R.id.details_task_target_date);
         final TextView owner = (TextView) view.findViewById(R.id.details_task_owner);
@@ -49,11 +48,14 @@ public class TaskDetailsFragment extends Fragment {
 
 //        EventImage.setBackground(Drawable.createFromPath(event.get));
 
-        Button editEvent= (Button) view.findViewById(R.id.edit_event);
-        editEvent.setOnClickListener(new View.OnClickListener() {
+        Button editTask= (Button) view.findViewById(R.id.edit_task);
+        editTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(getActivity(),EditTaskActivity.class);
+                intent.putExtra("UserId", userId);
+                intent.putExtra("TaskId", taskId);
+                startActivity(intent);
             }
         });
 

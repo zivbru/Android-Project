@@ -27,7 +27,7 @@ public class GroupTaskListFragment extends Fragment {
     ListView list;
     ArrayList<Task> groupsTasks;
     GroupTaskAdapter adapter;
-    ImageButton addGroupTask;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +53,6 @@ public class GroupTaskListFragment extends Fragment {
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("GroupTaskDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setTaskId(groupsTasks.get(position).getId());
-            }
-        });
-        addGroupTask = (ImageButton) view.findViewById(R.id.group_task_list_add_task);
-        addGroupTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Delegate activity = (Delegate) getActivity();
-                activity.switchFragment("NewGroupTaskFragment");
-                adapter.notifyDataSetChanged();
             }
         });
         return view;

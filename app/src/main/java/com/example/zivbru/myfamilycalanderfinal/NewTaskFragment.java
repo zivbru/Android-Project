@@ -25,10 +25,8 @@ public class NewTaskFragment extends Fragment {
     Task task;
     ArrayList<String> events;
     View view;
-    public NewTaskFragment() {
-    }
 
-
+    public NewTaskFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

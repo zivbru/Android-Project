@@ -46,30 +46,17 @@ public class NewGroupActivity extends ActionBarActivity {
         group= new Group();
         Model.instance().getUsers(new Model.GetUsersListener() {
             @Override
-            public void done(ArrayList<String> usersList) {
-
-                users = usersList;
-                Spinner dropdown = (Spinner) findViewById(R.id.users);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewGroupActivity.this, android.R.layout.simple_spinner_dropdown_item, users);
-                dropdown.setAdapter(adapter);
-                dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void done(final ArrayList<String> usersList) {
+                Button pickUsers = (Button) findViewById(R.id.pick_users);
+                pickUsers.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view,
-                                               int position, long id) {
-                        ArrayList<String> users= new ArrayList<String>();
-                        //add selected users
-//                        users.add("");
-//                        selectedUser = (String) parent.getItemAtPosition(position);
-                        //need to be listview of all users
-                    }
+                    public void onClick(View v) {
+                        MulitpleDialog mulitpleDialog = new MulitpleDialog();
+                        mulitpleDialog.setData(usersList);
+                        mulitpleDialog.show(getSupportFragmentManager(),"");
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
-
-                ///model.getGroups
-
             }
         });
 
@@ -79,7 +66,6 @@ public class NewGroupActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 takingPicture();
-
             }
         });
         addGroup= (Button) findViewById(R.id.add_group_button);

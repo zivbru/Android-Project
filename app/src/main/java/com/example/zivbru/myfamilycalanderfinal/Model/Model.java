@@ -109,11 +109,11 @@ public class Model {
         void done(Task task);
     }
 
-    public void signup(String email, String pwd, final LoginListener listener) {
+    public void signup(final String email, final String pwd, final LoginListener listener) {
         firebaseModel.signup(email, pwd, listener);
     }
 
-    public void login(String email, String pwd, final LoginListener listener) {
+    public void login(final String email, final String pwd, final LoginListener listener) {
         firebaseModel.login(email, pwd, listener);
     }
 
@@ -122,15 +122,14 @@ public class Model {
     }
 
     public void getGroups(final Model.GetUsersListener listener) {
-        firebaseModel.getUsers(listener);
+        firebaseModel.getGroups(listener);
     }
 
-
-    public void getAllEvents(String id, GetEventsListener listener) {
+    public void getAllEvents(final String id, final GetEventsListener listener) {
         firebaseModel.getAllEvents(id, listener);
     }
 
-    public void getAllEventsName(String id, GetEventsNameListener listener) {
+    public void getAllEventsName(final String id, final GetEventsNameListener listener) {
         firebaseModel.getAllEventsName(id, listener);
     }
 
@@ -138,10 +137,26 @@ public class Model {
         firebaseModel.AddEvent(event, id, listener);
     }
 
+    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
+        firebaseModel.deleteEvent(userId, eventId, listener);
+    }
+
+    public void deleteGroupEvent(String userId, String eventId, SignupListener listener) {
+        firebaseModel.deleteGroupEvent(userId, eventId, listener);
+    }
+
+    public void deleteTask(String userId, String taskId, Model.SignupListener listener) {
+        firebaseModel.deleteTask(userId, taskId, listener);
+    }
+
+    public void deleteGroupTask(String userId, String taskId, SignupListener listener) {
+        firebaseModel.deleteGroupTask(userId, taskId, listener);
+    }
+
+
     public void getAllGroupsEvents(String userId, GetEventsListener getGroupsEventsListener) {
         firebaseModel.getAllGroupsEvents(userId, getGroupsEventsListener);
     }
-
 
     public void AddGroup(Group group ,final addGroupListener listener) {
         firebaseModel.AddGroup(group, listener);
@@ -272,10 +287,6 @@ public class Model {
         }
         return bitmap;
     }
-
-//    public void insertLogin(String userId,String loggedin){
-//        modelSQL.insertLogin(userId, loggedin);
-//    }
 
     public void updateLogin(String userId,String loggedin){
         modelSQL.updateLogin(userId, loggedin);

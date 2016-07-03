@@ -57,32 +57,31 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="  Choose User  to assign:"
+        android:hint="  Choose Group:"
+        android:id="@+id/choose_group"
         />
-    <Spinner
-        android:id="@+id/users"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/selected_group"/>
+
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:hint="  Choose Group:"
+        android:hint="  Choose User to assign:"
         />
-    <Spinner
-        android:id="@+id/group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        android:tag="Select User"
 
-        />
+
+    <Button
+        android:id="@+id/pick_users"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:visibility="invisible"
+        android:text="Choose users:"/>
 
     <Button
         android:id="@+id/add_group_task_button"
