@@ -63,6 +63,17 @@ public class GroupSQL {
         return  group;
     }
 
+    public static String getLastUpdateDate(SQLiteDatabase db){
+        return LastUpdateSql.getLastUpdate(db,GROUP_TABLE_NAME);
+    }
+    public static void setLastUpdateDate(SQLiteDatabase db, String date){
+        LastUpdateSql.setLastUpdate(db,GROUP_TABLE_NAME, date);
+    }
+
+    public static void drop(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("drop table " + GROUP_TABLE_NAME + ";");
+    }
+
 //    need to add more functions
 
 }

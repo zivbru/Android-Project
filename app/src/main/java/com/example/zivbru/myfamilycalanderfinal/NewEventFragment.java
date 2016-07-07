@@ -4,6 +4,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class NewEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view= inflater.inflate(R.layout.fragment_new_event, container, false);
+//        ((ComingEventsTasksActivity)getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         Bundle extras = getActivity().getIntent().getExtras();
         userId = extras.getString("UserId");
         getActivity().setTitle("Add new event");

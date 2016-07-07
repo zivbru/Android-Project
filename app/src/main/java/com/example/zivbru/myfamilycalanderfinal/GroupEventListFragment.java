@@ -40,11 +40,16 @@ public class GroupEventListFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("UserId", userId);
         list= (ListView) view.findViewById(R.id.group_event_list_view);
-        Model.instance().getAllGroupsEvents(userId, new Model.GetEventsListener() {
+        Model.instance().getAllGroupsEvents(userId,  new Model.GetListEventListener() {
             @Override
-            public void done(ArrayList<Event> allEvents) {
+            public void onResult(ArrayList<Event> allEvents) {
                 groupsEvents = allEvents;
                 adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
         adapter = new GroupsEventAdapter();

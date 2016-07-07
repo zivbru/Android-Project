@@ -3,6 +3,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.zivbru.myfamilycalanderfinal.Model.Event;
 import com.example.zivbru.myfamilycalanderfinal.Model.Group;
@@ -27,8 +29,8 @@ public class NewGroupEventFragment extends Fragment {
     ArrayList<Group> groupsList;
     View view;
     ArrayList<String> groupsName;
+    SingleDialog singleDialog ;
     public NewGroupEventFragment() {
-        // Required empty public constructor
     }
 
 
@@ -43,38 +45,41 @@ public class NewGroupEventFragment extends Fragment {
         startDate = (EditText) view.findViewById(R.id.group_event_start_date);
         endDate = (EditText) view.findViewById(R.id.group_event_end_date);
         decription = (EditText) view.findViewById(R.id.group_event_description);
-        Model.instance().getAllGroups(userId, new Model.GetGroupslistner() {
-
+        singleDialog = new SingleDialog();
+        Button chooseGroup= (Button) view.findViewById(R.id.choose_group);
+        chooseGroup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(ArrayList<Group> groups) {
-                for (Group group:groups) {
-                    groupsName.add(group.getTitle());
-                }
-                Spinner dropdown = (Spinner) view.findViewById(R.id.group__spinner);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item,groupsName);
-                dropdown.setAdapter(adapter);
-                dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onClick(View v) {
+                Model.instance().getGroups(new Model.GetUsersListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view,
-                                               int position, long id) {
-                        selectedGroup = (String) parent.getItemAtPosition(position);
-                    }
+                    public void done(ArrayList<String> groupsList) {
+                        if (groupsList.size() > 0) {
+                            groupsName = groupsList;
+                            singleDialog.setData(groupsList);
+                            singleDialog.show(getFragmentManager(), "TAG");
+                            selectedGroup = singleDialog.getSelected();
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+//                    showSelectedGroup.setText(groupsName.get(Integer.parseInt(selectedGroup)));
+                        } else {
+                            Toast toast = Toast.makeText(getActivity(), "You have no groups", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 });
-
             }
-
-
         });
+
+
+
+
+
+
         Button addGroupEvent = (Button) view.findViewById(R.id.add_group_event_button);
         addGroupEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                event = new Event(String.valueOf(name.getText()),String.valueOf(startDate.getText())
-                        ,String.valueOf(endDate.getText()),String.valueOf(decription.getText()),userId,selectedGroup);
+                event = new Event(String.valueOf(name.getText()), String.valueOf(startDate.getText())
+                        , String.valueOf(endDate.getText()), String.valueOf(decription.getText()), userId, selectedGroup);
                 event.setTypeOfEvent("Public");
                 Model.instance().AddGroupEvent(event, userId, new Model.SignupListener() {
                     @Override

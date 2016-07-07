@@ -38,11 +38,17 @@ public class GroupTaskListFragment extends Fragment {
         userId = ((ComingEventsTasksActivity) getActivity()).getUserId();
         getActivity().setTitle("Groups Tasks List");
         list= (ListView) view.findViewById(R.id.group_task_list_view);
-        Model.instance().getAllGroupsTasks(userId, new Model.GetTasksListener() {
+        Model.instance().getAllGroupsTasks(userId, new Model.GetListTaskListener() {
+
             @Override
-            public void done(ArrayList<Task> allTasks) {
-                groupsTasks = allTasks;
+            public void onResult(ArrayList<Task> tasks) {
+                groupsTasks = tasks;
                 adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
         adapter = new GroupTaskAdapter();

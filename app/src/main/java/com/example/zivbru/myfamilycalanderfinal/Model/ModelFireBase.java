@@ -54,8 +54,8 @@ public class ModelFireBase {
         groupFireBase.getGroups(listener);
     }
 
-    public void getAllEvents(String id, Model.GetEventsListener listener){
-        eventFireBase.getAllEvents(id, listener);
+    public void getAllEvents(String id,String lastUpdateDate, Model.GetListEventListener listener){
+        eventFireBase.getAllEvents(id,lastUpdateDate, listener);
     }
 
     public void AddEvent(Event event , String id,final Model.SignupListener listener){
@@ -68,24 +68,24 @@ public class ModelFireBase {
 
     public void logout() {myFirebaseRef.unauth();}
 
-    public void getAllTasks(String id, Model.GetTasksListener listener){
-        taskFireBase.getAllTasks(id, listener);
+    public void getAllTasks(String id, String lastUpdateDate, Model.GetListTaskListener listener){
+        taskFireBase.getAllTasks(id,lastUpdateDate, listener);
     }
 
     public void getEvent(String userId,String eventId, Model.GetEventListener listener) {
         eventFireBase.getEvent(userId, eventId, listener);
     }
 
-    public void getAllGroupsTasks(String userId, Model.GetTasksListener getGroupsTasksListener) {
-        groupsTaskFireBase.getAllGroupsTasks(userId, getGroupsTasksListener);
+    public void getAllGroupsTasks(String userId,String lastUpdateDate, Model.GetListTaskListener getGroupsTasksListener) {
+        groupsTaskFireBase.getAllGroupsTasks(userId,lastUpdateDate, getGroupsTasksListener);
     }
 
     public void AddGroupTask(Task task, String id, Model.SignupListener listener) {
         groupsTaskFireBase.addGroupTask(task, id, listener);
     }
 
-    public void getAllGroupsEvents(String userId, Model.GetEventsListener getGroupsEventsListener) {
-        groupsEventFireBase.getAllGroupsEvents(userId, getGroupsEventsListener);
+    public void getAllGroupsEvents(String userId,String lastUpdateDate,Model.GetListEventListener groupsEventsListener) {
+        groupsEventFireBase.getAllGroupsEvents(userId,lastUpdateDate, groupsEventsListener);
     }
 
     public void AddGroupEvent(Event event, String id, Model.SignupListener listener) {

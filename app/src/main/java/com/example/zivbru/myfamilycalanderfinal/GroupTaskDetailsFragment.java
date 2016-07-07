@@ -55,10 +55,17 @@ public class GroupTaskDetailsFragment extends Fragment {
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getActivity(),EditGroupTaskActivity.class);
-                intent.putExtra("UserId", userId);
-                intent.putExtra("TaskId", taskId);
-                startActivity(intent);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent= new Intent(getActivity(),EditGroupTaskActivity.class);
+                        intent.putExtra("UserId", userId);
+                        intent.putExtra("TaskId", taskId);
+                        startActivity(intent);
+                    }
+                });
+                t.start();
+
 
 
 

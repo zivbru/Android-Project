@@ -12,11 +12,11 @@ public class Event {
     String endDate;
     String description;
     String ownerById;
-    ArrayList<String> comments ;
     ArrayList<String> users;
     ArrayList<String> tasks;
     String groupName;
     String typeOfEvent;
+    String lastUpdate;
 
     public Event() {
     }
@@ -38,6 +38,18 @@ public class Event {
         this.ownerById = ownerById;
         this.groupName=groupName;
 
+    }
+
+    public Event(String id, String name, String startDate, String endDate, String description, String ownerById, String groupName, String typeOfEvent, String lastUpdate) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.ownerById = ownerById;
+        this.groupName = groupName;
+        this.typeOfEvent = typeOfEvent;
+        this.lastUpdate = lastUpdate;
     }
 
     public String getId() {
@@ -88,14 +100,6 @@ public class Event {
         this.ownerById = ownerById;
     }
 
-    public ArrayList<String> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<String> comments) {
-        this.comments = comments;
-    }
-
     public ArrayList<String> getUsers() {
         return users;
     }
@@ -126,5 +130,13 @@ public class Event {
 
     public void setTypeOfEvent(String typeOfEvent) {
         this.typeOfEvent = typeOfEvent;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

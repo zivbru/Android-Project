@@ -24,9 +24,6 @@ public class UserSQL {
     public static final String LOGIN_PARAM = "LoginParam";
 
 
-
-
-
     public static void createTableUser(SQLiteDatabase db){
         db.execSQL("CREATE TABLE " + USERS_TABLE_NAME + " (" + USER_ID + " TEXT," + USER_NAME + " TEXT," + PASSWORD + " TEXT,"
                 + USER_FIRST_NAME + " TEXT," + USER_LAST_NAME + " TEXT," + USER_ADRESS + " TEXT," + USER_PHONE + " TEXT,"
@@ -46,7 +43,7 @@ public class UserSQL {
     }
     public static boolean InsertLogin(String userId,String loggedIn,SQLiteDatabase db ){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_ID,userId);
+        contentValues.put(USER_ID, userId);
         contentValues.put(BOOLEAN_LOGIN, loggedIn);
         contentValues.put(LOGIN_PARAM, 1);
         long result=db.insert(USERS_TABLE_LOGIN, null, contentValues);
@@ -64,7 +61,7 @@ public class UserSQL {
         contentValues.put(USER_ADRESS,user.getAdress());
         contentValues.put(USER_PHONE,user.getPhone());
         contentValues.put(USER_BIRTH_DATE,user.getBirthDate());
-        contentValues.put(USER_PICTURE_NAME,user.getPictureName());
+        contentValues.put(USER_PICTURE_NAME, user.getPictureName());
 
         long result=db.insert(USERS_TABLE_NAME, null, contentValues);
         return result != -1;
@@ -102,7 +99,7 @@ public class UserSQL {
 
     public static Cursor getUserByUserName(String userId, SQLiteDatabase db){
 
-        Cursor res = db.rawQuery("SELECT * FROM "+ USERS_TABLE_NAME + " WHERE " + USER_ID + "="+userId ,null);
+        Cursor res = db.rawQuery("SELECT * FROM " + USERS_TABLE_NAME + " WHERE " + USER_ID + "=" + userId, null);
         return res;
     }
 
@@ -136,6 +133,19 @@ public class UserSQL {
         }
         return false;
     }
+
+    public static String getLastUpdateDate(SQLiteDatabase db){
+        return LastUpdateSql.getLastUpdate(db,USERS_TABLE_NAME);
+    }
+    public static void setLastUpdateDate(SQLiteDatabase db, String date){
+        LastUpdateSql.setLastUpdate(db,USERS_TABLE_NAME, date);
+    }
+
+    public static void drop(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("drop table " + USERS_TABLE_NAME + ";");
+
+    }
+
 //    Need to add more functions
 
 }

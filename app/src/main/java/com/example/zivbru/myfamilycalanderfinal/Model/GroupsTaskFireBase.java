@@ -3,6 +3,7 @@ package com.example.zivbru.myfamilycalanderfinal.Model;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
@@ -18,10 +19,11 @@ public class GroupsTaskFireBase {
         this.myFirebaseRef=myFirebaseRef;
     }
 
-    public void getAllGroupsTasks(String userId, final Model.GetTasksListener listener) {
+    public void getAllGroupsTasks(String userId,String lastUpdateDate, final Model.GetListTaskListener listener) {
 
         Firebase stRef = myFirebaseRef.child("groupsTasks").child(userId);
-        stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Task> groupsTasks = new ArrayList<Task>();
@@ -30,12 +32,12 @@ public class GroupsTaskFireBase {
                     task.setId(snapshot.getKey());
                     groupsTasks.add(task);
                 }
-                listener.done(groupsTasks);
+                listener.onResult(groupsTasks);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.done(null);
+                listener.onCancel();
             }
         });
     }

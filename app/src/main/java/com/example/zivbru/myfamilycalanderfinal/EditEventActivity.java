@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,7 @@ public class EditEventActivity extends ActionBarActivity {
 
     String userId,eventId;
     Event event;
-
+ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +33,11 @@ public class EditEventActivity extends ActionBarActivity {
         final EditText eventDescription = (EditText) findViewById(R.id.eventDescription);
         final EditText eventGroup = (EditText) findViewById(R.id.eventGroup);
         final TextView owner = (TextView) findViewById(R.id.owner);
-
+        progressBar= (ProgressBar) findViewById(R.id.ProgressBarEdit_event);
         Model.instance().getEvent(userId, eventId, new Model.GetEventListener() {
             @Override
             public void done(Event retEvent) {
-                event=retEvent;
-
+                event = retEvent;
                 eventName.setText(event.getName());
                 eventStartDate.setText(event.getStartDate());
                 eventEndDate.setText(event.getEndDate());
@@ -52,23 +52,34 @@ public class EditEventActivity extends ActionBarActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(EditEventActivity.this,ComingEventsTasksActivity.class);
-                intent.putExtra("UserId", userId);
-                startActivity(intent);
-                finish();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }).start();
+
             }
         });
         Button delete = (Button) findViewById(R.id.event_delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 Model.instance().deleteEvent(userId, eventId, new Model.SignupListener() {
                     @Override
                     public void success() {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(EditEventActivity.this, ComingEventsTasksActivity.class);
+                                intent.putExtra("UserId", userId);
+                                startActivity(intent);
+
+                            }
+                        }).start();
                         Toast.makeText(EditEventActivity.this, "Event deleted", Toast.LENGTH_LONG).show();
-                        Intent intent= new Intent(EditEventActivity.this,ComingEventsTasksActivity.class);
-                        intent.putExtra("UserId", userId);
-                        startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -76,6 +87,7 @@ public class EditEventActivity extends ActionBarActivity {
 
                     }
                 });
+                progressBar.setVisibility(View.GONE);
             }
         });
         Button save = (Button) findViewById(R.id.event_save);
@@ -90,10 +102,16 @@ public class EditEventActivity extends ActionBarActivity {
                         Model.instance().AddEvent(event, userId, new Model.SignupListener() {
                             @Override
                             public void success() {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(EditEventActivity.this, ComingEventsTasksActivity.class);
+                                        intent.putExtra("UserId", userId);
+                                        startActivity(intent);
+                                    }
+                                }).start();
                                 Toast.makeText(EditEventActivity.this, "Event updated", Toast.LENGTH_LONG).show();
-                                Intent intent= new Intent(EditEventActivity.this,ComingEventsTasksActivity.class);
-                                intent.putExtra("UserId", userId);
-                                startActivity(intent);
+
                             }
 
                             @Override

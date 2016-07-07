@@ -15,11 +15,13 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 import com.example.zivbru.myfamilycalanderfinal.Model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TaskListFragment extends Fragment {
@@ -27,6 +29,7 @@ public class TaskListFragment extends Fragment {
     ListView list;
     ArrayList<Task> tasks;
     TaskAdapter adapter;
+    ProgressBar progressBar;
 
 
     @Override
@@ -38,11 +41,19 @@ public class TaskListFragment extends Fragment {
         userId =  ((ComingEventsTasksActivity) getActivity()).getUserId();
         getActivity().setTitle("Tasks List");
         list= (ListView) view.findViewById(R.id.task_list_view);
-        Model.instance().getAllTasks(userId, new Model.GetTasksListener() {
+        progressBar = (ProgressBar) view.findViewById(R.id.mainProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        Model.instance().getAllTasks(userId, new Model.GetListTaskListener() {
             @Override
-            public void done(ArrayList<Task> allTasks) {
+            public void onResult(ArrayList<Task> allTasks) {
                 tasks = allTasks;
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
         adapter = new TaskAdapter();
@@ -50,9 +61,12 @@ public class TaskListFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("TaskDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setTaskId(tasks.get(position).getId());
+                Log.d("SetTaskId",tasks.get(position).getId());
+
             }
         });
         return view;

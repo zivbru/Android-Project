@@ -24,6 +24,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Event;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class EventListFragment extends Fragment {
@@ -44,14 +45,20 @@ public class EventListFragment extends Fragment {
         list= (ListView) view.findViewById(R.id.event_list_view);
         progressBar = (ProgressBar) view.findViewById(R.id.mainProgressBar);
         progressBar.setVisibility(View.VISIBLE);
-        Model.instance().getAllEvents(userId, new Model.GetEventsListener() {
+        Model.instance().getAllEvents(userId, new Model.GetListEventListener() {
             @Override
-            public void done(ArrayList<Event> allEvents) {
-                progressBar.setVisibility(View.GONE);
+            public void onResult(ArrayList<Event> allEvents) {
                 events = allEvents;
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
+
         adapter = new EventAdapter();
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

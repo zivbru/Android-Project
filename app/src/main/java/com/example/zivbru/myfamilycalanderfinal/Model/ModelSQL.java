@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.zivbru.myfamilycalanderfinal.DB.DataBaseHelper;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by zivbru on 5/4/2016.
@@ -19,10 +21,25 @@ public class ModelSQL {
 
     public void createTables(){
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
+        LastUpdateSql.create(db);
         UserSQL.createTableUserLogin(db);
         EventSQL.createTableEvents(db);
         GroupSQL.createTableGroup(db);
+        TaskSQL.createTableTasks(db);
+        GroupEventSQL.createTableEvents(db);
+        GroupTaskSQL.createTableTasks(db);
         /// add all the tables
+
+    }
+
+    public void dropTables(SQLiteDatabase sqLiteDatabase){
+        LastUpdateSql.drop(sqLiteDatabase);
+        EventSQL.drop(sqLiteDatabase);
+        UserSQL.drop(sqLiteDatabase);
+        GroupSQL.drop(sqLiteDatabase);
+        TaskSQL.drop(sqLiteDatabase);
+        GroupEventSQL.drop(sqLiteDatabase);
+        GroupTaskSQL.drop(sqLiteDatabase);
 
     }
 
@@ -38,12 +55,12 @@ public class ModelSQL {
 
     public void insertLogin(String userId,String loogedIn) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        UserSQL.InsertLogin(userId,loogedIn, db);
+        UserSQL.InsertLogin(userId, loogedIn, db);
     }
 
     public void updateLogin(String userId,String loogedIn) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        UserSQL.updateLogin(userId,loogedIn, db);
+        UserSQL.updateLogin(userId, loogedIn, db);
     }
 
     public void insertGroup(Group group) {
@@ -162,6 +179,21 @@ public class ModelSQL {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
         return EventSQL.getEvent(cursor);
     }
+
+    public ArrayList<String> getEventsName(String userId) {
+        SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
+        return EventSQL.getEventsName(userId, db);
+    }
+
+    public SQLiteDatabase getWritableDB(){
+        return myDataBaseHelper.getWritableDatabase();
+    }
+
+    public  SQLiteDatabase getReadbleDB(){
+        return myDataBaseHelper.getReadableDatabase();
+    }
+
+
 }
 
 

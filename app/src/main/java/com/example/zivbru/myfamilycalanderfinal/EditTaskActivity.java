@@ -47,10 +47,17 @@ public class EditTaskActivity extends ActionBarActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(EditTaskActivity.this,ComingEventsTasksActivity.class);
-                intent.putExtra("UserId", userId);
-                startActivity(intent);
-                finish();
+//                Intent intent= new Intent(EditTaskActivity.this,ComingEventsTasksActivity.class);
+//                intent.putExtra("UserId", userId);
+//                startActivity(intent);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+                t.start();
+
             }
         });
 
@@ -61,11 +68,19 @@ public class EditTaskActivity extends ActionBarActivity {
                 Model.instance().deleteTask(userId, taskId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        Toast.makeText(EditTaskActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                finish();
+                            }
+                        });
+                        t.start();
                         Intent intent = new Intent(EditTaskActivity.this, ComingEventsTasksActivity.class);
                         intent.putExtra("UserId", userId);
                         startActivity(intent);
-                        finish();
+                        Toast.makeText(EditTaskActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
+
                     }
 
                     @Override

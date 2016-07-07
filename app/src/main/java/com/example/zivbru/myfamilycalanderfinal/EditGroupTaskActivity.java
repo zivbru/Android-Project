@@ -47,10 +47,17 @@ public class EditGroupTaskActivity extends ActionBarActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(EditGroupTaskActivity.this,ComingEventsTasksActivity.class);
-                intent.putExtra("UserId", userId);
-                startActivity(intent);
-                finish();
+//                Intent intent= new Intent(EditGroupTaskActivity.this,ComingEventsTasksActivity.class);
+//                intent.putExtra("UserId", userId);
+//                startActivity(intent);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+                t.start();
+
             }
         });
 
@@ -61,11 +68,19 @@ public class EditGroupTaskActivity extends ActionBarActivity {
                 Model.instance().deleteGroupTask(userId, taskId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        Toast.makeText(EditGroupTaskActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                finish();
+                            }
+                        });
+                        t.start();
                         Intent intent = new Intent(EditGroupTaskActivity.this, ComingEventsTasksActivity.class);
                         intent.putExtra("UserId", userId);
                         startActivity(intent);
-                        finish();
+                        Toast.makeText(EditGroupTaskActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
+
                     }
 
                     @Override
@@ -87,11 +102,18 @@ public class EditGroupTaskActivity extends ActionBarActivity {
                         Model.instance().AddGroupTask(task, userId, new Model.SignupListener() {
                             @Override
                             public void success() {
+                                Thread t = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(EditGroupTaskActivity.this, ComingEventsTasksActivity.class);
+                                        intent.putExtra("UserId", userId);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                                t.start();
                                 Toast.makeText(EditGroupTaskActivity.this, "Task updated", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditGroupTaskActivity.this, ComingEventsTasksActivity.class);
-                                intent.putExtra("UserId", userId);
-                                startActivity(intent);
-                                finish();
+
                             }
 
                             @Override

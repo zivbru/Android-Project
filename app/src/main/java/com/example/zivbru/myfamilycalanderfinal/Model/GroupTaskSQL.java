@@ -3,16 +3,15 @@ package com.example.zivbru.myfamilycalanderfinal.Model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 
 /**
- * Created by zivbru on 5/4/2016.
+ * Created by zivbru on 7/7/2016.
  */
-public class TaskSQL {
+public class GroupTaskSQL {
 
-    public static final String TASKS_TABLE_NAME = "TasksTable";
+    public static final String GROUP_TASK_TABLE_NAME = "GroupTaskTable";
     public static final String TASK_ID = "TaskId";
     public static final String TASK_TITLE = "TaskTitle";
     public static final String TARGET_DATE = "TargetDate";
@@ -26,7 +25,7 @@ public class TaskSQL {
 
     public static void createTableTasks(SQLiteDatabase db){
         db.execSQL("CREATE TABLE IF NOT EXISTS " +
-                TASKS_TABLE_NAME + " (" +
+                GROUP_TASK_TABLE_NAME + " (" +
                 TASK_ID + " TEXT PRIMARY KEY," +
                 TASK_TITLE + " TEXT," +
                 TARGET_DATE + " TEXT," +
@@ -38,7 +37,7 @@ public class TaskSQL {
                 Task_LAST_UPDATE + " TEXT);");
     }
     public static void onUpgrade(SQLiteDatabase db){
-        db.execSQL("drop table " + TASKS_TABLE_NAME);
+        db.execSQL("drop table " + GROUP_TASK_TABLE_NAME);
     }
 
     public static boolean InsertTask(Task task,SQLiteDatabase db ){
@@ -54,7 +53,7 @@ public class TaskSQL {
         contentValues.put(TYPE_OF_TASK,task.getTypeOfTask());
         contentValues.put(Task_LAST_UPDATE,task.getLastUpdate());
 
-        long result=db.insertWithOnConflict(TASKS_TABLE_NAME, TASK_ID, contentValues,SQLiteDatabase.CONFLICT_REPLACE);
+        long result=db.insertWithOnConflict(GROUP_TASK_TABLE_NAME, TASK_ID, contentValues,SQLiteDatabase.CONFLICT_REPLACE);
         return result != -1;
     }
 
@@ -71,17 +70,17 @@ public class TaskSQL {
         contentValues.put(TYPE_OF_TASK,task.getTypeOfTask());
         contentValues.put(Task_LAST_UPDATE,task.getLastUpdate());
 
-        long result=db.update(TASKS_TABLE_NAME, contentValues, "TaskId = ?", new String[]{task.getId()});
+        long result=db.update(GROUP_TASK_TABLE_NAME, contentValues, "TaskId = ?", new String[]{task.getId()});
         return result != -1;
     }
 
     public static Integer deleteTask(String taskId, SQLiteDatabase db){
-        return db.delete(TASKS_TABLE_NAME,"TaskId = ?",new String[]{taskId});
+        return db.delete(GROUP_TASK_TABLE_NAME,"TaskId = ?",new String[]{taskId});
     }
 
     public static Cursor getTaskById(String taskId, SQLiteDatabase db){
 
-        Cursor res = db.rawQuery("SELECT * FROM " + TASKS_TABLE_NAME + " WHERE " + TASK_ID + "=" + taskId, null);
+        Cursor res = db.rawQuery("SELECT * FROM " + GROUP_TASK_TABLE_NAME + " WHERE " + TASK_ID + "=" + taskId, null);
         return res;
     }
 
@@ -95,14 +94,15 @@ public class TaskSQL {
     }
 
     public static String getLastUpdateDate(SQLiteDatabase db){
-        return LastUpdateSql.getLastUpdate(db,TASKS_TABLE_NAME);
+        return LastUpdateSql.getLastUpdate(db,GROUP_TASK_TABLE_NAME);
     }
+
     public static void setLastUpdateDate(SQLiteDatabase db, String date){
-        LastUpdateSql.setLastUpdate(db,TASKS_TABLE_NAME, date);
+        LastUpdateSql.setLastUpdate(db,GROUP_TASK_TABLE_NAME, date);
     }
 
     public static ArrayList<Task> getAllTasks(SQLiteDatabase db) {
-        Cursor cursor = db.query(TASKS_TABLE_NAME, null, null , null, null, null, null);
+        Cursor cursor = db.query(GROUP_TASK_TABLE_NAME, null, null , null, null, null, null);
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         if (cursor.moveToFirst()) {
@@ -136,7 +136,7 @@ public class TaskSQL {
     }
 
     public static void drop(SQLiteDatabase db) {
-        db.execSQL("drop table " + TASKS_TABLE_NAME + ";");
+        db.execSQL("drop table " + GROUP_TASK_TABLE_NAME + ";");
     }
 
 //    need to add more functions

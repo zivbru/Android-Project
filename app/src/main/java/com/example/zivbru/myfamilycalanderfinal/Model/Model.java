@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zivbru on 5/4/2016.
@@ -35,6 +36,7 @@ public class Model {
         firebaseModel = new ModelFireBase(MyApplication.getAppContext());
         modelSQL = new ModelSQL();
         modelCloudinary= new ModelCloudinary();
+//        modelSQL.dropTables(modelSQL.getWritableDB());
     }
 
     public static Model instance(){
@@ -109,6 +111,16 @@ public class Model {
         void done(Task task);
     }
 
+    public interface GetListEventListener{
+        public void onResult(ArrayList<Event> events);
+        public void onCancel();
+    }
+
+    public interface GetListTaskListener{
+         void onResult(ArrayList<Task> tasks);
+         void onCancel();
+    }
+
     public void signup(final String email, final String pwd, final LoginListener listener) {
         firebaseModel.signup(email, pwd, listener);
     }
@@ -125,12 +137,13 @@ public class Model {
         firebaseModel.getGroups(listener);
     }
 
-    public void getAllEvents(final String id, final GetEventsListener listener) {
-        firebaseModel.getAllEvents(id, listener);
-    }
+//    public void getAllEvents(final String id, final GetEventsListener listener) {
+//        firebaseModel.getAllEvents(id, listener);
+//    }
 
     public void getAllEventsName(final String id, final GetEventsNameListener listener) {
-        firebaseModel.getAllEventsName(id, listener);
+        listener.done(modelSQL.getEventsName(id));
+//       firebaseModel.getAllEventsName(id, listener);
     }
 
     public void AddEvent(Event event , String id,final SignupListener listener) {
@@ -139,6 +152,7 @@ public class Model {
 
     public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
         firebaseModel.deleteEvent(userId, eventId, listener);
+        modelSQL.deleteEvent(eventId);
     }
 
     public void deleteGroupEvent(String userId, String eventId, SignupListener listener) {
@@ -147,31 +161,19 @@ public class Model {
 
     public void deleteTask(String userId, String taskId, Model.SignupListener listener) {
         firebaseModel.deleteTask(userId, taskId, listener);
+        modelSQL.deleteTask(taskId);
     }
 
     public void deleteGroupTask(String userId, String taskId, SignupListener listener) {
         firebaseModel.deleteGroupTask(userId, taskId, listener);
     }
 
-
-    public void getAllGroupsEvents(String userId, GetEventsListener getGroupsEventsListener) {
-        firebaseModel.getAllGroupsEvents(userId, getGroupsEventsListener);
-    }
-
     public void AddGroup(Group group ,final addGroupListener listener) {
         firebaseModel.AddGroup(group, listener);
     }
 
-    public void getAllTasks(String userId, GetTasksListener listener) {
-        firebaseModel.getAllTasks(userId, listener);
-    }
-
     public void AddTask(Task task, String id, final SignupListener listener) {
         firebaseModel.addTask(task, id, listener);
-    }
-
-    public void getAllGroupsTasks(String userId, GetTasksListener getGroupsTasksListener) {
-        firebaseModel.getAllGroupsTasks(userId, getGroupsTasksListener);
     }
 
     public void getAllGroups(String userId, GetGroupslistner getGroupslistner) {
@@ -299,6 +301,114 @@ public class Model {
     public void getUser(String id, UserListener userListener){
        firebaseModel.getUser(id,userListener);
     }
+
+    public void getAllGroupsTasks(String userId,final GetListTaskListener listener) {
+        final String lastUpdateDate = GroupTaskSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        firebaseModel.getAllGroupsTasks(userId, lastUpdateDate, new GetListTaskListener() {
+            @Override
+            public void onResult(ArrayList<Task> tasks) {
+                if (tasks != null && tasks.size() > 0) {
+                    String recent = lastUpdateDate;
+                    for (Task task : tasks) {
+                        GroupTaskSQL.InsertTask(task, modelSQL.getWritableDB());
+                        if (recent == null || task.getLastUpdate().compareTo(recent) > 0) {
+                            recent = task.getLastUpdate();
+                        }
+                        GroupTaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                    }
+                }
+                ArrayList<Task> taskList = GroupTaskSQL.getAllTasks(modelSQL.getReadbleDB());
+                listener.onResult(taskList);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void getAllTasks(final String userId, final GetListTaskListener listener){
+        final String lastUpdateDate = TaskSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        firebaseModel.getAllTasks(userId, lastUpdateDate, new GetListTaskListener() {
+            @Override
+            public void onResult(ArrayList<Task> tasks) {
+                if (tasks != null && tasks.size() > 0) {
+                    String recent = lastUpdateDate;
+                    for (Task task : tasks) {
+                        TaskSQL.InsertTask(task, modelSQL.getWritableDB());
+                        if (recent == null || task.getLastUpdate().compareTo(recent) > 0) {
+                            recent = task.getLastUpdate();
+                        }
+                        TaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                    }
+                }
+                ArrayList<Task> taskList = TaskSQL.getAllTasks(modelSQL.getReadbleDB());
+                listener.onResult(taskList);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void getAllGroupsEvents(String userId,  final GetListEventListener groupsEventsListener) {
+        final String lastUpdateDate = GroupEventSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        firebaseModel.getAllGroupsEvents(userId, lastUpdateDate, new GetListEventListener() {
+            @Override
+            public void onResult(ArrayList<Event> events) {
+
+                if (events != null && events.size() > 0) {
+                    String recent = lastUpdateDate;
+                    for (Event event : events) {
+                        GroupEventSQL.InsertEvent(event, modelSQL.getWritableDB());
+                        if (recent == null || event.getLastUpdate().compareTo(recent) > 0) {
+                            recent = event.getLastUpdate();
+                        }
+                        GroupEventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                    }
+                }
+                ArrayList<Event> groupEventsList = GroupEventSQL.getAllEvents(modelSQL.getReadbleDB());
+                groupsEventsListener.onResult(groupEventsList);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void getAllEvents(final String id, final GetListEventListener listener) {
+        final String lastUpdateDate = EventSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        firebaseModel.getAllEvents(id, lastUpdateDate, new GetListEventListener() {
+            @Override
+            public void onResult(ArrayList<Event> events) {
+
+                if (events != null && events.size() > 0) {
+                    String recent = lastUpdateDate;
+                    for (Event event : events) {
+                        EventSQL.InsertEvent(event, modelSQL.getWritableDB());
+                        if (recent == null || event.getLastUpdate().compareTo(recent) > 0) {
+                            recent = event.getLastUpdate();
+                        }
+                        EventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                    }
+                }
+                ArrayList<Event> eventsList = EventSQL.getAllEvents(modelSQL.getReadbleDB());
+                listener.onResult(eventsList);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+
 
 
 }

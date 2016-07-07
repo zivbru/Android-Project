@@ -51,10 +51,17 @@ public class GroupEventDetailsFragment extends Fragment {
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getActivity(),EditGroupEventActivity.class);
-                intent.putExtra("UserId", userId);
-                intent.putExtra("EventId", eventId);
-                startActivity(intent);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent= new Intent(getActivity(),EditGroupEventActivity.class);
+                        intent.putExtra("UserId", userId);
+                        intent.putExtra("EventId", eventId);
+                        startActivity(intent);
+                    }
+                });
+                t.start();
+
 
             }
         });

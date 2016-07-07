@@ -27,15 +27,14 @@ public class SingleDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("MChoice Title");
+        builder.setTitle("Pick your choice");
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_LONG).show();
             }
         });
 
-        builder.setSingleChoiceItems(data, selected,
-                new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(data, selected, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setSelected(which);

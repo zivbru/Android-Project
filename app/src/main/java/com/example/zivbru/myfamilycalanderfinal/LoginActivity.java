@@ -28,7 +28,12 @@ public class LoginActivity extends ActionBarActivity {
             Intent intent= new Intent(this,ComingEventsTasksActivity.class);
             intent.putExtra("UserId", loggedUserId);
             startActivity(intent);
-            finish();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }).start();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

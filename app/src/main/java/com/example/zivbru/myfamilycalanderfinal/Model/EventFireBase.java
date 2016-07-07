@@ -5,9 +5,15 @@ import android.util.Log;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by zivbru on 5/13/2016.
@@ -21,9 +27,11 @@ public class EventFireBase {
         this.myFirebaseRef=myFirebaseRef;
     }
 
-    public void getAllEvents(final String id,final Model.GetEventsListener listener) {
+    public void getAllEvents(final String id,String lastUpdateDate,final Model.GetListEventListener listener) {
+
         Firebase stRef = myFirebaseRef.child("events").child(id);
-        stRef.addValueEventListener(new ValueEventListener() {
+        Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
+        queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<Event> events = new ArrayList<Event>();
@@ -32,12 +40,12 @@ public class EventFireBase {
                     event.setId(snapshot.getKey());
                     events.add(event);
                 }
-                listener.done(events);
+                listener.onResult(events);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.done(null);
+                listener.onCancel();
             }
         });
     }
@@ -63,6 +71,16 @@ public class EventFireBase {
     }
 
     public void AddEvent(final Event event,final String id,final Model.SignupListener listener) {
+
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+        TimeZone timeZone = calendar.getTimeZone();
+        calendar.setTimeZone(timeZone);
+        Date updateTime = calendar.getInstance(timeZone).getTime();
+        String date = null;
+        date =  dateFormatGmt.format(updateTime);
+        event.setLastUpdate(date);
+
         addEventStRef = myFirebaseRef.child("events").child(id);
         tempUser = new User();
         UserFireBase userFireBase= new UserFireBase(myFirebaseRef);

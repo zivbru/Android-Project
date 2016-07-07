@@ -50,10 +50,15 @@ public class EditGroupEventActivity extends ActionBarActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(EditGroupEventActivity.this,ComingEventsTasksActivity.class);
-                intent.putExtra("UserId", userId);
-                startActivity(intent);
-                finish();
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+                t.start();
+
             }
         });
         Button delete = (Button) findViewById(R.id.event_delete);
@@ -63,11 +68,19 @@ public class EditGroupEventActivity extends ActionBarActivity {
                 Model.instance().deleteGroupEvent(userId, eventId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        Toast.makeText(EditGroupEventActivity.this, "Event deleted", Toast.LENGTH_LONG).show();
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                finish();
+                            }
+                        });
+                        t.start();
                         Intent intent= new Intent(EditGroupEventActivity.this,ComingEventsTasksActivity.class);
                         intent.putExtra("UserId", userId);
                         startActivity(intent);
-                        finish();
+                        Toast.makeText(EditGroupEventActivity.this, "Event deleted", Toast.LENGTH_LONG).show();
+
                     }
 
                     @Override
@@ -89,11 +102,17 @@ public class EditGroupEventActivity extends ActionBarActivity {
                         Model.instance().AddGroupEvent(event, userId, new Model.SignupListener() {
                             @Override
                             public void success() {
+                                Thread t = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent= new Intent(EditGroupEventActivity.this,ComingEventsTasksActivity.class);
+                                        intent.putExtra("UserId", userId);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
                                 Toast.makeText(EditGroupEventActivity.this, "Event updated", Toast.LENGTH_LONG).show();
-                                Intent intent= new Intent(EditGroupEventActivity.this,ComingEventsTasksActivity.class);
-                                intent.putExtra("UserId", userId);
-                                startActivity(intent);
-                                finish();
+
                             }
 
                             @Override

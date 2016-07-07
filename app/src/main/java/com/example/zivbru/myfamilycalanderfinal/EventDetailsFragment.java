@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.zivbru.myfamilycalanderfinal.Model.Event;
@@ -18,6 +19,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 public class EventDetailsFragment extends Fragment {
     String userId,eventId;
     Event event;
+    ProgressBar progressBar;
     public EventDetailsFragment() {
     }
 
@@ -34,6 +36,7 @@ public class EventDetailsFragment extends Fragment {
         final TextView eventDescription = (TextView) view.findViewById(R.id.description);
         final TextView eventOwner = (TextView) view.findViewById(R.id.details_event_owner);
         final TextView eventGroup= (TextView) view.findViewById(R.id.details_event_group);
+        progressBar= (ProgressBar) view.findViewById(R.id.ProgressBarEdit);
         Model.instance().getEvent(userId, eventId, new Model.GetEventListener() {
             @Override
             public void done(Event doneEvent) {
@@ -53,10 +56,19 @@ public class EventDetailsFragment extends Fragment {
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getActivity(),EditEventActivity.class);
-                intent.putExtra("UserId", userId);
-                intent.putExtra("EventId", eventId);
-                startActivity(intent);
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent= new Intent(getActivity(),EditEventActivity.class);
+                        intent.putExtra("UserId", userId);
+                        intent.putExtra("EventId", eventId);
+                        startActivity(intent);
+
+                    }
+                });
+                t.start();
+
             }
         });
 

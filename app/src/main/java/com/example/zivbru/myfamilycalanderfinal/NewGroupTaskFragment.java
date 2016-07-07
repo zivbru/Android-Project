@@ -3,6 +3,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +24,13 @@ import java.util.ArrayList;
 
 public class NewGroupTaskFragment extends Fragment {
 
-    EditText taskName, targetDate, description;
+    EditText taskName, targetDate, description,showSelectedGroup;
     String userId = "";
     String selectedUser = "";
     String selectedGroup="";
     Task task;
     ArrayList<String> groupsName;
-
     View view;
-    EditText showSelectedGroup;
     SingleDialog singleDialog ;
     public NewGroupTaskFragment() {
     }
@@ -63,7 +62,7 @@ public class NewGroupTaskFragment extends Fragment {
                             showSelectedGroup.setText(groupsName.get(Integer.parseInt(selectedGroup)));
                         }
                         else{
-                            Toast toast = Toast.makeText(getActivity(), "Yoe have no groups", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(getActivity(), "You have no groups", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }

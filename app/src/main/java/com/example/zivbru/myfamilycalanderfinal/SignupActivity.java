@@ -78,11 +78,18 @@ public class SignupActivity extends ActionBarActivity {
                         Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
                         intent.putExtra("UserId", authData.getUid());
                         startActivity(intent);
-                        finish();
-                        Model.instance().saveImage(imageBitmap, imageFileName);
-                        Intent resultIntent = new Intent();
-                        setResult(Activity.RESULT_OK, resultIntent);
-                        finish();
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                                Model.instance().saveImage(imageBitmap, imageFileName);
+                                Intent resultIntent = new Intent();
+                                setResult(Activity.RESULT_OK, resultIntent);
+                                finish();
+                            }
+                        });
+
+
                         progressBar.setVisibility(View.GONE);
                     }
 

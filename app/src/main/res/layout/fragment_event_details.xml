@@ -148,5 +148,11 @@
             android:text="Edit"/>
 
     </LinearLayout>
+    <ProgressBar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ProgressBarEdit"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </LinearLayout>

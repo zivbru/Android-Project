@@ -14,6 +14,7 @@ public class Task {
     String description;
     String groupId;
     String TypeOfTask;
+    String lastUpdate;
 
     public Task() {
     }
@@ -37,7 +38,17 @@ public class Task {
         this.description = description;
     }
 
-
+    public Task(String id, String title, String targetDate, String ownerId, String relatedEvent, String description, String groupId, String typeOfTask, String lastUpdate) {
+        this.id = id;
+        this.title = title;
+        this.targetDate = targetDate;
+        this.ownerId = ownerId;
+        this.relatedEvent = relatedEvent;
+        this.description = description;
+        this.groupId = groupId;
+        TypeOfTask = typeOfTask;
+        this.lastUpdate = lastUpdate;
+    }
 
     public Task(String title, String targetDate, String description) {
         this.title=title;
@@ -115,5 +126,13 @@ public class Task {
 
     public void setTypeOfTask(String typeOfTask) {
         TypeOfTask = TypeOfTask;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

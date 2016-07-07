@@ -4,6 +4,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class TaskDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_details, container, false);
         userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
         taskId=   ((ComingEventsTasksActivity) getActivity()).getTasksId();
+        Log.d("taskId",taskId+ " taskId");
         final TextView taskName = (TextView) view.findViewById(R.id.details_Task_name);
         final TextView targetDate = (TextView) view.findViewById(R.id.details_task_target_date);
         final TextView owner = (TextView) view.findViewById(R.id.details_task_owner);
@@ -52,10 +54,17 @@ public class TaskDetailsFragment extends Fragment {
         editTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getActivity(),EditTaskActivity.class);
-                intent.putExtra("UserId", userId);
-                intent.putExtra("TaskId", taskId);
-                startActivity(intent);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent= new Intent(getActivity(),EditTaskActivity.class);
+                        intent.putExtra("UserId", userId);
+                        intent.putExtra("TaskId", taskId);
+                        startActivity(intent);
+                    }
+                });
+                t.start();
+
             }
         });
 
