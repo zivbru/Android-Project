@@ -14,6 +14,7 @@ public class Group {
     ArrayList<String> usersList;
     ArrayList<String> relatedEvents;
     ArrayList<String> relatedTasks;
+    String lastUpdate;
 
 
     public Group() {
@@ -21,6 +22,13 @@ public class Group {
         this.relatedEvents = new ArrayList<String>();
         this.relatedTasks = new ArrayList<String>();
 
+    }
+
+    public Group(String id, String title, String pictureName, String lastUpdate) {
+        this.id = id;
+        this.title = title;
+        this.pictureName = pictureName;
+        this.lastUpdate = lastUpdate;
     }
 
     public Group(String id, String title, String pictureName) {
@@ -32,6 +40,7 @@ public class Group {
         this.relatedTasks = new ArrayList<String>();
 
     }
+
     public Group(String id, String title, String pictureName, ArrayList<String> usersList) {
         this.id = id;
         this.title = title;
@@ -89,5 +98,13 @@ public class Group {
 
     public void setRelatedTasks(ArrayList<String> relatedTasks) {
         this.relatedTasks = relatedTasks;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

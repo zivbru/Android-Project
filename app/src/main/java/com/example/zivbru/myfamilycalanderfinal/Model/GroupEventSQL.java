@@ -47,6 +47,7 @@ public class GroupEventSQL {
         contentValues.put(EVENT_NAME,event.getName());
         contentValues.put(EVENT__START_DATE,event.getStartDate());
         contentValues.put(EVENT__END_DATE,event.getEndDate());
+        contentValues.put(EVENT_GROUP_NAME,event.getGroupName());
         contentValues.put(OWNER,event.getOwnerById());
         contentValues.put(EVENT_DESCRIPTION,event.getDescription());
         contentValues.put(EVENT_TYPE,event.getTypeOfEvent());
@@ -63,6 +64,7 @@ public class GroupEventSQL {
         contentValues.put(EVENT_NAME,event.getName());
         contentValues.put(EVENT__START_DATE,event.getStartDate());
         contentValues.put(EVENT__END_DATE,event.getEndDate());
+        contentValues.put(EVENT_GROUP_NAME,event.getGroupName());
         contentValues.put(OWNER,event.getOwnerById());
         contentValues.put(EVENT_DESCRIPTION,event.getDescription());
         contentValues.put(EVENT_TYPE,event.getTypeOfEvent());

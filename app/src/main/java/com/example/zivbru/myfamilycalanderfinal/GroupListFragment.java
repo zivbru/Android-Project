@@ -46,13 +46,17 @@ public class GroupListFragment extends Fragment {
         list= (ListView) view.findViewById(R.id.group_list_view);
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.GroupListProgressBar);
         progressBar.setVisibility(View.VISIBLE);
-        Model.instance().getAllGroups(userId, new Model.GetGroupslistner() {
-
+        Model.instance().getAllGroups(userId, new Model.GetGroupsListListener() {
             @Override
-            public void done(ArrayList<Group> allGroups) {
+            public void onResult(ArrayList<Group> allGroups) {
                 groups = allGroups;
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
         adapter = new GroupAdapter();
@@ -135,34 +139,35 @@ public class GroupListFragment extends Fragment {
                 }
             });
             title.setText(group.getTitle());
-            UserFireBase userFireBase = new UserFireBase(Model.instance().getFirebaseModel().getMyFirebaseRef());
-            final ArrayList<String> usersNames= new ArrayList<String>();
+//            UserFireBase userFireBase = new UserFireBase(Model.instance().getFirebaseModel().getMyFirebaseRef());
+            ArrayList<String> usersNames= group.getUsersList();
+
             //add progress bar
 
-            for (String id:group.getUsersList()) {
-                userFireBase.getNameForUser(id, new Model.getUserNameListener() {
-                    @Override
-                    public void success(String name) {
-                        usersNames.add(name);
+//            for (String id:group.getUsersList()) {
+//                userFireBase.getNameForUser(id, new Model.getUserNameListener() {
+//                    @Override
+//                    public void success(String name) {
+//                        usersNames.add(name);
+//
+//                    }
+//
+//                    @Override
+//                    public void fail(String msg) {
+//
+//                    }
+//                });
+//            }
 
-                    }
-
-                    @Override
-                    public void fail(String msg) {
-
-                    }
-                });
-            }
-
-                progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
             progressBar.setVisibility(View.GONE);
             ArrayAdapter usersAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, usersNames);
             allUsers.setAdapter(usersAdapter);
-            ArrayAdapter eventAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedEvents());
-            allEvents.setAdapter(eventAdapter);
-            ArrayAdapter TaskAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedTasks());
-            allTasks.setAdapter(TaskAdapter);
+//            ArrayAdapter eventAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedEvents());
+//            allEvents.setAdapter(eventAdapter);
+//            ArrayAdapter TaskAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedTasks());
+//            allTasks.setAdapter(TaskAdapter);
 
             return  convertView;
         }

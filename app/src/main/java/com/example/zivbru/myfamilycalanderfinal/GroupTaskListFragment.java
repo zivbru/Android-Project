@@ -59,6 +59,7 @@ public class GroupTaskListFragment extends Fragment {
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("GroupTaskDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setTaskId(groupsTasks.get(position).getId());
+                ((ComingEventsTasksActivity) getActivity()).setGroupName(groupsTasks.get(position).getGroupId());
             }
         });
         return view;

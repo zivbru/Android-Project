@@ -3,6 +3,7 @@ package com.example.zivbru.myfamilycalanderfinal.Model;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
@@ -39,15 +40,15 @@ public class GroupFireBase {
         });
     }
 
-    public void getGroups(final Model.GetUsersListener listener) {
+    public void getGroups(final Model.GetGroupsListener listener) {
         Firebase stRef = myFirebaseRef.child("groups");
         stRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> groupslist = new ArrayList<String>();
+                ArrayList<Group> groupslist = new ArrayList<Group>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Group group = snapshot.getValue(Group.class);
-                    groupslist.add(group.getTitle());
+                    groupslist.add(group);
                 }
                 listener.done(groupslist);
             }
@@ -59,63 +60,34 @@ public class GroupFireBase {
         });
     }
 
-    public void getAllGroup(String userId, final Model.GetGroupslistner getGroupslistner) {
-
+    public void getAllGroup(String userId, final String lastUpdateDate,  final Model.GetGroupsListListener getGroupslistner) {
         Model.instance().getUser(userId, new Model.UserListener() {
             @Override
             public void done(User user) {
                 for (final String id : user.getGroupsById()) {
                     Firebase stRef = myFirebaseRef.child("groups");
-                    stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
+                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             ArrayList<Group> groupslist = new ArrayList<Group>();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Group group = snapshot.getValue(Group.class);
-                                if(group.getId().equals(id))
+                                if (group.getId().equals(id))
                                     groupslist.add(group);
                             }
-                            getGroupslistner.done(groupslist);
+                            getGroupslistner.onResult(groupslist);
                         }
 
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {
-                            getGroupslistner.done(null);
+                            getGroupslistner.onCancel();
                         }
                     });
                 }
 
             }
         });
-
-
-
-
-    }
-
-    public void getNameForGroup(final String id,  final Model.getUserNameListener listener){
-
-        Firebase stRef = myFirebaseRef.child("groups");
-
-        stRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    group = snapshot.getValue(Group.class);
-                    if (group.getId().equals(id)) {
-                        name = group.getTitle();
-                        listener.success(name);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {
-                name = "Unknowen";
-                listener.fail("failed");
-            }
-        });
-
     }
 
     public void AddGroup(final Group group,final Model.addGroupListener listener){
@@ -140,4 +112,26 @@ public class GroupFireBase {
 
     }
 
+    public  void getAllUsersFromGroup(String selectedGroup, final Model.GetUsersFromGroupListener listener) {
+        Firebase stRef = myFirebaseRef.child("groups").child(selectedGroup);
+        stRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> usersName = new ArrayList<String>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Group group = snapshot.getValue(Group.class);
+                    for (String s:group.getUsersList()) {
+                        usersName.add(s);
+                    }
+                }
+                listener.done(usersName);
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.done(null);
+            }
+        });
+    }
+
 }
+

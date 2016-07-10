@@ -36,6 +36,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     String userId;
     String eventId;
     String taskId;
+    String groupName;
     ImageView userPicture;
     User user;
     TextView userNameInSidebar;
@@ -480,9 +481,8 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             if(getSupportActionBar().getNavigationMode()!=ActionBar.NAVIGATION_MODE_STANDARD)
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             hideFragments();
+            transaction.remove(newGroupEventFragment);
             transaction.add(R.id.mainContent, newGroupEventFragment);
-            if(getSupportActionBar().getNavigationMode()!=ActionBar.NAVIGATION_MODE_STANDARD)
-                getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             transaction.show(newGroupEventFragment);
             transaction.addToBackStack("");
             transaction.commit();
@@ -522,6 +522,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
             }
             hideFragments();
+            transaction.remove(newGroupTaskFragment);
             transaction.add(R.id.mainContent, newGroupTaskFragment);
             if(getSupportActionBar().getNavigationMode()!=ActionBar.NAVIGATION_MODE_STANDARD)
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -644,5 +645,11 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     }
 
 
+    public String getGroupName() {
+        return groupName;
+    }
 
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

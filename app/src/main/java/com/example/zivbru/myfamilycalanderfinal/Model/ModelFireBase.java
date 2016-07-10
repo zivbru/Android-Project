@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by zivbru on 5/4/2016.
@@ -19,6 +21,7 @@ public class ModelFireBase {
     GroupsTaskFireBase groupsTaskFireBase;
     GroupsEventFireBase groupsEventFireBase;
     GroupFireBase groupFireBase;
+
     public Firebase getMyFirebaseRef() {
         return myFirebaseRef;
     }
@@ -50,12 +53,12 @@ public class ModelFireBase {
         userFireBase.getUsers(listener);
     }
 
-    public void getGroups(final Model.GetUsersListener listener) {
+    public void getGroups(final Model.GetGroupsListener listener) {
         groupFireBase.getGroups(listener);
     }
 
     public void getAllEvents(String id,String lastUpdateDate, Model.GetListEventListener listener){
-        eventFireBase.getAllEvents(id,lastUpdateDate, listener);
+        eventFireBase.getAllEvents(id, lastUpdateDate, listener);
     }
 
     public void AddEvent(Event event , String id,final Model.SignupListener listener){
@@ -69,49 +72,49 @@ public class ModelFireBase {
     public void logout() {myFirebaseRef.unauth();}
 
     public void getAllTasks(String id, String lastUpdateDate, Model.GetListTaskListener listener){
-        taskFireBase.getAllTasks(id,lastUpdateDate, listener);
+        taskFireBase.getAllTasks(id, lastUpdateDate, listener);
     }
 
     public void getEvent(String userId,String eventId, Model.GetEventListener listener) {
         eventFireBase.getEvent(userId, eventId, listener);
     }
 
-    public void getAllGroupsTasks(String userId,String lastUpdateDate, Model.GetListTaskListener getGroupsTasksListener) {
-        groupsTaskFireBase.getAllGroupsTasks(userId,lastUpdateDate, getGroupsTasksListener);
+    public void getAllGroupsTasks(String userId,String lastUpdateDate,String groupId, Model.GetListTaskListener getGroupsTasksListener) {
+        groupsTaskFireBase.getAllGroupsTasks(userId, lastUpdateDate,groupId, getGroupsTasksListener);
     }
 
-    public void AddGroupTask(Task task, String id, Model.SignupListener listener) {
-        groupsTaskFireBase.addGroupTask(task, id, listener);
+    public void AddGroupTask(Task task, String id,String groupId , Model.SignupListener listener) {
+        groupsTaskFireBase.addGroupTask(task, id,groupId, listener);
     }
 
-    public void getAllGroupsEvents(String userId,String lastUpdateDate,Model.GetListEventListener groupsEventsListener) {
-        groupsEventFireBase.getAllGroupsEvents(userId,lastUpdateDate, groupsEventsListener);
+    public void getAllGroupsEvents(String userId,String lastUpdateDate,  String groupId,Model.GetListEventListener groupsEventsListener) {
+        groupsEventFireBase.getAllGroupsEvents(userId, lastUpdateDate,groupId, groupsEventsListener);
     }
 
-    public void AddGroupEvent(Event event, String id, Model.SignupListener listener) {
-        groupsEventFireBase.AddGroupEvent(event, id, listener);
+    public void AddGroupEvent(Event event, String id,String groupId, Model.SignupListener listener) {
+        groupsEventFireBase.AddGroupEvent(event, id,groupId, listener);
     }
 
     public void getAllEventsName(String id, Model.GetEventsNameListener listener) {
         eventFireBase.getAllEventsName(id, listener);
     }
 
-    public void getAllGroup(String userId, Model.GetGroupslistner getGroupslistner) {
-        groupFireBase.getAllGroup(userId, getGroupslistner);
+    public void getAllGroup(String userId,String lastUpdateDate, Model.GetGroupsListListener getGroupslistner) {
+        groupFireBase.getAllGroup(userId,lastUpdateDate, getGroupslistner);
     }
 
     public void getTask(String userId, String taskId, Model.GetTaskListener listener) {
         taskFireBase.getTask(userId, taskId, listener);
 
     }
-    public void getGroupTask(String userId, String taskId, Model.GetTaskListener listener) {
-        taskFireBase.getGroupTask(userId, taskId, listener);
+    public void getGroupTask(String userId, String taskId,String groupId, Model.GetTaskListener listener) {
+        taskFireBase.getGroupTask(userId, taskId,groupId, listener);
 
     }
 
 
-    public void getGroupEvent(String userId, String taskId, Model.GetEventListener getTaskListener) {
-        groupsEventFireBase.getGroupEvent(userId, taskId, getTaskListener);
+    public void getGroupEvent(String groupId, String eventId, Model.GetEventListener getTaskListener) {
+        groupsEventFireBase.getGroupEvent(groupId, eventId, getTaskListener);
     }
 
     public void AddGroup(Group group,  Model.addGroupListener listener) {
@@ -130,11 +133,15 @@ public class ModelFireBase {
         taskFireBase.deleteTask(userId, taskId, listener);
     }
 
-    public void deleteGroupEvent(String userId, String eventId, Model.SignupListener listener) {
-        groupsEventFireBase.deleteEvent(userId, eventId, listener);
+    public void deleteGroupEvent(String userId, String eventId,String groupId ,Model.SignupListener listener) {
+        groupsEventFireBase.deleteEvent(userId, eventId,groupId, listener);
     }
 
-    public void deleteGroupTask(String userId, String taskId, Model.SignupListener listener) {
-        groupsTaskFireBase.deleteGroupTask(userId, taskId, listener);
+    public void deleteGroupTask(String userId, String taskId,String groupId, Model.SignupListener listener) {
+        groupsTaskFireBase.deleteGroupTask(userId, taskId,groupId, listener);
+    }
+
+    public void getAllUsersFromGroup(String selectedGroup,  Model.GetUsersFromGroupListener listener) {
+        groupFireBase.getAllUsersFromGroup(selectedGroup,listener);
     }
 }

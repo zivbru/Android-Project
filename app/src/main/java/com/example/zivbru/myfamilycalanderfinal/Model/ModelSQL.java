@@ -28,6 +28,7 @@ public class ModelSQL {
         TaskSQL.createTableTasks(db);
         GroupEventSQL.createTableEvents(db);
         GroupTaskSQL.createTableTasks(db);
+        GroupUsersSQL.createTableGroup(db);
         /// add all the tables
 
     }
@@ -194,6 +195,15 @@ public class ModelSQL {
     }
 
 
+    public String getGroupIdByName(String groupName) {
+        SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
+        return GroupSQL.getGroupIdByName(groupName, db);
+    }
+
+    public  ArrayList<String> getAllGroupsId() {
+        SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
+        return GroupSQL.getAllGroupsId(db);
+    }
 }
 
 

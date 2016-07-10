@@ -29,14 +29,21 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String title, String targetDate, String ownerId, String relatedEvent,String description) {
+    public Task(String title, String targetDate, String ownerId, String groupId,String description) {
         this.title = title;
         this.targetDate = targetDate;
         this.ownerId = ownerId;
-        this.relatedEvent = relatedEvent;
-
+        this.groupId=groupId;
         this.description = description;
     }
+//    public Task(String title, String targetDate, String ownerId, String groupId,String description) {
+//        this.title = title;
+//        this.targetDate = targetDate;
+//        this.ownerId = ownerId;
+//        this.relatedEvent = relatedEvent;
+//
+//        this.description = description;
+//    }
 
     public Task(String id, String title, String targetDate, String ownerId, String relatedEvent, String description, String groupId, String typeOfTask, String lastUpdate) {
         this.id = id;

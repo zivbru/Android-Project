@@ -14,7 +14,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Task;
 
 public class EditGroupTaskActivity extends ActionBarActivity {
 
-    String userId,taskId;
+    String userId,taskId,groupId;
     Task task;
 
     @Override
@@ -24,22 +24,25 @@ public class EditGroupTaskActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         userId = extras.getString("UserId");
         taskId = extras.getString("TaskId");
+        groupId= extras.getString("GroupId");
         task= new Task();
         final EditText taskName = (EditText) findViewById(R.id.taskName);
         final EditText targetDate = (EditText) findViewById(R.id.targetDate);
         final EditText taskDescription = (EditText) findViewById(R.id.taskDescription);
         final EditText relatedEvent = (EditText) findViewById(R.id.relatedEvent);
+        final EditText group = (EditText) findViewById(R.id.group);
+
         final TextView owner = (TextView) findViewById(R.id.owner);
-        Model.instance().getGroupTask(userId, taskId, new Model.GetTaskListener() {
+        Model.instance().getGroupTask(userId, taskId,groupId, new Model.GetTaskListener() {
             @Override
             public void done(Task retTask) {
                 task=retTask;
-
                 taskName.setText(task.getTitle());
                 targetDate.setText(task.getTargetDate());
                 taskDescription.setText(task.getDescription());
                 relatedEvent.setText(task.getRelatedEvent());
                 owner.setText(task.getOwnerId());
+                group.setText(task.getGroupId());
             }
         });
 
@@ -47,9 +50,6 @@ public class EditGroupTaskActivity extends ActionBarActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent= new Intent(EditGroupTaskActivity.this,ComingEventsTasksActivity.class);
-//                intent.putExtra("UserId", userId);
-//                startActivity(intent);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -65,7 +65,8 @@ public class EditGroupTaskActivity extends ActionBarActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.instance().deleteGroupTask(userId, taskId, new Model.SignupListener() {
+                final String groupId= Model.instance().getGroupIdByName(group.getText().toString());
+                Model.instance().deleteGroupTask(userId, taskId,groupId, new Model.SignupListener() {
                     @Override
                     public void success() {
                         Thread t = new Thread(new Runnable() {
@@ -96,10 +97,11 @@ public class EditGroupTaskActivity extends ActionBarActivity {
             public void onClick(View v) {
                 task = new Task(taskName.getText().toString(), targetDate.getText().toString(), task.getOwnerId(),
                         relatedEvent.getText().toString(), taskDescription.getText().toString());
-                Model.instance().deleteTask(userId, taskId, new Model.SignupListener() {
+                final String groupId= Model.instance().getGroupIdByName(group.getText().toString());
+                Model.instance().deleteGroupTask(userId, taskId,groupId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        Model.instance().AddGroupTask(task, userId, new Model.SignupListener() {
+                        Model.instance().AddGroupTask(task, userId,groupId, new Model.SignupListener() {
                             @Override
                             public void success() {
                                 Thread t = new Thread(new Runnable() {

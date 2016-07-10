@@ -14,7 +14,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Event;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 
 public class GroupEventDetailsFragment extends Fragment {
-    String userId,eventId;
+    String userId,eventId,taskId,groupName,groupId;
     Event event;
     public GroupEventDetailsFragment() {
     }
@@ -26,13 +26,16 @@ public class GroupEventDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_details, container, false);
         userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
         eventId=   ((ComingEventsTasksActivity) getActivity()).getEventId();
+        taskId=  ((ComingEventsTasksActivity) getActivity()).getTasksId();
+        groupName= ((ComingEventsTasksActivity) getActivity()).getGroupName();
+        groupId= Model.instance().getGroupIdByName(groupName);
         final TextView eventName = (TextView) view.findViewById(R.id.details_event_name);
         final TextView eventStartDate = (TextView) view.findViewById(R.id.details_event_start_date);
         final TextView eventEbdDate = (TextView) view.findViewById(R.id.details_event_end_date);
         final TextView eventDescription = (TextView) view.findViewById(R.id.description);
         final TextView eventOwner = (TextView) view.findViewById(R.id.details_event_owner);
         final TextView eventGroup= (TextView) view.findViewById(R.id.details_event_group);
-        Model.instance().getGroupEvent(userId, eventId, new Model.GetEventListener() {
+        Model.instance().getGroupEvent(groupId, eventId, new Model.GetEventListener() {
             @Override
             public void done(Event doneEvent) {
                 event = doneEvent;
@@ -57,6 +60,7 @@ public class GroupEventDetailsFragment extends Fragment {
                         Intent intent= new Intent(getActivity(),EditGroupEventActivity.class);
                         intent.putExtra("UserId", userId);
                         intent.putExtra("EventId", eventId);
+                        intent.putExtra("GroupId", groupId);
                         startActivity(intent);
                     }
                 });

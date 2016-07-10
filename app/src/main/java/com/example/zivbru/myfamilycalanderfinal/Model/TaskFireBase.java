@@ -108,8 +108,8 @@ public class TaskFireBase {
         });
     }
 
-    public void getGroupTask(String userId, String taskId, final Model.GetTaskListener listener) {
-        Firebase stRef = myFirebaseRef.child("groupsTasks").child(userId).child(taskId);
+    public void getGroupTask(String userId, String taskId,String groupId, final Model.GetTaskListener listener) {
+        Firebase stRef = myFirebaseRef.child("groupsTasks").child(groupId).child(taskId);
         stRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

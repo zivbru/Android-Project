@@ -14,22 +14,23 @@ import java.util.ArrayList;
 
 public class MulitpleDialog extends DialogFragment {
 
-
+    int selectedUser = 0;
     public MulitpleDialog() {
 
     }
 
     boolean[] selected = new boolean[15];
     String[] data ;
+    Delegate delegate;
 
     @Override
-
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Users list");
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_LONG).show();
+                delegate.cancel();
             }
         });
         builder.setMultiChoiceItems(data, selected, new
@@ -48,15 +49,10 @@ public class MulitpleDialog extends DialogFragment {
                 }
                 Toast.makeText(getActivity(), "OK " + selects,
                         Toast.LENGTH_LONG).show();
+                delegate.ok();
             }
         });
-        builder.setNegativeButton("CANCEL",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getActivity(), "CANCEL",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
+
         return builder.create();
 
 
@@ -69,7 +65,16 @@ public class MulitpleDialog extends DialogFragment {
 
     }
 
-    public interface GetSelectedUsers {
-        void done(boolean[] selected);
+    public interface Delegate{
+        void ok();
+        void cancel();
+    }
+
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
+    }
+
+    public boolean[] getSelected() {
+        return selected;
     }
 }

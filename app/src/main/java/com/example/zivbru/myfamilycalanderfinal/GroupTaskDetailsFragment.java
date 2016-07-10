@@ -16,7 +16,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Task;
 
 
 public class GroupTaskDetailsFragment extends Fragment {
-    String userId,taskId;
+    String userId,taskId,groupId,groupName;
     Task task;
     public GroupTaskDetailsFragment(){
 
@@ -31,13 +31,15 @@ public class GroupTaskDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_details, container, false);
         userId=   ((ComingEventsTasksActivity) getActivity()).getUserId();
         taskId=   ((ComingEventsTasksActivity) getActivity()).getTasksId();
+        groupName= ((ComingEventsTasksActivity) getActivity()).getGroupName();
+        groupId= Model.instance().getGroupIdByName(groupName);
         final TextView taskName = (TextView) view.findViewById(R.id.details_Task_name);
         final TextView targetDate = (TextView) view.findViewById(R.id.details_task_target_date);
         final TextView owner = (TextView) view.findViewById(R.id.details_task_owner);
         final TextView taskDescription = (TextView) view.findViewById(R.id.task_description);
         final TextView relatedEvent = (TextView) view.findViewById(R.id.details_task_related_event);
 
-        Model.instance().getGroupTask(userId, taskId, new Model.GetTaskListener() {
+        Model.instance().getGroupTask(userId, taskId,groupId, new Model.GetTaskListener() {
             @Override
             public void done(Task doneTask) {
                 task = doneTask;
@@ -61,6 +63,7 @@ public class GroupTaskDetailsFragment extends Fragment {
                         Intent intent= new Intent(getActivity(),EditGroupTaskActivity.class);
                         intent.putExtra("UserId", userId);
                         intent.putExtra("TaskId", taskId);
+                        intent.putExtra("GroupId", groupId);
                         startActivity(intent);
                     }
                 });

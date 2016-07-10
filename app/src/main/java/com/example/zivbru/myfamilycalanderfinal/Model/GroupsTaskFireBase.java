@@ -6,7 +6,12 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by zivbru on 5/18/2016.
@@ -14,14 +19,15 @@ import java.util.ArrayList;
 public class GroupsTaskFireBase {
 
     Firebase myFirebaseRef;
+    private User tempUser;
 
     public GroupsTaskFireBase(Firebase myFirebaseRef) {
         this.myFirebaseRef=myFirebaseRef;
     }
 
-    public void getAllGroupsTasks(String userId,String lastUpdateDate, final Model.GetListTaskListener listener) {
+    public void getAllGroupsTasks(String userId,String lastUpdateDate,String groupId, final Model.GetListTaskListener listener) {
 
-        Firebase stRef = myFirebaseRef.child("groupsTasks").child(userId);
+        Firebase stRef = myFirebaseRef.child("groupsTasks").child(groupId);
         Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
         queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -42,26 +48,23 @@ public class GroupsTaskFireBase {
         });
     }
 
-    public void addGroupTask(final Task task,String id,final Model.SignupListener listener) {
-        //////instead of userId needs groupId
-        GroupFireBase groupsTaskFireBase= new GroupFireBase(myFirebaseRef);
+    public void addGroupTask(final Task task,String id,String groupId ,final Model.SignupListener listener) {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+        TimeZone timeZone = calendar.getTimeZone();
+        calendar.setTimeZone(timeZone);
+        Date updateTime = calendar.getInstance(timeZone).getTime();
+        String date = null;
+        date =  dateFormatGmt.format(updateTime);
+        task.setLastUpdate(date);
+
+        Firebase stRef = myFirebaseRef.child("groupsTasks").child(groupId);
+        tempUser = new User();
         UserFireBase userFireBase = new UserFireBase(myFirebaseRef);
         userFireBase.getNameForUser(id, new Model.getUserNameListener() {
             @Override
             public void success(String name) {
 
-                task.setOwnerId(name);
-            }
-
-            @Override
-            public void fail(String msg) {
-
-            }
-        });
-        Firebase stRef = myFirebaseRef.child("groupsTasks").child(id);
-        userFireBase.getNameForUser(id, new Model.getUserNameListener() {
-            @Override
-            public void success(String name) {
                 task.setOwnerId(name);
             }
 
@@ -91,8 +94,8 @@ public class GroupsTaskFireBase {
         });
     }
 
-    public void deleteGroupTask(String userId, String taskId, Model.SignupListener listener) {
-        Firebase stRef = myFirebaseRef.child("groupsTasks").child(userId).child(taskId);
+    public void deleteGroupTask(String userId, String taskId,String groupId, Model.SignupListener listener) {
+        Firebase stRef = myFirebaseRef.child("groupsTasks").child(groupId).child(taskId);
         stRef.removeValue();
         listener.success();
 

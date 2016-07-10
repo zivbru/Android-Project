@@ -17,15 +17,17 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 import com.example.zivbru.myfamilycalanderfinal.Model.MyApplication;
 import com.firebase.client.AuthData;
 
+
 public class LoginActivity extends ActionBarActivity {
     EditText email,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         MyApplication m = new MyApplication(this);
         Model.instance().createTables();
         String loggedUserId=Model.instance().getLoggedinUser();
         if(!loggedUserId.equals("null")){
-            Intent intent= new Intent(this,ComingEventsTasksActivity.class);
+            Intent intent = new Intent(this,ComingEventsTasksActivity.class);
             intent.putExtra("UserId", loggedUserId);
             startActivity(intent);
             new Thread(new Runnable() {

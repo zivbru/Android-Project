@@ -14,7 +14,7 @@ import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 
 public class EditGroupEventActivity extends ActionBarActivity {
 
-    String userId,eventId;
+    String userId,eventId,groupId;
     Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class EditGroupEventActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         userId = extras.getString("UserId");
         eventId = extras.getString("EventId");
+        groupId= extras.getString("GroupId");
         event= new Event();
         final EditText eventName = (EditText) findViewById(R.id.eventName);
         final EditText eventStartDate = (EditText) findViewById(R.id.eventStartDate);
@@ -31,7 +32,7 @@ public class EditGroupEventActivity extends ActionBarActivity {
         final EditText eventGroup = (EditText) findViewById(R.id.eventGroup);
         final TextView owner = (TextView) findViewById(R.id.owner);
 
-        Model.instance().getGroupEvent(userId, eventId, new Model.GetEventListener() {
+        Model.instance().getGroupEvent(groupId, eventId, new Model.GetEventListener() {
             @Override
             public void done(Event retEvent) {
                 event=retEvent;
@@ -65,7 +66,8 @@ public class EditGroupEventActivity extends ActionBarActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.instance().deleteGroupEvent(userId, eventId, new Model.SignupListener() {
+                final String groupId= Model.instance().getGroupIdByName(eventGroup.getText().toString());
+                Model.instance().deleteGroupEvent(userId, eventId,groupId, new Model.SignupListener() {
                     @Override
                     public void success() {
                         Thread t = new Thread(new Runnable() {
@@ -96,10 +98,11 @@ public class EditGroupEventActivity extends ActionBarActivity {
             public void onClick(View v) {
                 event= new Event(eventName.getText().toString(),eventStartDate.getText().toString(),
                         eventEndDate.getText().toString(),eventDescription.getText().toString(),event.getOwnerById(),eventGroup.getText().toString());
-                Model.instance().deleteGroupEvent(userId, eventId, new Model.SignupListener() {
+               final String groupId= Model.instance().getGroupIdByName(eventGroup.getText().toString());
+                Model.instance().deleteGroupEvent(userId, eventId,groupId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        Model.instance().AddGroupEvent(event, userId, new Model.SignupListener() {
+                        Model.instance().AddGroupEvent(event, userId,groupId, new Model.SignupListener() {
                             @Override
                             public void success() {
                                 Thread t = new Thread(new Runnable() {

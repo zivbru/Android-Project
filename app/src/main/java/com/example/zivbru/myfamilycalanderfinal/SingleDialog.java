@@ -20,6 +20,8 @@ public class SingleDialog extends DialogFragment {
 
     int selected = 0;
     String[] data ;
+    Delegate delegate;
+
 
     public SingleDialog() {
     }
@@ -30,7 +32,9 @@ public class SingleDialog extends DialogFragment {
         builder.setTitle("Pick your choice");
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                delegate.cancel();
                 Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -38,6 +42,7 @@ public class SingleDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setSelected(which);
+                        delegate.ok();
                         Toast.makeText(getActivity(), "OK" + which,
                                 Toast.LENGTH_LONG).show();
                         dialog.dismiss();
@@ -58,5 +63,14 @@ public class SingleDialog extends DialogFragment {
 
     public void setSelected(int selected) {
         this.selected = selected;
+    }
+
+    public interface Delegate{
+         void ok();
+         void cancel();
+    }
+
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
     }
 }

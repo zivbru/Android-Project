@@ -60,6 +60,7 @@ public class GroupEventListFragment extends Fragment {
                 Delegate activity = (Delegate) getActivity();
                 activity.switchFragment("GroupsEventDetailsFragment");
                 ((ComingEventsTasksActivity) getActivity()).setEventId(groupsEvents.get(position).getId());
+                ((ComingEventsTasksActivity) getActivity()).setGroupName(groupsEvents.get(position).getGroupName());
             }
         });
 
