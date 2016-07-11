@@ -16,6 +16,7 @@
     <string name="drawer_close">drawer_close</string>
     <string name="title_activity_new_group">NewGroupActivity</string>
     <string name="action_favorite">add</string>
+    <string name="title_activity_notification_view">NotificationView</string>
 
 
 </resources>

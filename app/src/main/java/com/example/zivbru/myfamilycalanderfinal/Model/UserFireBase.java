@@ -126,7 +126,7 @@ public class UserFireBase {
                 ArrayList<String> usersList = new ArrayList<String>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    usersList.add(user.getFirstName()+" "+user.lastName);
+                    usersList.add(user.getUserId());
                 }
                 listener.done(usersList);
             }
@@ -163,5 +163,53 @@ public class UserFireBase {
     }
 
 
+    public void getAllUsersById(final ArrayList<String> usersNames, final Model.GetUsersListListener listener) {
+        Firebase stRef = myFirebaseRef.child("users");
+        stRef.addValueEventListener(new ValueEventListener() {
+            User user = new User();
+            ArrayList<String> users = new ArrayList<String>();
 
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    user = snapshot.getValue(User.class);
+                    if (usersNames.contains(user.getUserId())) {
+                        name = user.getFirstName() + " " + user.getLastName();
+                        users.add(name);
+                    }
+                }
+                listener.onResult(users);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                name = "Unknowen";
+                listener.onCancel();
+            }
+        });
+
+
+    }
+
+    public void getIdForUser(final String name, final Model.getUserNameListener listener) {
+        Firebase stRef = myFirebaseRef.child("users");
+        stRef.addValueEventListener(new ValueEventListener() {
+            User user = new User();
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    user = snapshot.getValue(User.class);
+                    if ((user.getFirstName() + " " + user.getLastName()).equals(name)) {
+                        listener.success(user.getUserId());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+                listener.fail("failed");
+            }
+        });
+    }
 }

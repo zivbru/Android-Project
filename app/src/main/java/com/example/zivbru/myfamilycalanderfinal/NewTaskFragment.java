@@ -4,6 +4,7 @@ package com.example.zivbru.myfamilycalanderfinal;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zivbru.myfamilycalanderfinal.Model.Group;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
 import com.example.zivbru.myfamilycalanderfinal.Model.Task;
 
@@ -25,7 +27,7 @@ public class NewTaskFragment extends Fragment {
 
     EditText title, targetDate,description;
     TextView chosenEvent;
-    String userId ,selectedEvent= "";
+    String userId ,selectedEvent;
     Task task;
     ArrayList<String> events;
     View view;
@@ -44,7 +46,6 @@ public class NewTaskFragment extends Fragment {
         title = (EditText) view.findViewById(R.id.task_name);
         targetDate = (EditText) view.findViewById(R.id.begin_date);
         description = (EditText) view.findViewById(R.id.task_notes);
-        singleDialog = new SingleDialog();
         chosenEvent= (TextView) view.findViewById(R.id.chosen_event);
         chooseEvent= (Button) view.findViewById(R.id.choose_event_button);
         chooseEvent.setOnClickListener(new View.OnClickListener() {
@@ -55,14 +56,22 @@ public class NewTaskFragment extends Fragment {
                     @Override
                     public void done(ArrayList<String> eventList) {
 
-                        if(eventList.size()>0) {
+                        if (eventList.size() > 0) {
                             events = eventList;
+                            singleDialog = new SingleDialog();
                             singleDialog.setData(events);
+                            singleDialog.setDelegate(new SingleDialog.Delegate() {
+                                @Override
+                                public void ok() {
+                                    selectedEvent = singleDialog.getSelected();
+                                    chosenEvent.setText(events.get(Integer.parseInt(selectedEvent)));
+                                }
+                                @Override
+                                public void cancel() {
+                                }
+                            });
                             singleDialog.show(getFragmentManager(), "TAG");
-                            selectedEvent = singleDialog.getSelected();
-//                            chosenEvent.setText(events.get(Integer.parseInt(selectedEvent)));
-                        }
-                        else{
+                        } else {
                             Toast toast = Toast.makeText(getActivity(), "You have no events", Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -75,12 +84,13 @@ public class NewTaskFragment extends Fragment {
         });
 
 
-//        chosenEvent.setText(events.get(Integer.parseInt(selectedEvent)));
+
         Button addTask= (Button) view.findViewById(R.id.add_task_button);
         addTask.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                task = new Task(String.valueOf(title.getText()), String.valueOf(targetDate.getText()),userId,selectedEvent, String.valueOf(description.getText()));
+                task = new Task(String.valueOf(title.getText()), String.valueOf(targetDate.getText()), userId, selectedEvent, String.valueOf(description.getText()));
                 Model.instance().AddTask(task, userId, new Model.SignupListener() {
                     @Override
                     public void success() {
@@ -98,5 +108,14 @@ public class NewTaskFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        title.setText("");
+        targetDate.setText("");
+        description.setText("");
+        chosenEvent.setText("");
     }
 }

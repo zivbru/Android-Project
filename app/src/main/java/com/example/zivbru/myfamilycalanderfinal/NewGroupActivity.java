@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,7 @@ public class NewGroupActivity extends ActionBarActivity {
         userId = extras.getString("UserId");
         name= (EditText) findViewById(R.id.group_name);
         group= new Group();
+        final ArrayList<String> users= new ArrayList<String>();
         Model.instance().getUsers(new Model.GetUsersListener() {
             @Override
             public void done(final ArrayList<String> usersList) {
@@ -51,12 +53,29 @@ public class NewGroupActivity extends ActionBarActivity {
                 pickUsers.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MulitpleDialog mulitpleDialog = new MulitpleDialog();
+                        final MulitpleDialog mulitpleDialog = new MulitpleDialog();
                         mulitpleDialog.setData(usersList);
-                        mulitpleDialog.show(getSupportFragmentManager(),"");
+                        mulitpleDialog.setDelegate(new MulitpleDialog.Delegate() {
+                            @Override
+                            public void ok() {
+                                boolean[] b= mulitpleDialog.getSelected();
+                                for (int i=0;i<b.length;i++){
+                                    if(b[i])
+                                        users.add(usersList.get(i));
 
+                                }
+                            }
+
+                            @Override
+                            public void cancel() {
+                                Log.d("cancel", "cancel;");
+                            }
+                        });
+                        mulitpleDialog.show(getSupportFragmentManager(), "TAG");
                     }
                 });
+
+
             }
         });
 
@@ -78,8 +97,25 @@ public class NewGroupActivity extends ActionBarActivity {
                 //take the users list
                 if(imageBitmap!=null)
                     Model.instance().saveImage(imageBitmap, imageFileName);
-                group = new Group(null, String.valueOf(name.getText()), imageFileName);
-                group.getUsersList().add(userId);
+                group = new Group(null, String.valueOf(name.getText()), imageFileName,users);
+//                final ArrayList<String>usersId= new ArrayList<String>();
+//
+//                for (String name:users) {
+//                    Model.instance().getIdForUser(name, new Model.getUserNameListener() {
+//                        @Override
+//                        public void success(String name) {
+//                            group.getUsersList().add(name);
+//                        }
+//
+//                        @Override
+//                        public void fail(String msg) {
+//
+//                        }
+//                    });
+//
+//                }
+//                group.setUsersList(usersId);
+
                 Model.instance().AddGroup(group, new Model.addGroupListener() {
                     @Override
                     public void success(Group group) {

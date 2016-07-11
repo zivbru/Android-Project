@@ -62,6 +62,7 @@ public class SignupActivity extends ActionBarActivity {
                 Model.instance().signup(String.valueOf(email.getText()), String.valueOf(password.getText()), new Model.LoginListener() {
                     @Override
                     public void success(AuthData authData) {
+
                         UserFireBase userFireBase = new UserFireBase(Model.instance().getFirebaseModel().getMyFirebaseRef());
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                         imageFileName = idEt.getText().toString() + timeStamp + ".jpg";

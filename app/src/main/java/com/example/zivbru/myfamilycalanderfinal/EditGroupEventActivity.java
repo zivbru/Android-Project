@@ -105,15 +105,16 @@ public class EditGroupEventActivity extends ActionBarActivity {
                         Model.instance().AddGroupEvent(event, userId,groupId, new Model.SignupListener() {
                             @Override
                             public void success() {
-                                Thread t = new Thread(new Runnable() {
+                                new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Intent intent= new Intent(EditGroupEventActivity.this,ComingEventsTasksActivity.class);
                                         intent.putExtra("UserId", userId);
                                         startActivity(intent);
-                                        finish();
+
                                     }
-                                });
+                                }).start();
+                                finish();
                                 Toast.makeText(EditGroupEventActivity.this, "Event updated", Toast.LENGTH_LONG).show();
 
                             }

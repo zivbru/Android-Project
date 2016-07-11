@@ -71,14 +71,14 @@ public class EditTaskActivity extends ActionBarActivity {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                Intent intent = new Intent(EditTaskActivity.this, ComingEventsTasksActivity.class);
+                                intent.putExtra("UserId", userId);
+                                startActivity(intent);
 
-                                finish();
                             }
                         });
                         t.start();
-                        Intent intent = new Intent(EditTaskActivity.this, ComingEventsTasksActivity.class);
-                        intent.putExtra("UserId", userId);
-                        startActivity(intent);
+                        finish();
                         Toast.makeText(EditTaskActivity.this, "Task deleted", Toast.LENGTH_LONG).show();
 
                     }

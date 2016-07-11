@@ -8,7 +8,8 @@
     <LinearLayout
         android:id="@+id/relative_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
     <ImageView
         android:id="@+id/add_picture"
         android:layout_width="50dp"
@@ -20,6 +21,14 @@
         android:scaleType="fitXY"
         android:src="@drawable/noprofileimg"
         />
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="78dp"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:layout_weight="0.71" />
 
 
     </LinearLayout>

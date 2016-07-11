@@ -20,7 +20,7 @@ public class GroupsTaskFireBase {
 
     Firebase myFirebaseRef;
     private User tempUser;
-
+    Firebase addEventStRef;
     public GroupsTaskFireBase(Firebase myFirebaseRef) {
         this.myFirebaseRef=myFirebaseRef;
     }
@@ -41,6 +41,8 @@ public class GroupsTaskFireBase {
                 listener.onResult(groupsTasks);
             }
 
+
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 listener.onCancel();
@@ -48,7 +50,7 @@ public class GroupsTaskFireBase {
         });
     }
 
-    public void addGroupTask(final Task task,String id,String groupId ,final Model.SignupListener listener) {
+    public void addGroupTask(final Task task, final String id,String groupId ,final Model.SignupListener listener) {
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = new GregorianCalendar();
         TimeZone timeZone = calendar.getTimeZone();
@@ -58,7 +60,7 @@ public class GroupsTaskFireBase {
         date =  dateFormatGmt.format(updateTime);
         task.setLastUpdate(date);
 
-        Firebase stRef = myFirebaseRef.child("groupsTasks").child(groupId);
+        addEventStRef = myFirebaseRef.child("groupsTasks").child(groupId);
         tempUser = new User();
         UserFireBase userFireBase = new UserFireBase(myFirebaseRef);
         userFireBase.getNameForUser(id, new Model.getUserNameListener() {
@@ -73,9 +75,21 @@ public class GroupsTaskFireBase {
 
             }
         });
+        userFireBase.getUser(id, new Model.UserListener() {
+            @Override
+            public void done(User user) {
+                tempUser = user;
+                Firebase taskRef = addEventStRef.push();
+                String taskId = taskRef.getKey();
+                Firebase stRef1 = myFirebaseRef.child("users").child(id);
+                task.setId(taskId);
+                taskRef.setValue(task);
+                tempUser.insertEventById(taskId);
+                stRef1.setValue(tempUser);
+                listener.success();
+            }
+        });
 
-        stRef.push().setValue(task);
-        listener.success();
     }
 
     public void getGroupsTask(String userId, String taskId, final Model.GetTaskListener listener) {

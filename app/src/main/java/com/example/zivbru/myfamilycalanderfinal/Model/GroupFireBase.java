@@ -60,35 +60,31 @@ public class GroupFireBase {
         });
     }
 
-    public void getAllGroup(String userId, final String lastUpdateDate,  final Model.GetGroupsListListener getGroupslistner) {
-        Model.instance().getUser(userId, new Model.UserListener() {
+    public void getAllGroup(final String userId, final String lastUpdateDate,  final Model.GetGroupsListListener getGroupslistner) {
+
+        Firebase stRef = myFirebaseRef.child("groups");
+        Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void done(User user) {
-                for (final String id : user.getGroupsById()) {
-                    Firebase stRef = myFirebaseRef.child("groups");
-                    Query queryRef = stRef.orderByChild("lastUpdate").startAt(lastUpdateDate);
-                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            ArrayList<Group> groupslist = new ArrayList<Group>();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Group group = snapshot.getValue(Group.class);
-                                if (group.getId().equals(id))
-                                    groupslist.add(group);
-                            }
-                            getGroupslistner.onResult(groupslist);
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-                            getGroupslistner.onCancel();
-                        }
-                    });
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Group> groupslist = new ArrayList<Group>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Group group = snapshot.getValue(Group.class);
+                    if (group.getUsersList().contains(userId))
+                        groupslist.add(group);
                 }
+                getGroupslistner.onResult(groupslist);
+            }
 
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                getGroupslistner.onCancel();
             }
         });
     }
+
+
+
 
     public void AddGroup(final Group group,final Model.addGroupListener listener){
         Firebase stRef = myFirebaseRef.child("groups");

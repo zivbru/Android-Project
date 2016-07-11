@@ -51,6 +51,8 @@ public class Model {
         return firebaseModel;
     }
 
+
+
     public interface GetTasksListener {
         void done(ArrayList<Task> taskList);
     }
@@ -131,6 +133,11 @@ public class Model {
 
     public interface GetGroupsListListener{
         void onResult(ArrayList<Group> groups);
+        void onCancel();
+    }
+
+    public interface GetUsersListListener{
+        void onResult(ArrayList<String> groups);
         void onCancel();
     }
 
@@ -309,7 +316,7 @@ public class Model {
 
     public void getAllGroupsTasks(String userId,final GetListTaskListener listener) {
         final String lastUpdateDate = GroupTaskSQL.getLastUpdateDate(modelSQL.getReadbleDB());
-        ArrayList<String> groupsId = Model.instance().getAllGroupsId();
+        ArrayList<String> groupsId = Model.instance().getAllGroupsId(userId);
         for (String groupId : groupsId) {
             firebaseModel.getAllGroupsTasks(userId, lastUpdateDate,groupId, new GetListTaskListener() {
                 @Override
@@ -364,7 +371,7 @@ public class Model {
 
     public void getAllGroupsEvents(String userId,  final GetListEventListener groupsEventsListener) {
         final String lastUpdateDate = GroupEventSQL.getLastUpdateDate(modelSQL.getReadbleDB());
-        ArrayList<String> groupsId=Model.instance().getAllGroupsId();
+        ArrayList<String> groupsId=Model.instance().getAllGroupsId(userId);
         for (String groupId:groupsId) {
             firebaseModel.getAllGroupsEvents(userId, lastUpdateDate, groupId, new GetListEventListener() {
                 @Override
@@ -392,8 +399,8 @@ public class Model {
         }
     }
 
-    private ArrayList<String> getAllGroupsId() {
-        return modelSQL.getAllGroupsId();
+    private ArrayList<String> getAllGroupsId(String userId) {
+        return modelSQL.getAllGroupsId(userId);
     }
 
     public void getAllEvents(final String id, final GetListEventListener listener) {
@@ -458,4 +465,18 @@ public class Model {
         return modelSQL.getGroupIdByName(groupName);
     }
 
+    public void getAllUsersById(ArrayList<String> usersNames, GetUsersListListener getGroupsListListener) {
+        firebaseModel.getAllUsersById(usersNames,getGroupsListListener);
+    }
+
+
+
+    public void getNameForUser(String usersNames, getUserNameListener listener) {
+        firebaseModel.getNameForUser(usersNames, listener);
+    }
+
+
+    public void getIdForUser(String name, getUserNameListener listener) {
+        firebaseModel.getIdForUser(name, listener);
+    }
 }

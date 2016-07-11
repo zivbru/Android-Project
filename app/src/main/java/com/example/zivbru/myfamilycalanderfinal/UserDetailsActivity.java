@@ -30,6 +30,7 @@ public class UserDetailsActivity extends ActionBarActivity {
         final TextView password = (TextView) findViewById(R.id.password);
         final TextView adress= (TextView) findViewById(R.id.adress);
         final TextView phone= (TextView) findViewById(R.id.phone);
+        final ProgressBar progressBar= (ProgressBar) findViewById(R.id.progress);
         picture= (ImageView) findViewById(R.id.add_picture);
         Model.instance().getUser(userId, new Model.UserListener() {
             @Override
@@ -46,7 +47,7 @@ public class UserDetailsActivity extends ActionBarActivity {
                     public void onResult(Bitmap imageBmp) {
                         if (picture != null) {
                             picture.setImageBitmap(imageBmp);
-
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });

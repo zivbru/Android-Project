@@ -132,8 +132,8 @@ public class GroupSQL {
         return id;
     }
 
-    public static ArrayList<String> getAllGroupsId(SQLiteDatabase db) {
-        Cursor cursor =db.rawQuery("SELECT * FROM " + GROUP_TABLE_NAME , null);
+    public static ArrayList<String> getAllGroupsId(SQLiteDatabase db,String userId) {
+        Cursor cursor =db.rawQuery("SELECT * FROM GroupsUsersTable Where User =?" ,  new String[] {userId});
         ArrayList<String> groups = new ArrayList<String>();
 
         if (cursor.moveToFirst()) {

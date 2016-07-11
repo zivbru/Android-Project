@@ -200,9 +200,9 @@ public class ModelSQL {
         return GroupSQL.getGroupIdByName(groupName, db);
     }
 
-    public  ArrayList<String> getAllGroupsId() {
+    public  ArrayList<String> getAllGroupsId(String userId) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        return GroupSQL.getAllGroupsId(db);
+        return GroupSQL.getAllGroupsId(db,userId);
     }
 }
 

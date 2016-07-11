@@ -1,3 +1,4 @@
+
 package com.example.zivbru.myfamilycalanderfinal;
 
 import android.graphics.Bitmap;
@@ -20,10 +21,7 @@ import android.widget.TextView;
 
 import com.example.zivbru.myfamilycalanderfinal.Model.Group;
 import com.example.zivbru.myfamilycalanderfinal.Model.Model;
-import com.example.zivbru.myfamilycalanderfinal.Model.UserFireBase;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class GroupListFragment extends Fragment {
@@ -179,6 +177,5 @@ public class GroupListFragment extends Fragment {
 
 
 }
-
 
 

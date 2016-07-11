@@ -20,7 +20,7 @@ public class GroupUsersSQL {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " +
                 GROUP_USERS_TABLE_NAME + " (" +
-                GROUP_ID + " TEXT PRIMARY KEY," +
+                GROUP_ID + " TEXT ," +
                 USER + " TEXT);");
     }
 
@@ -31,7 +31,7 @@ public class GroupUsersSQL {
         contentValues.put(USER,group.getUser());
 
 
-        long result=db.insertWithOnConflict(GROUP_USERS_TABLE_NAME, GROUP_ID, contentValues,SQLiteDatabase.CONFLICT_REPLACE);
+        long result=db.insert(GROUP_USERS_TABLE_NAME, GROUP_ID, contentValues);
         return result != -1;
 
     }
