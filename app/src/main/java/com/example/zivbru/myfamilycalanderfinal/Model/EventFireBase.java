@@ -8,6 +8,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,6 +91,7 @@ public class EventFireBase {
 
                 event.setOwnerById(name);
                 event.setTypeOfEvent("Private");
+                event.setGroupName("None");
             }
 
             @Override
@@ -140,5 +142,37 @@ public class EventFireBase {
 
         listener.success();
 
+    }
+
+    public void getAllUpcomingEvents(String id, final Model.GetUsersListener listener) {
+        Firebase stRef = myFirebaseRef.child("events").child(id);
+        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        final Date currentTime = new Date();
+        final Date[] convertedDate = new Date[1];
+        stRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> events = new ArrayList<String>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Event event = snapshot.getValue(Event.class);
+                    try {
+                        convertedDate[0] = format.parse(event.getStartDate());
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if(currentTime.before(convertedDate[0])) {
+                        String message = "You have private event on: "+event.getStartDate();
+                        events.add(message);
+                    }
+                }
+                listener.done(events);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }

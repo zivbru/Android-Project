@@ -6,6 +6,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,6 +70,7 @@ public class TaskFireBase {
             @Override
             public void success(String name) {
                 task.setOwnerId(name);
+                task.setGroupId("None");
             }
 
             @Override
@@ -130,6 +132,37 @@ public class TaskFireBase {
         stRef.removeValue();
 
         listener.success();
+    }
+
+    public void getAllUpcomingEvents(String id, final Model.GetUsersListener listener) {
+        Firebase stRef = myFirebaseRef.child("tasks").child(id);
+        final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        final Date currentTime = new Date();
+        final Date[] convertedDate = new Date[1];
+        stRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> tasks = new ArrayList<String>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Task task = snapshot.getValue(Task.class);
+                    try {
+                        convertedDate[0] = format.parse(task.getTargetDate());
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if(currentTime.before(convertedDate[0])) {
+                        tasks.add(task.getTargetDate());
+                    }
+                }
+                listener.done(tasks);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }
 

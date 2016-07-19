@@ -156,4 +156,11 @@ public class ModelFireBase {
     public void getIdForUser(String name, Model.getUserNameListener listener) {
         userFireBase.getIdForUser(name, listener);
     }
+
+    public void getAllUpcomingEvents(String id,Model.GetUsersListener listener) {
+        eventFireBase.getAllUpcomingEvents(id,listener);
+//        taskFireBase.getAllUpcomingEvents(id,listener);
+
+
+    }
 }

@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -14,10 +15,16 @@ import com.example.zivbru.myfamilycalanderfinal.ComingEventsTasksActivity;
 import com.example.zivbru.myfamilycalanderfinal.NotificationView;
 import com.example.zivbru.myfamilycalanderfinal.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by zivbru on 7/11/2016.
  */
 public class MyService extends Service {
+
+    ArrayList<String> notifications;
+
+
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -27,8 +34,11 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
+        Bundle extras = intent.getExtras();
+        String userId = extras.getString("UserId");
         Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        displayNotification();
+        notifications= new ArrayList<String>();
+        displayNotification(userId);
         return START_STICKY;
     }
 
@@ -38,11 +48,11 @@ public class MyService extends Service {
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
     }
 
-    public void displayNotification() {
+    public void displayNotification(String userId) {
         Log.i("Start", "notification");
 
    /* Invoking the default notification service */
-        NotificationCompat.Builder  mBuilder = new NotificationCompat.Builder(this);
+        final NotificationCompat.Builder  mBuilder = new NotificationCompat.Builder(this);
 
         mBuilder.setContentTitle("New Message");
         mBuilder.setContentText("You've received new message.");
@@ -53,25 +63,37 @@ public class MyService extends Service {
         mBuilder.setNumber(++numMessages);
 
    /* Add Big View Specific Configuration */
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
-        String[] events = new String[6];
-        events[0] = new String("This is first line....");
-        events[1] = new String("This is second line...");
-        events[2] = new String("This is third line...");
-        events[3] = new String("This is 4th line...");
-        events[4] = new String("This is 5th line...");
-        events[5] = new String("This is 6th line...");
+
+        notifications= new ArrayList<String>();
+        Model.instance().getAllUpcomingEvents(userId, new Model.GetUsersListener() {
+            @Override
+            public void done(ArrayList<String> usersList) {
+                notifications = usersList;
+                inboxStyle.setBigContentTitle("Big Title Details:");
+
+                // Moves events into the big view
+                for (int i=0; i < usersList.size(); i++) {
+
+                    inboxStyle.addLine(usersList.toArray()[i].toString());
+                    Log.d("notifivation",usersList.toArray()[i].toString());
+                }
+
+                mBuilder.setStyle(inboxStyle);
+            }
+        });
+
+//        String[] events = new String[6];
+//        events[0] = new String("This is first line....");
+//        events[1] = new String("This is second line...");
+//        events[2] = new String("This is third line...");
+//        events[3] = new String("This is 4th line...");
+//        events[4] = new String("This is 5th line...");
+//        events[5] = new String("This is 6th line...");
 
         // Sets a title for the Inbox style big view
-        inboxStyle.setBigContentTitle("Big Title Details:");
 
-        // Moves events into the big view
-        for (int i=0; i < events.length; i++) {
-            inboxStyle.addLine(events[i]);
-        }
-
-        mBuilder.setStyle(inboxStyle);
 
    /* Creates an explicit intent for an Activity in your app */
         Intent resultIntent = new Intent(this, NotificationView.class);
@@ -88,5 +110,13 @@ public class MyService extends Service {
 
    /* notificationID allows you to update the notification later on. */
         mNotificationManager.notify(1, mBuilder.build());
+    }
+
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
     }
 }

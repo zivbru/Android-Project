@@ -479,4 +479,8 @@ public class Model {
     public void getIdForUser(String name, getUserNameListener listener) {
         firebaseModel.getIdForUser(name, listener);
     }
+
+    public void getAllUpcomingEvents(String id,GetUsersListener listener){
+            firebaseModel.getAllUpcomingEvents(id,listener);
+    }
 }
