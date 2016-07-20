@@ -81,6 +81,20 @@ public class MyService extends Service {
                 }
 
                 mBuilder.setStyle(inboxStyle);
+                Intent resultIntent = new Intent(MyService.this, NotificationView.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(MyService.this);
+                stackBuilder.addParentStack(NotificationView.class);
+
+   /* Adds the Intent that starts the Activity to the top of the stack */
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent =stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+   /* notificationID allows you to update the notification later on. */
+                mNotificationManager.notify(1, mBuilder.build());
             }
         });
 
@@ -96,20 +110,7 @@ public class MyService extends Service {
 
 
    /* Creates an explicit intent for an Activity in your app */
-        Intent resultIntent = new Intent(this, NotificationView.class);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(NotificationView.class);
-
-   /* Adds the Intent that starts the Activity to the top of the stack */
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-   /* notificationID allows you to update the notification later on. */
-        mNotificationManager.notify(1, mBuilder.build());
     }
 
     public ArrayList<String> getNotifications() {

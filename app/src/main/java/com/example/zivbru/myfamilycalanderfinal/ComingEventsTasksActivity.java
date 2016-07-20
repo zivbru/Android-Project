@@ -58,6 +58,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
     GroupEventDetailsFragment groupEventDetailsFragment;
     NewGroupTaskFragment newGroupTaskFragment;
     GroupTaskDetailsFragment groupTaskDetailsFragment;
+    GroupListFragment groupListFragment;
     ArrayList<Fragment> fragmentArrayList;
     ActionBar.Tab upcomingEventsTab;
     ActionBar.Tab upcomingTasksTab;
@@ -239,7 +240,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItemFromDrawer(position);
                 Log.d("selected", String.valueOf(position));
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
                 if(position==0){//addGroup
                     Intent intent = new Intent(ComingEventsTasksActivity.this,NewGroupActivity.class);
                     intent.putExtra("UserId",userId);
@@ -248,16 +249,20 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                 else if(position==1){//groupslist
 
                     mDrawerLayout.closeDrawer(mDrawerPane);
-                    GroupListFragment groupListFragment= new GroupListFragment();
-                    transaction.hide(eventListFragment);
-                    transaction.hide(taskListFragment);
-                    transaction.hide(groupTaskListFragment);
-                    transaction.hide(groupEventListFragment);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    if(!fragmentArrayList.contains(groupListFragment)) {
+                        groupListFragment = new GroupListFragment();
+
+                    }
+                    hideFragments();
+                    transaction.remove(groupListFragment);
                     transaction.add(R.id.mainContent, groupListFragment);
+                    transaction.show(groupListFragment);
                     transaction.addToBackStack("");
                     transaction.commit();
                     fragmentArrayList.add(groupListFragment);
                     getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+
 
                 }
                 else if(position==2){//start service
@@ -414,7 +419,6 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if(!fragmentArrayList.contains(newEventFragment)) {
                 newEventFragment = new NewEventFragment();
-
             }
             if(getSupportActionBar().getNavigationMode()!=ActionBar.NAVIGATION_MODE_STANDARD)
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
