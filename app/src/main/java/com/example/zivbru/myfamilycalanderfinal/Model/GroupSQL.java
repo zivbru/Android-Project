@@ -15,7 +15,7 @@ public class GroupSQL {
     public static final String GROUP_ID = "GroupId";
     public static final String GROUP_TITLE = "GroupTitle";
     public static final String GROUP_PICTURE_NAME = "PictureName";
-    public static final String GROUP_LAST_UPDATE = "EventLastUpdate";
+    public static final String GROUP_LAST_UPDATE = "GroupLastUpdate";
 
 
 

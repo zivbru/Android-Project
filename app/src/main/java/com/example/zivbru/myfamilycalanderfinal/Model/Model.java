@@ -166,9 +166,15 @@ public class Model {
         firebaseModel.AddEvent(event, id, listener);
     }
 
-    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
-        firebaseModel.deleteEvent(userId, eventId, listener);
-        modelSQL.deleteEvent(eventId);
+    public void deleteEvent(final String userId, final String eventId, final Model.SignupListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                firebaseModel.deleteEvent(userId, eventId, listener);
+                modelSQL.deleteEvent(eventId);
+            }
+        }).start();
+
     }
 
     public void deleteGroupEvent(String userId, String eventId,String groupId ,SignupListener listener) {

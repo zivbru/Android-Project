@@ -20,6 +20,7 @@ import com.firebase.client.AuthData;
 
 public class LoginActivity extends ActionBarActivity {
     EditText email,password;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +45,7 @@ public class LoginActivity extends ActionBarActivity {
         email = (EditText) findViewById(R.id.input_email);
         password = (EditText) findViewById(R.id.input_password);
         Button login = (Button) findViewById(R.id.btn_login);
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBarLogin);
+        progressBar = (ProgressBar) findViewById(R.id.ProgressBarLogin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

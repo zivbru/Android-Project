@@ -18,7 +18,7 @@ public class EditEventActivity extends ActionBarActivity {
 
     String userId,eventId;
     Event event;
-ProgressBar progressBar;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,20 +65,15 @@ ProgressBar progressBar;
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(EditEventActivity.this, ComingEventsTasksActivity.class);
+                intent.putExtra("UserId", userId);
+                startActivity(intent);
                 progressBar.setVisibility(View.VISIBLE);
                 Model.instance().deleteEvent(userId, eventId, new Model.SignupListener() {
                     @Override
                     public void success() {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(EditEventActivity.this, ComingEventsTasksActivity.class);
-                                intent.putExtra("UserId", userId);
-                                startActivity(intent);
 
-                            }
-                        }).start();
-                        Toast.makeText(EditEventActivity.this, "Event deleted", Toast.LENGTH_LONG).show();
+
                         finish();
                     }
 
@@ -88,6 +83,7 @@ ProgressBar progressBar;
                     }
                 });
                 progressBar.setVisibility(View.GONE);
+                Toast.makeText(EditEventActivity.this, "Event deleted", Toast.LENGTH_LONG).show();
             }
         });
         Button save = (Button) findViewById(R.id.event_save);
