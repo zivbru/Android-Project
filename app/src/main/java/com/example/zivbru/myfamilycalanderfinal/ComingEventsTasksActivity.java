@@ -108,10 +108,10 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ActionBar actionBar = getSupportActionBar();
-        upcomingEventsTab = actionBar.newTab().setText("Upcoming events");
-        upcomingTasksTab = actionBar.newTab().setText("Upcoming tasks");
-        upcomingGroupsEventsTab = actionBar.newTab().setText("Upcoming groups events");
-        upcomingGroupsTasksTab = actionBar.newTab().setText("Upcoming groups tasks");
+        upcomingEventsTab = actionBar.newTab().setText("Upcoming Events");
+        upcomingTasksTab = actionBar.newTab().setText("Upcoming Tasks");
+        upcomingGroupsEventsTab = actionBar.newTab().setText("Upcoming Groups Events");
+        upcomingGroupsTasksTab = actionBar.newTab().setText("Upcoming Groups Tasks");
         actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_TABS);
         actionBar.addTab(upcomingEventsTab.setTabListener(new ActionBar.TabListener() {
             @Override
@@ -185,13 +185,12 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             }
 
         }));
-
-        mNavItems.add(new NavItem("Add group", "", R.drawable.addgroup));
-        mNavItems.add(new NavItem("Groups list", "View all your groups", R.drawable.groupslist));
-        mNavItems.add(new NavItem("Start service", "Get notifications", R.drawable.start));
-        mNavItems.add(new NavItem("Strop service", "", R.drawable.stop));
+        mNavItems.add(new NavItem("Home", "", R.drawable.home));
+        mNavItems.add(new NavItem("Add Group", "", R.drawable.addpicture));
+        mNavItems.add(new NavItem("My Groups", "View all your groups", R.drawable.groups));
+        mNavItems.add(new NavItem("Start Service", "Get notifications", R.drawable.notificationson));
+        mNavItems.add(new NavItem("Strop Service", "Stop notifications", R.drawable.notificationsoff));
         mNavItems.add(new NavItem("Logout", "", R.drawable.logout));
-        mNavItems.add(new NavItem("About", "Get to know about us", R.drawable.info));
         userPicture= (ImageView) findViewById(R.id.user_picture);
         userNameInSidebar= (TextView) findViewById(R.id.userNameInSidebar);
 //        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.drawerPane);
@@ -242,11 +241,16 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                 Log.d("selected", String.valueOf(position));
 
                 if(position==0){//addGroup
+                    Intent intent = new Intent(ComingEventsTasksActivity.this,ComingEventsTasksActivity.class);
+                    intent.putExtra("UserId",userId);
+                    startActivity(intent);
+                }
+                else if(position == 1){
                     Intent intent = new Intent(ComingEventsTasksActivity.this,NewGroupActivity.class);
                     intent.putExtra("UserId",userId);
                     startActivity(intent);
                 }
-                else if(position==1){//groupslist
+                else if(position==2){//groupslist
 
                     mDrawerLayout.closeDrawer(mDrawerPane);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -265,14 +269,14 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
 
                 }
-                else if(position==2){//start service
+                else if(position==3){//start service
                     startService(view);
                 }
-                else if(position==3){//stopService
+                else if(position==4){//stopService
                    stopService(view);
                 }
-                else if( position==4){//logout
-                    Model.instance().updateLogin("", "false");
+                else if( position==5){//logout
+                    Model.instance().updateLogin("","false");
                     Intent intent= new Intent(ComingEventsTasksActivity.this,LoginActivity.class);
                     startActivity(intent);
                     new Thread(new Runnable() {

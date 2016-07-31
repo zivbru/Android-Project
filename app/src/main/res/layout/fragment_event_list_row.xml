@@ -5,8 +5,8 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="129dp"
+        android:layout_height="wrap_content"
         android:id="@+id/event_list_row_image"
         android:background="@drawable/event"/>
 
@@ -45,13 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Description"
-                android:id="@+id/event_list_row_description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Owner"
                 android:id="@+id/event_owner_by_id" />
 
@@ -61,13 +54,6 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Group"
                 android:id="@+id/group_by_id" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Event type"
-                android:id="@+id/type_of_event" />
 
 
         </LinearLayout>

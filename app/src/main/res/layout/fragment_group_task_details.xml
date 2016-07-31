@@ -4,19 +4,22 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="#5fb0c9"
     android:padding="10dp"
     tools:context=".main">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:weightSum="1">
 
         <ImageView
             android:layout_width="65dp"
-            android:layout_height="87dp"
+            android:layout_height="149dp"
             android:id="@+id/details_event_Image"
-            android:src="@drawable/task" />
+            android:src="@drawable/task"
+            android:layout_weight="0.16" />
 
     </LinearLayout>
 
@@ -126,7 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:text="Edit"/>
+            android:text="Edit"
+            android:background="#fb5133" />
 
     </LinearLayout>
 
