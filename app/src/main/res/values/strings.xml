@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFamilyCalanderFinal</string>
+    <string name="app_name">My Family Calander</string>
 
     <string name="title_section1">Add Group</string>
     <string name="title_section2">View Groups</string>

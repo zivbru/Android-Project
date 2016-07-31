@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/ProgressBarLogin"
             android:indeterminate="true"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btn_login"

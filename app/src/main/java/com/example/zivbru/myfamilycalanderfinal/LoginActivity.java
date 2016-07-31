@@ -57,6 +57,7 @@ public class LoginActivity extends ActionBarActivity {
                         intent.putExtra("UserId", authData.getUid());
                         startActivity(intent);
                         finish();
+                        progressBar.setVisibility(View.GONE);
 
                     }
 
@@ -70,7 +71,7 @@ public class LoginActivity extends ActionBarActivity {
                         toast.show();
                     }
                 });
-                progressBar.setVisibility(View.GONE);
+
             }
         });
         TextView signup = (TextView) findViewById(R.id.link_signup);

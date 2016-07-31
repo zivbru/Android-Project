@@ -402,11 +402,11 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if(!fragmentArrayList.contains(eventDetailsFragment)) {
                 eventDetailsFragment = new EventDetailsFragment();
-                transaction.add(R.id.mainContent, eventDetailsFragment);
             }
             if(getSupportActionBar().getNavigationMode()!=ActionBar.NAVIGATION_MODE_STANDARD)
                 getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             hideFragments();
+            transaction.add(R.id.mainContent, eventDetailsFragment);
             transaction.show(eventDetailsFragment);
             transaction.addToBackStack("");
             transaction.commit();
