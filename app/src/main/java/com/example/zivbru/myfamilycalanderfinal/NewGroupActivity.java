@@ -69,6 +69,9 @@ public class NewGroupActivity extends ActionBarActivity {
                                             users.add(usersList.get(i).split(",")[0]);
 
                                 }
+                                if(!users.contains(userId)){
+                                    users.add(userId);
+                                }
                             }
 
                             @Override

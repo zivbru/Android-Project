@@ -53,7 +53,7 @@ public class MyService extends Service {
    /* Invoking the default notification service */
         final NotificationCompat.Builder  mBuilder = new NotificationCompat.Builder(this);
 
-        mBuilder.setContentTitle("New Message");
+        mBuilder.setContentTitle("Notification");
         mBuilder.setContentText("You've received new message.");
         mBuilder.setTicker("New Message Alert!");
         mBuilder.setSmallIcon(R.drawable.groupslist);
@@ -78,10 +78,11 @@ public class MyService extends Service {
                     inboxStyle.addLine(usersList.toArray()[i].toString());
 
                 }
-
+                Bundle extra = new Bundle();
+                extra.putSerializable("objects", usersList);
                 mBuilder.setStyle(inboxStyle);
                 Intent resultIntent = new Intent(MyService.this, NotificationView.class);
-                resultIntent.putExtra("message", usersList.get(0));
+                resultIntent.putExtra("extra", extra);
                 resultIntent.putExtra("UserId",userId);
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(MyService.this);
                 stackBuilder.addParentStack(NotificationView.class);

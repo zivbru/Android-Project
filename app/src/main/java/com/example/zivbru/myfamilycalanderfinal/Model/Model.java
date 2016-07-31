@@ -436,8 +436,8 @@ public class Model {
         });
     }
 
-    public void getAllGroups(String userId, final GetGroupsListListener getGroupslistner) {
-        final String lastUpdateDate = GroupSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+    public void getAllGroups(final String userId, final GetGroupsListListener getGroupslistner) {
+        final String lastUpdateDate = GroupSQL.getLastUpdateDate(modelSQL.getReadbleDB(),userId);
         firebaseModel.getAllGroup(userId, lastUpdateDate, new GetGroupsListListener() {
             @Override
             public void onResult(ArrayList<Group> groups) {
@@ -448,7 +448,7 @@ public class Model {
                         if (recent == null || group.getLastUpdate().compareTo(recent) > 0) {
                             recent = group.getLastUpdate();
                         }
-                        GroupSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                        GroupSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,userId);
                     }
                 }
                 ArrayList<Group> groupsList = GroupSQL.getAllGroups(modelSQL.getReadbleDB());

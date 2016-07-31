@@ -77,11 +77,11 @@ public class GroupSQL {
         return  group;
     }
 
-    public static String getLastUpdateDate(SQLiteDatabase db){
-        return LastUpdateSql.getLastUpdate(db,GROUP_TABLE_NAME,"");
+    public static String getLastUpdateDate(SQLiteDatabase db, String id){
+        return LastUpdateSql.getLastUpdate(db,GROUP_TABLE_NAME,id);
     }
-    public static void setLastUpdateDate(SQLiteDatabase db, String date){
-        LastUpdateSql.setLastUpdate(db, GROUP_TABLE_NAME, date,"");
+    public static void setLastUpdateDate(SQLiteDatabase db, String date,String id){
+        LastUpdateSql.setLastUpdate(db, GROUP_TABLE_NAME, date,id);
     }
 
 

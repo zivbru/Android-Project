@@ -108,17 +108,17 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ActionBar actionBar = getSupportActionBar();
-        upcomingEventsTab = actionBar.newTab().setText("Upcoming Events");
-        upcomingTasksTab = actionBar.newTab().setText("Upcoming Tasks");
-        upcomingGroupsEventsTab = actionBar.newTab().setText("Upcoming Groups Events");
-        upcomingGroupsTasksTab = actionBar.newTab().setText("Upcoming Groups Tasks");
+        upcomingEventsTab = actionBar.newTab().setText("Events");
+        upcomingTasksTab = actionBar.newTab().setText("Tasks");
+        upcomingGroupsEventsTab = actionBar.newTab().setText("Group Events");
+        upcomingGroupsTasksTab = actionBar.newTab().setText("Group Tasks");
         actionBar.setNavigationMode(android.app.ActionBar.NAVIGATION_MODE_TABS);
         actionBar.addTab(upcomingEventsTab.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                 hideFragments();
                 fragmentTransaction.show(eventListFragment);
-
+                getSupportActionBar().setTitle("Event List");
             }
 
             @Override
@@ -136,6 +136,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                 hideFragments();
                 fragmentTransaction.show(taskListFragment);
+                getSupportActionBar().setTitle("Task List");
             }
 
             @Override
@@ -153,7 +154,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                 hideFragments();
                 fragmentTransaction.show(groupEventListFragment);
-
+                getSupportActionBar().setTitle("Group Event List");
             }
 
             @Override
@@ -172,6 +173,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                 hideFragments();
                 fragmentTransaction.show(groupTaskListFragment);
+                getSupportActionBar().setTitle("Group Task List");
             }
 
             @Override
@@ -335,9 +337,9 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         }
         if(item.getItemId()== R.id.action_favorite){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Title");
+            builder.setTitle("Add");
             builder.setItems(new CharSequence[]
-                            {"Add private event", "Add private task", "Add group event", "Add group task"},
+                            {"Add Event", "Add Task", "Add Group Event", "Add Group Task"},
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // The 'which' argument contains the index position
@@ -678,14 +680,14 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
     // Method to start the service
     public void startService(View view) {
-        Intent intent = new Intent(getBaseContext(), MyService.class);
+        Intent intent = new Intent(this, MyService.class);
         intent.putExtra("UserId",userId);
         startService(intent);
     }
 
     // Method to stop the service
     public void stopService(View view) {
-        stopService(new Intent(getBaseContext(), MyService.class));
+        stopService(new Intent(this, MyService.class));
     }
 
 

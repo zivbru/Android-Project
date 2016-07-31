@@ -17,10 +17,18 @@ public class NotificationView extends ActionBarActivity {
         setContentView(R.layout.activity_notification_view);
 
         Bundle extras = getIntent().getExtras();
-        String events = extras.getString("message");
+        Bundle extra = getIntent().getBundleExtra("extra");
+        ArrayList<String> objects = (ArrayList<String>) extra.getSerializable("objects");
+
         userId= extras.getString("UserId");
         TextView event = (TextView) findViewById(R.id.events);
-        event.setText(events);
+        String message="Your have upcoming events on:\n";
+        int i=1;
+        for (String s:objects) {
+            message+= i+". "+s + "\n";
+            i++;
+        }
+        event.setText(message);
     }
 
 

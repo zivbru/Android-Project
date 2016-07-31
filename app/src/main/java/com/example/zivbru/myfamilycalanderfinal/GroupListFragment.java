@@ -98,7 +98,7 @@ public class GroupListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Tasks List");
+        getActivity().setTitle("Group List");
         adapter.notifyDataSetChanged();
     }
 
@@ -145,14 +145,6 @@ public class GroupListFragment extends Fragment {
             title.setText(group.getTitle());
 //            ArrayList<String> usersNames= group.getUsersList();
             ArrayList<String> usersNames=new ArrayList<String>();
-            usersNames.add("ssssss");
-            usersNames.add("dddddd");
-            usersNames.add("ffffff");
-            usersNames.add("gggggg");
-            usersNames.add("hhhhhh");
-            for (String s:usersNames) {
-                Log.d("user " ,s);
-            }
             //add progress bar
 
             progressBar.setVisibility(View.VISIBLE);
@@ -160,11 +152,6 @@ public class GroupListFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
             ArrayAdapter usersAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, usersNames);
             allUsers.setAdapter(usersAdapter);
-//            ArrayAdapter eventAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedEvents());
-//            allEvents.setAdapter(eventAdapter);
-//            ArrayAdapter TaskAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, group.getRelatedTasks());
-//            allTasks.setAdapter(TaskAdapter);
-
             return  convertView;
         }
     }

@@ -151,7 +151,8 @@ public class EventFireBase {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(c);
         calendar.add(Calendar.DAY_OF_YEAR, 7);
-        final Date currentTime= calendar.getTime();
+        final Date nextWeek= calendar.getTime();
+        final Date currentDate= calendar.getTime();
         final Date[] convertedDate = new Date[1];
         stRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -159,17 +160,8 @@ public class EventFireBase {
                 ArrayList<String> events = new ArrayList<String>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    try {
-                        convertedDate[0] = format.parse(event.getStartDate());
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if(convertedDate[0].before(currentTime)) {
-
-                        String message = "You have private event on: "+event.getStartDate();
+                        String message = event.getStartDate();
                         events.add(message);
-                    }
                 }
                 listener.done(events);
             }
