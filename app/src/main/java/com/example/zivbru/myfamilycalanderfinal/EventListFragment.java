@@ -131,17 +131,16 @@ public class EventListFragment extends Fragment {
             TextView eventName= (TextView) convertView.findViewById(R.id.event_list_row_event_name);
             TextView startDate = (TextView) convertView.findViewById(R.id.event_list_row_start_date);
             TextView endDate = (TextView) convertView.findViewById(R.id.event_list_row_end_date);
-            TextView description = (TextView) convertView.findViewById(R.id.event_list_row_description);
             TextView ownerById = (TextView) convertView.findViewById(R.id.event_owner_by_id);
             TextView group = (TextView) convertView.findViewById(R.id.group_by_id);
-            TextView typeOfEvent = (TextView) convertView.findViewById(R.id.type_of_event);
+
             Event event = events.get(position);
             eventName.setText(event.getName());
             startDate.setText(event.getStartDate());
             endDate.setText(event.getEndDate());
-            description.setText(event.getDescription());
+
             group.setText(event.getGroupName());
-            typeOfEvent.setText(event.getTypeOfEvent());
+
             //get the owner from sql by id
             ownerById.setText(event.getOwnerById());
             return  convertView;

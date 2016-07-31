@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    android:background="#5fb0c9"
     tools:context=".main">
     <LinearLayout
         android:orientation="horizontal"
@@ -114,18 +115,21 @@
         android:paddingBottom="10dp">
         <Button
             android:id="@+id/event_save"
+            android:background="#fb5133"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SAVE"/>
         <Button
             android:id="@+id/event_cancel"
+            android:background="#fb5133"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="CANCEL"/>
         <Button
             android:id="@+id/event_delete"
+            android:background="#fb5133"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
