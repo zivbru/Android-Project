@@ -21,6 +21,8 @@ public class GroupEventSQL {
     public static final String EVENT_GROUP_NAME = "EventGroupName";
     public static final String EVENT_TYPE = "EventType";
     public static final String EVENT_LAST_UPDATE = "EventLastUpdate";
+    public static final String USER = "UserId";
+
 
     public static void createTableEvents(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " +
@@ -33,6 +35,7 @@ public class GroupEventSQL {
                 EVENT_DESCRIPTION + " TEXT," +
                 EVENT_GROUP_NAME + " TEXT," +
                 EVENT_TYPE + " TEXT," +
+                USER + " TEXT," +
                 EVENT_LAST_UPDATE + " TEXT);");
     }
 
@@ -40,7 +43,7 @@ public class GroupEventSQL {
         db.execSQL("drop table " + GROUP_EVENT_TABLE_NAME);
     }
 
-    public static boolean InsertEvent(Event event,SQLiteDatabase db ){
+    public static boolean InsertEvent(Event event,String userId,SQLiteDatabase db ){
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(EVENT_ID,event.getId());
@@ -52,6 +55,7 @@ public class GroupEventSQL {
         contentValues.put(EVENT_DESCRIPTION,event.getDescription());
         contentValues.put(EVENT_TYPE,event.getTypeOfEvent());
         contentValues.put(EVENT_LAST_UPDATE,event.getLastUpdate());
+        contentValues.put(USER,userId);
 
         long result=db.insertWithOnConflict(GROUP_EVENT_TABLE_NAME, EVENT_ID, contentValues,SQLiteDatabase.CONFLICT_REPLACE);
         return result != -1;
@@ -93,15 +97,15 @@ public class GroupEventSQL {
         return  event;
     }
 
-    public static String getLastUpdateDate(SQLiteDatabase db){
-        return LastUpdateSql.getLastUpdate(db,GROUP_EVENT_TABLE_NAME);
+    public static String getLastUpdateDate(SQLiteDatabase db,String id){
+        return LastUpdateSql.getLastUpdate(db,GROUP_EVENT_TABLE_NAME,id);
     }
-    public static void setLastUpdateDate(SQLiteDatabase db, String date){
-        LastUpdateSql.setLastUpdate(db,GROUP_EVENT_TABLE_NAME, date);
+    public static void setLastUpdateDate(SQLiteDatabase db, String date,String id){
+        LastUpdateSql.setLastUpdate(db,GROUP_EVENT_TABLE_NAME, date,id);
     }
 
 
-    public static ArrayList<Event> getAllEvents(SQLiteDatabase db) {
+    public static ArrayList<Event> getAllEvents(SQLiteDatabase db,String usersId) {
         Cursor cursor = db.query(GROUP_EVENT_TABLE_NAME, null, null , null, null, null, null);
         ArrayList<Event> events = new ArrayList<Event>();
 
@@ -115,7 +119,7 @@ public class GroupEventSQL {
             int eventType = cursor.getColumnIndex(EVENT_TYPE);
             int eventLastUpdate = cursor.getColumnIndex(EVENT_LAST_UPDATE);
             int eventDescription = cursor.getColumnIndex(EVENT_DESCRIPTION);
-
+            int userId=cursor.getColumnIndex(USER);
             do {
                 String id = cursor.getString(eventId);
                 String name = cursor.getString(eventName);
@@ -125,10 +129,12 @@ public class GroupEventSQL {
                 String groupName = cursor.getString(eventGroupName);
                 String ownerId = cursor.getString(owner);
                 String type = cursor.getString(eventType);
+                String user = cursor.getString(userId);
                 String lastUpdate = cursor.getString(eventLastUpdate); //0 false / 1 true
 
-                Event event= new Event(id,name,startDate,endDate,description,ownerId,groupName,type,lastUpdate);
-                events.add(event);
+                Event event= new Event(id,name,startDate,endDate,description,ownerId,groupName,type,lastUpdate,user);
+                if(user.equals(usersId))
+                    events.add(event);
 
             } while (cursor.moveToNext());
         }

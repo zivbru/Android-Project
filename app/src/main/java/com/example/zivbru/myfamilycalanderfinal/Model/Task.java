@@ -15,7 +15,7 @@ public class Task {
     String groupId;
     String TypeOfTask;
     String lastUpdate;
-
+    String userId;
     public Task() {
     }
 
@@ -35,6 +35,7 @@ public class Task {
         this.ownerId = ownerId;
         this.groupId=groupId;
         this.description = description;
+
     }
 //    public Task(String title, String targetDate, String ownerId, String groupId,String description) {
 //        this.title = title;
@@ -56,7 +57,18 @@ public class Task {
         TypeOfTask = typeOfTask;
         this.lastUpdate = lastUpdate;
     }
-
+    public Task(String id, String title, String targetDate, String ownerId, String relatedEvent, String description, String groupId, String typeOfTask, String lastUpdate,String userId) {
+        this.id = id;
+        this.title = title;
+        this.targetDate = targetDate;
+        this.ownerId = ownerId;
+        this.relatedEvent = relatedEvent;
+        this.description = description;
+        this.groupId = groupId;
+        this.TypeOfTask = typeOfTask;
+        this.lastUpdate = lastUpdate;
+        this.userId=userId;
+    }
     public Task(String title, String targetDate, String description) {
         this.title=title;
         this.targetDate=targetDate;

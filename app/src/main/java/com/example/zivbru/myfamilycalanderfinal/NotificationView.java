@@ -21,13 +21,11 @@ public class NotificationView extends ActionBarActivity {
         userId= extras.getString("UserId");
         TextView event = (TextView) findViewById(R.id.events);
         event.setText(events);
-        Log.d("ddddd",events);
     }
 
 
     @Override
     public void onBackPressed() {
-
         Intent intent= new Intent(NotificationView.this,ComingEventsTasksActivity.class);
         intent.putExtra("UserId", userId);
         startActivity(intent);

@@ -70,37 +70,6 @@ public class NewGroupTaskFragment extends Fragment {
                                 public void ok() {
                                     selectedGroup = groupsName.get(Integer.parseInt(singleDialog.getSelected()));
                                     showSelectedGroup.setText(selectedGroup);
-
-                                    Button pickUsers = (Button) view.findViewById(R.id.pick_users);
-                                    View b = view.findViewById(R.id.pick_users);
-                                    b.setVisibility(View.VISIBLE);
-                                    pickUsers.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Model.instance().getAllUsersFromGroup(selectedGroup, new Model.GetUsersFromGroupListener() {
-                                                @Override
-                                                public void done(ArrayList<String> users) {
-                                                    selectedUsers= new String[users.size()];
-                                                    final MulitpleDialog mulitpleDialog = new MulitpleDialog();
-                                                    mulitpleDialog.setData(users);
-                                                    mulitpleDialog.setDelegate(new MulitpleDialog.Delegate() {
-                                                        @Override
-                                                        public void ok() {
-
-                                                            Log.d("ok", "ok;");
-                                                        }
-
-                                                        @Override
-                                                        public void cancel() {
-                                                            Log.d("cancel", "cancel;");
-                                                        }
-                                                    });
-                                                    mulitpleDialog.show(getFragmentManager(), "TAG");
-                                                }
-                                            });
-
-                                        }
-                                    });
                                 }
                                 @Override
                                 public void cancel() {

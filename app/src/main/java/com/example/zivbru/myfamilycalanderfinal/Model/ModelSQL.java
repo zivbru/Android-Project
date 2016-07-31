@@ -70,7 +70,7 @@ public class ModelSQL {
     }
     public void insertTask(Task task) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        TaskSQL.InsertTask(task, db);
+        TaskSQL.InsertTask(task,"" ,db);
     }
 
     public void insertGroupUsers(GroupsUsers groupsUsers) {
@@ -80,7 +80,7 @@ public class ModelSQL {
 
     public void insertEvents(Event event) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        EventSQL.InsertEvent(event, db);
+        EventSQL.InsertEvent(event,"", db);
     }
 
     public Integer deleteUser(String userName) {

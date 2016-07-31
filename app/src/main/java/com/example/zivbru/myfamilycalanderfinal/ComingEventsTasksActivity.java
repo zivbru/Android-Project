@@ -272,10 +272,16 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                    stopService(view);
                 }
                 else if( position==4){//logout
-                    Model.instance().updateLogin("","false");
+                    Model.instance().updateLogin("", "false");
                     Intent intent= new Intent(ComingEventsTasksActivity.this,LoginActivity.class);
                     startActivity(intent);
-                    finish();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }).start();
+
                 }
                 /// item selected
             }
