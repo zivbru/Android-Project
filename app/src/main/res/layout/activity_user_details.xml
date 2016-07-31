@@ -180,16 +180,6 @@
                 android:id="@+id/phone"/>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_ediUser"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:text="Edit"
-            android:background="#fb5133" />
-
+        
     </LinearLayout>
 </LinearLayout>

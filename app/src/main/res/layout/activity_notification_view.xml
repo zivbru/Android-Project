@@ -10,4 +10,10 @@
     android:background="#5fb0c9"
     tools:context="com.example.zivbru.myfamilycalanderfinal.NotificationView">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/events"/>
+
 </RelativeLayout>

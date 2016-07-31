@@ -29,7 +29,7 @@ public class NewGroupActivity extends ActionBarActivity {
     EditText name;
     ImageView addPicture;
     Group group;
-    ArrayList<String> users;
+    ArrayList<String> usersId;
     String imageFileName = null;
     Bitmap imageBitmap = null;
     Button addGroup;
@@ -49,19 +49,24 @@ public class NewGroupActivity extends ActionBarActivity {
         Model.instance().getUsers(new Model.GetUsersListener() {
             @Override
             public void done(final ArrayList<String> usersList) {
+                usersId= new ArrayList<String>();
+                for (String s:usersList) {
+                    usersId.add(s.split(",")[1]);
+                }
                 Button pickUsers = (Button) findViewById(R.id.pick_users);
                 pickUsers.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final MulitpleDialog mulitpleDialog = new MulitpleDialog();
-                        mulitpleDialog.setData(usersList);
+                        mulitpleDialog.setData(usersId);
                         mulitpleDialog.setDelegate(new MulitpleDialog.Delegate() {
                             @Override
                             public void ok() {
                                 boolean[] b= mulitpleDialog.getSelected();
                                 for (int i=0;i<b.length;i++){
                                     if(b[i])
-                                        users.add(usersList.get(i));
+                                        if(!users.contains(usersList.get(i).split(",")[0]))
+                                            users.add(usersList.get(i).split(",")[0]);
 
                                 }
                             }

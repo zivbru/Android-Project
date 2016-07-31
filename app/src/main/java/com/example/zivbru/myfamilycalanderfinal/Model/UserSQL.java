@@ -135,10 +135,10 @@ public class UserSQL {
     }
 
     public static String getLastUpdateDate(SQLiteDatabase db){
-        return LastUpdateSql.getLastUpdate(db,USERS_TABLE_NAME);
+        return LastUpdateSql.getLastUpdate(db,USERS_TABLE_NAME,"");
     }
     public static void setLastUpdateDate(SQLiteDatabase db, String date){
-        LastUpdateSql.setLastUpdate(db,USERS_TABLE_NAME, date);
+        LastUpdateSql.setLastUpdate(db,USERS_TABLE_NAME, date,"");
     }
 
     public static void drop(SQLiteDatabase sqLiteDatabase) {

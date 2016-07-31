@@ -17,6 +17,7 @@ public class Event {
     String groupName;
     String typeOfEvent;
     String lastUpdate;
+    String userId;
 
     public Event() {
     }
@@ -40,6 +41,19 @@ public class Event {
 
     }
 
+    public Event(String id, String name, String startDate, String endDate, String description, String ownerById, String groupName, String typeOfEvent, String lastUpdate,String userId) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.ownerById = ownerById;
+        this.groupName = groupName;
+        this.typeOfEvent = typeOfEvent;
+        this.lastUpdate = lastUpdate;
+        this.userId=userId;
+    }
+
     public Event(String id, String name, String startDate, String endDate, String description, String ownerById, String groupName, String typeOfEvent, String lastUpdate) {
         this.id = id;
         this.name = name;
@@ -50,6 +64,7 @@ public class Event {
         this.groupName = groupName;
         this.typeOfEvent = typeOfEvent;
         this.lastUpdate = lastUpdate;
+
     }
 
     public String getId() {
@@ -138,5 +153,13 @@ public class Event {
 
     public void setLastUpdate(String lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

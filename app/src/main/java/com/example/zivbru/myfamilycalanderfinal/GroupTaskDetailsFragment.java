@@ -54,6 +54,8 @@ public class GroupTaskDetailsFragment extends Fragment {
 //        EventImage.setBackground(Drawable.createFromPath(event.get));
 
         Button editEvent= (Button) view.findViewById(R.id.edit_task);
+
+
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

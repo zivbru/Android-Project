@@ -55,13 +55,7 @@ public class UserDetailsActivity extends ActionBarActivity {
         });
 
 
-        Button editUser= (Button) findViewById(R.id.btn_ediUser);
-        editUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
     }
 

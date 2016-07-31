@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -62,9 +63,14 @@ public class GroupListFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Delegate activity = (Delegate) getActivity();
-//                activity.switchFragment("TaskDetailsFragment");
-//                ((ComingEventsTasksActivity) getActivity()).setTaskId(tasks.get(position).getId());
+                int popupWidth = 200;
+                int popupHeight = 150;
+                final PopupWindow popup = new PopupWindow(getActivity());
+                popup.setContentView(view);
+                popup.setWidth(popupWidth);
+                popup.setHeight(popupHeight);
+                popup.setFocusable(true);
+
             }
         });
 
@@ -125,8 +131,8 @@ public class GroupListFragment extends Fragment {
             }
             groupPicture= (ImageView) convertView.findViewById(R.id.group_list_row_image);
             ListView allUsers= (ListView) convertView.findViewById(R.id.group_list_row_users);
-            ListView allEvents= (ListView) convertView.findViewById(R.id.group_list_row_events);
-            ListView allTasks= (ListView) convertView.findViewById(R.id.group_list_row_tasks);
+//            ListView allEvents= (ListView) convertView.findViewById(R.id.group_list_row_events);
+//            ListView allTasks= (ListView) convertView.findViewById(R.id.group_list_row_tasks);
             TextView title= (TextView) convertView.findViewById(R.id.group_title);
             final ProgressBar progressBar= (ProgressBar) convertView.findViewById(R.id.ProgressBarGetNames);
             Group group=groups.get(position);
@@ -137,25 +143,17 @@ public class GroupListFragment extends Fragment {
                 }
             });
             title.setText(group.getTitle());
-//            UserFireBase userFireBase = new UserFireBase(Model.instance().getFirebaseModel().getMyFirebaseRef());
-            ArrayList<String> usersNames= group.getUsersList();
-
+//            ArrayList<String> usersNames= group.getUsersList();
+            ArrayList<String> usersNames=new ArrayList<String>();
+            usersNames.add("ssssss");
+            usersNames.add("dddddd");
+            usersNames.add("ffffff");
+            usersNames.add("gggggg");
+            usersNames.add("hhhhhh");
+            for (String s:usersNames) {
+                Log.d("user " ,s);
+            }
             //add progress bar
-
-//            for (String id:group.getUsersList()) {
-//                userFireBase.getNameForUser(id, new Model.getUserNameListener() {
-//                    @Override
-//                    public void success(String name) {
-//                        usersNames.add(name);
-//
-//                    }
-//
-//                    @Override
-//                    public void fail(String msg) {
-//
-//                    }
-//                });
-//            }
 
             progressBar.setVisibility(View.VISIBLE);
 

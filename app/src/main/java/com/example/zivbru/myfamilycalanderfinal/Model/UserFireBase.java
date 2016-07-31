@@ -126,7 +126,7 @@ public class UserFireBase {
                 ArrayList<String> usersList = new ArrayList<String>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    usersList.add(user.getUserId());
+                    usersList.add(user.getUserId() + ","+user.getFirstName()+" "+user.getLastName());
                 }
                 listener.done(usersList);
             }

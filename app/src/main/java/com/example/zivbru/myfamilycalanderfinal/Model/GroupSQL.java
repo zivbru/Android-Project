@@ -15,7 +15,7 @@ public class GroupSQL {
     public static final String GROUP_ID = "GroupId";
     public static final String GROUP_TITLE = "GroupTitle";
     public static final String GROUP_PICTURE_NAME = "PictureName";
-    public static final String GROUP_LAST_UPDATE = "EventLastUpdate";
+    public static final String GROUP_LAST_UPDATE = "GroupLastUpdate";
 
 
 
@@ -78,10 +78,10 @@ public class GroupSQL {
     }
 
     public static String getLastUpdateDate(SQLiteDatabase db){
-        return LastUpdateSql.getLastUpdate(db,GROUP_TABLE_NAME);
+        return LastUpdateSql.getLastUpdate(db,GROUP_TABLE_NAME,"");
     }
     public static void setLastUpdateDate(SQLiteDatabase db, String date){
-        LastUpdateSql.setLastUpdate(db, GROUP_TABLE_NAME, date);
+        LastUpdateSql.setLastUpdate(db, GROUP_TABLE_NAME, date,"");
     }
 
 

@@ -166,9 +166,15 @@ public class Model {
         firebaseModel.AddEvent(event, id, listener);
     }
 
-    public void deleteEvent(String userId, String eventId, Model.SignupListener listener) {
-        firebaseModel.deleteEvent(userId, eventId, listener);
-        modelSQL.deleteEvent(eventId);
+    public void deleteEvent(final String userId, final String eventId, final Model.SignupListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                firebaseModel.deleteEvent(userId, eventId, listener);
+                modelSQL.deleteEvent(eventId);
+            }
+        }).start();
+
     }
 
     public void deleteGroupEvent(String userId, String eventId,String groupId ,SignupListener listener) {
@@ -314,8 +320,8 @@ public class Model {
         firebaseModel.getUser(id, userListener);
     }
 
-    public void getAllGroupsTasks(String userId,final GetListTaskListener listener) {
-        final String lastUpdateDate = GroupTaskSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+    public void getAllGroupsTasks(final String userId,final GetListTaskListener listener) {
+        final String lastUpdateDate = GroupTaskSQL.getLastUpdateDate(modelSQL.getReadbleDB(),userId);
         ArrayList<String> groupsId = Model.instance().getAllGroupsId(userId);
         for (String groupId : groupsId) {
             firebaseModel.getAllGroupsTasks(userId, lastUpdateDate,groupId, new GetListTaskListener() {
@@ -324,14 +330,14 @@ public class Model {
                     if (tasks != null && tasks.size() > 0) {
                         String recent = lastUpdateDate;
                         for (Task task : tasks) {
-                            GroupTaskSQL.InsertTask(task, modelSQL.getWritableDB());
+                            GroupTaskSQL.InsertTask(task,userId, modelSQL.getWritableDB());
                             if (recent == null || task.getLastUpdate().compareTo(recent) > 0) {
                                 recent = task.getLastUpdate();
                             }
-                            GroupTaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                            GroupTaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,userId);
                         }
                     }
-                    ArrayList<Task> taskList = GroupTaskSQL.getAllTasks(modelSQL.getReadbleDB());
+                    ArrayList<Task> taskList = GroupTaskSQL.getAllTasks(modelSQL.getReadbleDB(),userId);
                     listener.onResult(taskList);
                 }
 
@@ -344,21 +350,21 @@ public class Model {
     }
 
     public void getAllTasks(final String userId, final GetListTaskListener listener){
-        final String lastUpdateDate = TaskSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        final String lastUpdateDate = TaskSQL.getLastUpdateDate(modelSQL.getReadbleDB(),userId);
         firebaseModel.getAllTasks(userId, lastUpdateDate, new GetListTaskListener() {
             @Override
             public void onResult(ArrayList<Task> tasks) {
                 if (tasks != null && tasks.size() > 0) {
                     String recent = lastUpdateDate;
                     for (Task task : tasks) {
-                        TaskSQL.InsertTask(task, modelSQL.getWritableDB());
+                        TaskSQL.InsertTask(task,userId, modelSQL.getWritableDB());
                         if (recent == null || task.getLastUpdate().compareTo(recent) > 0) {
                             recent = task.getLastUpdate();
                         }
-                        TaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                        TaskSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,userId);
                     }
                 }
-                ArrayList<Task> taskList = TaskSQL.getAllTasks(modelSQL.getReadbleDB());
+                ArrayList<Task> taskList = TaskSQL.getAllTasks(modelSQL.getReadbleDB(),userId);
                 listener.onResult(taskList);
             }
 
@@ -369,8 +375,8 @@ public class Model {
         });
     }
 
-    public void getAllGroupsEvents(String userId,  final GetListEventListener groupsEventsListener) {
-        final String lastUpdateDate = GroupEventSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+    public void getAllGroupsEvents(final String userId,  final GetListEventListener groupsEventsListener) {
+        final String lastUpdateDate = GroupEventSQL.getLastUpdateDate(modelSQL.getReadbleDB(),userId);
         ArrayList<String> groupsId=Model.instance().getAllGroupsId(userId);
         for (String groupId:groupsId) {
             firebaseModel.getAllGroupsEvents(userId, lastUpdateDate, groupId, new GetListEventListener() {
@@ -380,14 +386,14 @@ public class Model {
                     if (events != null && events.size() > 0) {
                         String recent = lastUpdateDate;
                         for (Event event : events) {
-                            GroupEventSQL.InsertEvent(event, modelSQL.getWritableDB());
+                            GroupEventSQL.InsertEvent(event,userId, modelSQL.getWritableDB());
                             if (recent == null || event.getLastUpdate().compareTo(recent) > 0) {
                                 recent = event.getLastUpdate();
                             }
-                            GroupEventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                            GroupEventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,userId);
                         }
                     }
-                    ArrayList<Event> groupEventsList = GroupEventSQL.getAllEvents(modelSQL.getReadbleDB());
+                    ArrayList<Event> groupEventsList = GroupEventSQL.getAllEvents(modelSQL.getReadbleDB(),userId);
                     groupsEventsListener.onResult(groupEventsList);
                 }
 
@@ -404,7 +410,7 @@ public class Model {
     }
 
     public void getAllEvents(final String id, final GetListEventListener listener) {
-        final String lastUpdateDate = EventSQL.getLastUpdateDate(modelSQL.getReadbleDB());
+        final String lastUpdateDate = EventSQL.getLastUpdateDate(modelSQL.getReadbleDB(),id);
         firebaseModel.getAllEvents(id, lastUpdateDate, new GetListEventListener() {
             @Override
             public void onResult(ArrayList<Event> events) {
@@ -412,14 +418,14 @@ public class Model {
                 if (events != null && events.size() > 0) {
                     String recent = lastUpdateDate;
                     for (Event event : events) {
-                        EventSQL.InsertEvent(event, modelSQL.getWritableDB());
+                        EventSQL.InsertEvent(event,id, modelSQL.getWritableDB());
                         if (recent == null || event.getLastUpdate().compareTo(recent) > 0) {
                             recent = event.getLastUpdate();
                         }
-                        EventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent);
+                        EventSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,id);
                     }
                 }
-                ArrayList<Event> eventsList = EventSQL.getAllEvents(modelSQL.getReadbleDB());
+                ArrayList<Event> eventsList = EventSQL.getAllEvents(modelSQL.getReadbleDB(),id);
                 listener.onResult(eventsList);
             }
 

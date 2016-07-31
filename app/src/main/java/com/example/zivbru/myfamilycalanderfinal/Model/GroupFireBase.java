@@ -6,7 +6,12 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by zivbru on 5/23/2016.
@@ -87,6 +92,15 @@ public class GroupFireBase {
 
 
     public void AddGroup(final Group group,final Model.addGroupListener listener){
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+        TimeZone timeZone = calendar.getTimeZone();
+        calendar.setTimeZone(timeZone);
+        Date updateTime = calendar.getInstance(timeZone).getTime();
+        String date = null;
+        date =  dateFormatGmt.format(updateTime);
+        group.setLastUpdate(date);
+
         Firebase stRef = myFirebaseRef.child("groups");
         UserFireBase userFireBase= new UserFireBase(myFirebaseRef);
         groupRef = stRef.push();

@@ -147,7 +147,11 @@ public class EventFireBase {
     public void getAllUpcomingEvents(String id, final Model.GetUsersListener listener) {
         Firebase stRef = myFirebaseRef.child("events").child(id);
         final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        final Date currentTime = new Date();
+        final Date c = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(c);
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        final Date currentTime= calendar.getTime();
         final Date[] convertedDate = new Date[1];
         stRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,7 +165,8 @@ public class EventFireBase {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if(currentTime.before(convertedDate[0])) {
+                    if(convertedDate[0].before(currentTime)) {
+
                         String message = "You have private event on: "+event.getStartDate();
                         events.add(message);
                     }

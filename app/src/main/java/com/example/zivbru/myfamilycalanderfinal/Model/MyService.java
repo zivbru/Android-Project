@@ -11,7 +11,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.zivbru.myfamilycalanderfinal.ComingEventsTasksActivity;
 import com.example.zivbru.myfamilycalanderfinal.NotificationView;
 import com.example.zivbru.myfamilycalanderfinal.R;
 
@@ -48,7 +47,7 @@ public class MyService extends Service {
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
     }
 
-    public void displayNotification(String userId) {
+    public void displayNotification(final String userId) {
         Log.i("Start", "notification");
 
    /* Invoking the default notification service */
@@ -71,18 +70,19 @@ public class MyService extends Service {
             @Override
             public void done(ArrayList<String> usersList) {
                 notifications = usersList;
-                inboxStyle.setBigContentTitle("Big Title Details:");
+                inboxStyle.setBigContentTitle("All events:");
 
                 // Moves events into the big view
                 for (int i=0; i < usersList.size(); i++) {
 
                     inboxStyle.addLine(usersList.toArray()[i].toString());
-                    Log.d("notifivation",usersList.toArray()[i].toString());
+
                 }
 
                 mBuilder.setStyle(inboxStyle);
                 Intent resultIntent = new Intent(MyService.this, NotificationView.class);
-
+                resultIntent.putExtra("message", usersList.get(0));
+                resultIntent.putExtra("UserId",userId);
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(MyService.this);
                 stackBuilder.addParentStack(NotificationView.class);
 

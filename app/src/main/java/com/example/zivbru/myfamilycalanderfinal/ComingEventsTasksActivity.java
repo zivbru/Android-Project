@@ -186,8 +186,8 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
 
         }));
         mNavItems.add(new NavItem("Home", "", R.drawable.home));
-        mNavItems.add(new NavItem("Add group", "", R.drawable.addpicture));
-        mNavItems.add(new NavItem("Groups List", "View all your groups", R.drawable.groups));
+        mNavItems.add(new NavItem("Add Group", "", R.drawable.addpicture));
+        mNavItems.add(new NavItem("My Groups", "View all your groups", R.drawable.groups));
         mNavItems.add(new NavItem("Start Service", "Get notifications", R.drawable.notificationson));
         mNavItems.add(new NavItem("Strop Service", "Stop notifications", R.drawable.notificationsoff));
         mNavItems.add(new NavItem("Logout", "", R.drawable.logout));
@@ -241,7 +241,9 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                 Log.d("selected", String.valueOf(position));
 
                 if(position==0){//addGroup
-                    //TODO implement home navigation
+                    Intent intent = new Intent(ComingEventsTasksActivity.this,ComingEventsTasksActivity.class);
+                    intent.putExtra("UserId",userId);
+                    startActivity(intent);
                 }
                 else if(position == 1){
                     Intent intent = new Intent(ComingEventsTasksActivity.this,NewGroupActivity.class);
@@ -277,7 +279,13 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                     Model.instance().updateLogin("","false");
                     Intent intent= new Intent(ComingEventsTasksActivity.this,LoginActivity.class);
                     startActivity(intent);
-                    finish();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }).start();
+
                 }
                 /// item selected
             }
