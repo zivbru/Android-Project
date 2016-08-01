@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rishabh"
-                    android:textColor="#fff"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginTop="4dp"
                     android:text="View Profile"
-                    android:textColor="#7a7a7a"
+                    android:textColor="#FFFFFF"
                     android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>

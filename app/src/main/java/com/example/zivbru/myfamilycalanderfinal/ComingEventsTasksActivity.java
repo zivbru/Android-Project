@@ -195,7 +195,6 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         mNavItems.add(new NavItem("Logout", "", R.drawable.logout));
         userPicture= (ImageView) findViewById(R.id.user_picture);
         userNameInSidebar= (TextView) findViewById(R.id.userNameInSidebar);
-//        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.drawerPane);
         Model.instance().getUser(userId, new Model.UserListener() {
             @Override
             public void done(User retUser) {

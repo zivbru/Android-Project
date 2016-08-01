@@ -28,7 +28,7 @@ public class UserDetailsActivity extends ActionBarActivity {
         final TextView userBirthDate = (TextView) findViewById(R.id.birthDate);
         final TextView mail = (TextView) findViewById(R.id.email);
         final TextView password = (TextView) findViewById(R.id.password);
-        final TextView adress= (TextView) findViewById(R.id.adress);
+        final TextView adress= (TextView) findViewById(R.id.address);
         final TextView phone= (TextView) findViewById(R.id.phone);
         final ProgressBar progressBar= (ProgressBar) findViewById(R.id.progress);
         picture= (ImageView) findViewById(R.id.add_picture);

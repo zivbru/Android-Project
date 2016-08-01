@@ -66,7 +66,7 @@ public class ModelSQL {
 
     public void insertGroup(Group group) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();
-        GroupSQL.InsertGroup(group, db);
+        GroupSQL.InsertGroup(group,"", db);
     }
     public void insertTask(Task task) {
         SQLiteDatabase db = myDataBaseHelper.getWritableDatabase();

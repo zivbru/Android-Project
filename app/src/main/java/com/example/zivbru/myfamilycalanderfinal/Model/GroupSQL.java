@@ -16,6 +16,7 @@ public class GroupSQL {
     public static final String GROUP_TITLE = "GroupTitle";
     public static final String GROUP_PICTURE_NAME = "PictureName";
     public static final String GROUP_LAST_UPDATE = "GroupLastUpdate";
+    public static final String USER = "UserId";
 
 
 
@@ -26,13 +27,14 @@ public class GroupSQL {
                 GROUP_ID + " TEXT PRIMARY KEY ," +
                 GROUP_TITLE + " TEXT," +
                 GROUP_PICTURE_NAME + " TEXT," +
+                USER + " TEXT," +
                 GROUP_LAST_UPDATE + " TEXT);");
     }
     public static void onUpgrade(SQLiteDatabase db){
         db.execSQL("drop table " + GROUP_TABLE_NAME);
     }
 
-    public static boolean InsertGroup(Group group,SQLiteDatabase db ){
+    public static boolean InsertGroup(Group group,String userId,SQLiteDatabase db ){
 
         GroupUsers groupUsers;
         ContentValues contentValues = new ContentValues();
@@ -40,6 +42,7 @@ public class GroupSQL {
         contentValues.put(GROUP_TITLE,group.getTitle());
         contentValues.put(GROUP_PICTURE_NAME,group.getPictureName());
         contentValues.put(GROUP_LAST_UPDATE,group.getLastUpdate());
+        contentValues.put(USER,userId);
         for (String s:group.getUsersList()) {
             groupUsers= new GroupUsers(group.getId(),s);
             GroupUsersSQL.InsertGroupUsers(groupUsers,db);
@@ -85,7 +88,7 @@ public class GroupSQL {
     }
 
 
-    public static ArrayList<Group> getAllGroups(SQLiteDatabase db) {
+    public static ArrayList<Group> getAllGroups(SQLiteDatabase db,String usersId) {
         Cursor cursor = db.query(GROUP_TABLE_NAME, null, null , null, null, null, null);
         ArrayList<Group> groups = new ArrayList<Group>();
 
@@ -94,6 +97,7 @@ public class GroupSQL {
             int groupTitle = cursor.getColumnIndex(GROUP_TITLE);
             int pictureName = cursor.getColumnIndex(GROUP_PICTURE_NAME);
             int groupLastUpdate = cursor.getColumnIndex(GROUP_LAST_UPDATE);
+            int userId=cursor.getColumnIndex(USER);
 
 
             do {
@@ -101,10 +105,11 @@ public class GroupSQL {
                 String name = cursor.getString(groupTitle);
                 String picture = cursor.getString(pictureName);
                 String lastUpdate = cursor.getString(groupLastUpdate); //0 false / 1 true
-
+                String user = cursor.getString(userId);
                 Group group= new Group(id,name,picture,lastUpdate);
                 group.setUsersList(GroupUsersSQL.getAllUsers(group.getId(),db));
-                groups.add(group);
+                if(user.equals(usersId))
+                    groups.add(group);
 
             } while (cursor.moveToNext());
         }

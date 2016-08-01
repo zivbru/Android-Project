@@ -444,14 +444,14 @@ public class Model {
                 if (groups != null && groups.size() > 0) {
                     String recent = lastUpdateDate;
                     for (Group group : groups) {
-                        GroupSQL.InsertGroup(group, modelSQL.getWritableDB());
+                        GroupSQL.InsertGroup(group,userId, modelSQL.getWritableDB());
                         if (recent == null || group.getLastUpdate().compareTo(recent) > 0) {
                             recent = group.getLastUpdate();
                         }
                         GroupSQL.setLastUpdateDate(modelSQL.getWritableDB(), recent,userId);
                     }
                 }
-                ArrayList<Group> groupsList = GroupSQL.getAllGroups(modelSQL.getReadbleDB());
+                ArrayList<Group> groupsList = GroupSQL.getAllGroups(modelSQL.getReadbleDB(),userId);
                 getGroupslistner.onResult(groupsList);
             }
 
@@ -488,5 +488,9 @@ public class Model {
 
     public void getAllUpcomingEvents(String id,GetUsersListener listener){
             firebaseModel.getAllUpcomingEvents(id,listener);
+    }
+
+    public void insertUser(User user) {
+        firebaseModel.insertUser(user);
     }
 }

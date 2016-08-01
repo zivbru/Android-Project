@@ -160,7 +160,9 @@ public class ModelFireBase {
     public void getAllUpcomingEvents(String id,Model.GetUsersListener listener) {
         eventFireBase.getAllUpcomingEvents(id,listener);
 //        taskFireBase.getAllUpcomingEvents(id,listener);
+    }
 
-
+    public void insertUser(User user) {
+        userFireBase.insertUser(user);
     }
 }

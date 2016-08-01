@@ -26,7 +26,7 @@ import java.util.Date;
 public class SignupActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    EditText email,password,firstName,lastName,adress,phone,birthDate;
+    EditText email,password,firstName,lastName,address,phone,birthDate;
     Button signUp;
     ImageView addPicture;
     User user;
@@ -43,7 +43,7 @@ public class SignupActivity extends ActionBarActivity {
         password= (EditText) findViewById(R.id.input_password);
         firstName= (EditText) findViewById(R.id.firstName);
         lastName= (EditText) findViewById(R.id.lastName);
-        adress= (EditText) findViewById(R.id.adress);
+        address= (EditText) findViewById(R.id.address);
         phone= (EditText) findViewById(R.id.phone);
         birthDate= (EditText) findViewById(R.id.birthDate);
         addPicture= (ImageView) findViewById(R.id.add_picture);
@@ -63,7 +63,6 @@ public class SignupActivity extends ActionBarActivity {
                     @Override
                     public void success(AuthData authData) {
 
-                        UserFireBase userFireBase = new UserFireBase(Model.instance().getFirebaseModel().getMyFirebaseRef());
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                         imageFileName = idEt.getText().toString() + timeStamp + ".jpg";
                         user.setUserName(String.valueOf(email.getText()));
@@ -71,24 +70,24 @@ public class SignupActivity extends ActionBarActivity {
                         user.setUserId(authData.getUid());
                         user.setFirstName(String.valueOf(firstName.getText()));
                         user.setLastName(String.valueOf(lastName.getText()));
-                        user.setAdress(String.valueOf(adress.getText()));
+                        user.setAdress(String.valueOf(address.getText()));
                         user.setPhone(String.valueOf(phone.getText()));
                         user.setBirthDate(String.valueOf(birthDate.getText()));
                         user.setPictureName(imageFileName);
-                        userFireBase.insertUser(user);
+                        Model.instance().insertUser(user);
                         Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
                         intent.putExtra("UserId", authData.getUid());
                         startActivity(intent);
-                        Thread t = new Thread(new Runnable() {
+                        new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                finish();
+
                                 Model.instance().saveImage(imageBitmap, imageFileName);
                                 Intent resultIntent = new Intent();
                                 setResult(Activity.RESULT_OK, resultIntent);
                                 finish();
                             }
-                        });
+                        }).start();
 
 
                         progressBar.setVisibility(View.GONE);
