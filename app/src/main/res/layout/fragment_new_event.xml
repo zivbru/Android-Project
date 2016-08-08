@@ -4,13 +4,21 @@
     tools:context="com.example.zivbru.myfamilycalanderapp.NewEventActivity"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#5fb0c9"
     android:paddingTop="56dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
     android:weightSum="2">
 
+
+    <ImageView
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/event"
+        android:layout_marginRight="50px"
+        android:layout_weight="0.63" />
 
     <EditText android:id="@+id/event_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -63,7 +71,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:padding="12dp"
-        android:text="Add event"/>
+        android:text="Add event"
+        android:background="#fb5133" />
 
 
 

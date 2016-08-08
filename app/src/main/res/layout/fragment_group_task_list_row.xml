@@ -2,7 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="#5fb0c9">
     <ImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -26,46 +27,6 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Title"
                 android:id="@+id/group_task_list_row_task_title" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Target date"
-                android:id="@+id/group_task_list_row_target_date" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Assigened To"
-                android:id="@+id/group_task_list_row_assigenedTo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Description"
-                android:id="@+id/group_task_list_row_description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="ownerId"
-                android:id="@+id/group_task_list_row_ownerId" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Related event"
-                android:id="@+id/group_task_list_row_relatedEvent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Group"
-                android:id="@+id/group_task_list_row_group" />
 
 
         </LinearLayout>

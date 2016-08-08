@@ -8,7 +8,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/group_list_row_image"
-        android:background="@drawable/addgroup"/>
+        android:background="@drawable/groups"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

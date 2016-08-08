@@ -120,20 +120,10 @@ public class GroupTaskListFragment extends Fragment {
             }
 
             TextView taskTitle= (TextView) convertView.findViewById(R.id.group_task_list_row_task_title);
-            TextView targetDate = (TextView) convertView.findViewById(R.id.group_task_list_row_target_date);
-            TextView assigenedTo = (TextView) convertView.findViewById(R.id.group_task_list_row_assigenedTo);
-            TextView description = (TextView) convertView.findViewById(R.id.group_task_list_row_description);
-            TextView ownerId = (TextView) convertView.findViewById(R.id.group_task_list_row_ownerId);
-            TextView relatedEvent = (TextView) convertView.findViewById(R.id.group_task_list_row_relatedEvent);
-            TextView group=  (TextView) convertView.findViewById(R.id.group_task_list_row_group);
+
             Task task = groupsTasks.get(position);
             taskTitle.setText(task.getTitle());
-            targetDate.setText(task.getTargetDate());
-            assigenedTo.setText(task.getAssigenedTo());
-            description.setText(task.getDescription());
-            ownerId.setText(task.getOwnerId());
-            relatedEvent.setText(task.getRelatedEvent());
-            group.setText(task.getGroupId());
+
 
             return  convertView;
         }

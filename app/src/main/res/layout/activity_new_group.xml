@@ -3,20 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.zivbru.myfamilycalanderapp.NewEventActivity"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#5fb0c9">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="395dp"
-        android:layout_height="519dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:weightSum="1">
         <ImageView android:src="@drawable/logo1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="wrap_content" />
 
     <EditText android:id="@+id/group_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -66,15 +65,13 @@
 
         <ImageView
             android:id="@+id/add_picture"
-            android:layout_width="119dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_margin="20dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/addpicture"
-            android:layout_weight="0.24" />
+            android:src="@drawable/addpicture" />
 
     </LinearLayout>
 </LinearLayout>

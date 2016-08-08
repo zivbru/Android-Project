@@ -127,16 +127,10 @@ public class TaskListFragment extends Fragment {
             }
 
             TextView taskTitle= (TextView) convertView.findViewById(R.id.task_list_row_task_title);
-            TextView targetDate= (TextView) convertView.findViewById(R.id.task_list_row_target_date);
-            TextView ownerId= (TextView) convertView.findViewById(R.id.task_list_row_owner_by_id);
-            TextView description= (TextView) convertView.findViewById(R.id.task_list_row_description);
-            TextView relatedEvent = (TextView) convertView.findViewById(R.id.task_list_row_relatedEvent);
+
             Task task= tasks.get(position);
             taskTitle.setText(task.getTitle());
-            targetDate.setText(task.getTargetDate());
-            ownerId.setText(task.getOwnerId());
-            description.setText(task.getDescription());
-            relatedEvent.setText(task.getRelatedEvent());
+
 
 
 

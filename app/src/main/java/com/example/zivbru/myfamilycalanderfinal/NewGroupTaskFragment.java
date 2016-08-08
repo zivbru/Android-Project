@@ -46,7 +46,6 @@ public class NewGroupTaskFragment extends Fragment {
         taskName = (EditText) view.findViewById(R.id.task_name);
         targetDate = (EditText) view.findViewById(R.id.target_date);
         description = (EditText) view.findViewById(R.id.task_description);
-        showSelectedGroup= (EditText) view.findViewById(R.id.selected_group);
         Button chooseGroup= (Button) view.findViewById(R.id.choose_group);
 
         ///need to change this

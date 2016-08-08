@@ -16,10 +16,9 @@
 
         <ImageView
             android:layout_width="65dp"
-            android:layout_height="wrap_content"
+            android:layout_height="63dp"
             android:id="@+id/details_event_Image"
-            android:src="@drawable/event"
-            android:layout_weight="0.12" />
+            android:src="@drawable/event" />
 
     </LinearLayout>
 

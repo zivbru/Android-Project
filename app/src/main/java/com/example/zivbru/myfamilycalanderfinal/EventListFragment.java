@@ -129,20 +129,14 @@ public class EventListFragment extends Fragment {
             }
 
             TextView eventName= (TextView) convertView.findViewById(R.id.event_list_row_event_name);
-            TextView startDate = (TextView) convertView.findViewById(R.id.event_list_row_start_date);
-            TextView endDate = (TextView) convertView.findViewById(R.id.event_list_row_end_date);
-            TextView ownerById = (TextView) convertView.findViewById(R.id.event_owner_by_id);
-            TextView group = (TextView) convertView.findViewById(R.id.group_by_id);
 
             Event event = events.get(position);
             eventName.setText(event.getName());
-            startDate.setText(event.getStartDate());
-            endDate.setText(event.getEndDate());
 
-            group.setText(event.getGroupName());
+
 
             //get the owner from sql by id
-            ownerById.setText(event.getOwnerById());
+
             return  convertView;
         }
     }
