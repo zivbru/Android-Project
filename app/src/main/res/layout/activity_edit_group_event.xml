@@ -115,18 +115,20 @@
         android:paddingBottom="10dp">
         <Button
             android:id="@+id/event_save"
-            android:background="#fb5133"
+            android:background="#108c48"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SAVE"/>
+            android:text="SAVE"
+            android:layout_marginRight="10dp" />
         <Button
             android:id="@+id/event_cancel"
-            android:background="#fb5133"
+            android:background="#f4b012"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="CANCEL"/>
+            android:text="CANCEL"
+            android:layout_marginRight="10dp" />
         <Button
             android:id="@+id/event_delete"
             android:background="#fb5133"

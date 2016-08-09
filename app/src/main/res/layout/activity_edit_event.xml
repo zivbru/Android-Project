@@ -112,35 +112,37 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
         <Button
             android:id="@+id/event_save"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
             android:text="SAVE"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10px"
-            android:layout_marginBottom="10px"
-            android:background="#108c48" />
+            android:layout_width="wrap_content"
+            android:background="#108c48"
+            android:layout_weight="0.33"
+            android:layout_marginRight="10dp" />
+
         <Button
             android:id="@+id/event_cancel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#f4b012"
             android:text="CANCEL"
-            android:layout_marginTop="40px"
-            android:layout_marginBottom="10px"
-            android:layout_weight="0.05" />
+
+            android:layout_weight="0.33"
+            android:layout_marginRight="10dp" />
+
         <Button
             android:id="@+id/event_delete"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DELETE"
-            android:layout_marginBottom="10px"
-            android:layout_marginTop="10px"
+
             android:background="#fb5133"
-            android:layout_weight="0.03" />
+            android:layout_weight="0.33" />
     </LinearLayout>
     <ProgressBar
         android:layout_width="fill_parent"

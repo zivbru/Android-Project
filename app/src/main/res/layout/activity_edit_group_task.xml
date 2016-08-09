@@ -130,19 +130,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SAVE"/>
+            android:text="SAVE"
+            android:background="#108c48"
+            android:layout_marginRight="10dp" />
         <Button
             android:id="@+id/task_cancel"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="CANCEL"/>
+            android:text="CANCEL"
+            android:background="#f4b012"
+            android:layout_marginRight="10dp" />
         <Button
             android:id="@+id/task_delete"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="DELETE"/>
+            android:text="DELETE"
+            android:background="#fb5133" />
     </LinearLayout>
 
 </LinearLayout>
