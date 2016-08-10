@@ -49,6 +49,8 @@
         android:inputType="text"
         android:hint="Task notes"
         android:layout_weight="0.31" />
+
+
     <Button
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
@@ -58,12 +60,11 @@
         android:background="#fb5133" />
 
 
-    <TextView
-        android:id="@+id/choosen_user"
+    <EditText
+        android:id="@+id/selected_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:hint="  Choose User to assign:"
+        android:visibility="invisible"
         />
 
 

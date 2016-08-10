@@ -35,6 +35,7 @@ public class TaskDetailsFragment extends Fragment {
         final TextView owner = (TextView) view.findViewById(R.id.details_task_owner);
         final TextView taskDescription = (TextView) view.findViewById(R.id.task_description);
         final TextView relatedEvent = (TextView) view.findViewById(R.id.details_task_related_event);
+        final TextView relatedEventText = (TextView) view.findViewById(R.id.details_task_related_event_text);
 
         Model.instance().getTask(userId, taskId, new Model.GetTaskListener() {
             @Override
@@ -44,7 +45,12 @@ public class TaskDetailsFragment extends Fragment {
                 targetDate.setText(task.getTargetDate());
                 owner.setText(task.getOwnerId());
                 taskDescription.setText(task.getDescription());
-                relatedEvent.setText(task.getRelatedEvent());
+                if(task.getRelatedEvent()!=null) {
+                    relatedEvent.setText(task.getRelatedEvent());
+                }
+                else{
+                    relatedEventText.setVisibility(View.INVISIBLE);
+                }
             }
         });
 

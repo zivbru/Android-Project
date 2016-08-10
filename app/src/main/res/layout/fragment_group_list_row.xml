@@ -30,31 +30,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/group_title"/>
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="462dp"
-                android:id="@+id/group_list_row_users" />
-
-
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Events"/>-->
             <!--<ListView-->
                 <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                <!--android:id="@+id/group_list_row_events" />-->
+                <!--android:layout_height="462dp"-->
+                <!--android:id="@+id/group_list_row_users" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="Tasks"/>-->
-            <!--&lt;!&ndash;<ListView&ndash;&gt;-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                <!--android:id="@+id/group_list_row_tasks" />-->
+
+
 
             <ProgressBar
                 android:layout_width="fill_parent"

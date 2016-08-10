@@ -75,10 +75,12 @@
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/related_event_text"
             android:text="Related Event:"
             android:layout_width="109dp"
             android:layout_height="67dp"
             android:layout_weight="1" />
+
         <EditText
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="200dp"

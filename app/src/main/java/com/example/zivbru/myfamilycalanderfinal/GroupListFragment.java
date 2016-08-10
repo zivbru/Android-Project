@@ -130,7 +130,7 @@ public class GroupListFragment extends Fragment {
                 Log.d("TAG", "use convert view:" + position);
             }
             groupPicture= (ImageView) convertView.findViewById(R.id.group_list_row_image);
-            ListView allUsers= (ListView) convertView.findViewById(R.id.group_list_row_users);
+//            ListView allUsers= (ListView) convertView.findViewById(R.id.group_list_row_users);
 //            ListView allEvents= (ListView) convertView.findViewById(R.id.group_list_row_events);
 //            ListView allTasks= (ListView) convertView.findViewById(R.id.group_list_row_tasks);
             TextView title= (TextView) convertView.findViewById(R.id.group_title);
@@ -150,8 +150,8 @@ public class GroupListFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
 
             progressBar.setVisibility(View.GONE);
-            ArrayAdapter usersAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, usersNames);
-            allUsers.setAdapter(usersAdapter);
+//            ArrayAdapter usersAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, usersNames);
+//            allUsers.setAdapter(usersAdapter);
             return  convertView;
         }
     }

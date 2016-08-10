@@ -267,6 +267,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
                     transaction.commit();
                     fragmentArrayList.add(groupListFragment);
                     getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                    setTitle("Groups list");
 
 
                 }

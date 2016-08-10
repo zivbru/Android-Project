@@ -95,7 +95,7 @@ public class EditTaskActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 task = new Task(taskName.getText().toString(), targetDate.getText().toString(), task.getOwnerId(),
-                       relatedEvent.getText().toString(), taskDescription.getText().toString());
+                        relatedEvent.getText().toString(), taskDescription.getText().toString());
                 Model.instance().deleteTask(userId, taskId, new Model.SignupListener() {
                     @Override
                     public void success() {
