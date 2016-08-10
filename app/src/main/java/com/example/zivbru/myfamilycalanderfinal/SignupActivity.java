@@ -90,7 +90,7 @@ public class SignupActivity extends ActionBarActivity {
                         }).start();
 
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -99,7 +99,7 @@ public class SignupActivity extends ActionBarActivity {
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(getApplicationContext(), msg, duration);
                         toast.show();
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }

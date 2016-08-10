@@ -68,7 +68,9 @@
             android:inputType="phone"
             android:hint="Phone"/>
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/add_picture"
             android:layout_width="70dp"
@@ -81,6 +83,16 @@
             android:src="@drawable/addpicture"
             />
 
+        <ProgressBar
+            android:id="@+id/SignUpProgressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="94dp"
+            android:layout_height="41dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+
+            android:layout_gravity="center_vertical" />
+</LinearLayout>
 
         <Button
             android:id="@+id/btn_login"
@@ -90,14 +102,6 @@
             android:text="Sign Up"
             android:background="#fb5133"
             android:textAlignment="center" />
-
-        <ProgressBar
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/SignUpProgressBar"
-            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-            android:indeterminate="true"
-            android:visibility="gone"/>
 
         <EditText
             android:layout_width="fill_parent"

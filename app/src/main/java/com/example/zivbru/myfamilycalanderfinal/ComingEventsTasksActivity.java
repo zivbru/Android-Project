@@ -191,7 +191,7 @@ public class ComingEventsTasksActivity extends ActionBarActivity implements Dele
         mNavItems.add(new NavItem("Add Group", "", R.drawable.addpicture));
         mNavItems.add(new NavItem("My Groups", "View all your groups", R.drawable.groups));
         mNavItems.add(new NavItem("Start Service", "Get notifications", R.drawable.notificationson));
-        mNavItems.add(new NavItem("Strop Service", "Stop notifications", R.drawable.notificationsoff));
+        mNavItems.add(new NavItem("Stop Service", "Stop notifications", R.drawable.notificationsoff));
         mNavItems.add(new NavItem("Logout", "", R.drawable.logout));
         userPicture= (ImageView) findViewById(R.id.user_picture);
         userNameInSidebar= (TextView) findViewById(R.id.userNameInSidebar);
